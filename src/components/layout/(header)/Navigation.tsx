@@ -152,7 +152,7 @@ export function Navigation() {
     >
       <div className="pointer-events-none absolute inset-0 rounded-full bg-linear-to-r from-primary/20 via-transparent to-primary/20 opacity-60 blur-2xl" />
 
-      <nav className="relative flex w-full items-center justify-between gap-4 text-sm font-semibold text-gray-800 dark:text-gray-100">
+      <nav className="relative flex w-full items-center justify-between gap-4 text-sm font-medium text-gray-800 dark:text-gray-100">
         <Link
           href="/"
           aria-label="Uthrix Digital home"
@@ -216,7 +216,7 @@ export function Navigation() {
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-leanear-to-r from-primary to-primary-light px-5 py-2 text-white shadow-lg shadow-primary/30 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-primary/50"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-linear-to-r from-primary to-primary-light px-5 py-2 text-white shadow-lg shadow-primary/30 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-primary/50"
             >
               <span
                 aria-hidden="true"
