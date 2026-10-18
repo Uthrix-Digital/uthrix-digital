@@ -150,7 +150,7 @@ export function Navigation() {
           : "border-white/20 bg-white/30 dark:border-white/10 dark:bg-white/10"
       }`}
     >
-      <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-r from-primary/20 via-transparent to-primary/20 opacity-60 blur-2xl" />
+      <div className="pointer-events-none absolute inset-0 rounded-full bg-linear-to-r from-primary/20 via-transparent to-primary/20 opacity-60 blur-2xl" />
 
       <nav className="relative flex w-full items-center justify-between gap-4 text-sm font-semibold text-gray-800 dark:text-gray-100">
         <Link
@@ -161,15 +161,15 @@ export function Navigation() {
         >
           <motion.div
             style={{ scale: logoScale }}
-            className="relative h-9 w-9 transition-transform duration-300 ease-out hover:scale-110 hover:-rotate-[2deg] hover:drop-shadow-[0_8px_24px_rgba(0,0,0,0.2)]"
+            className="relative h-10 w-25 shrink-0 transition-transform duration-300 ease-out hover:scale-105 hover:-rotate-1 hover:drop-shadow-[0_8px_24px_rgba(0,0,0,0.2)] sm:h-12 sm:w-29"
           >
             <Image
-              src="/assets/logo1.svg"
+              src="/assets/logo.svg"
               alt="Uthrix Digital logo"
               fill
               priority
-              sizes="36px"
-              className="object-contain"
+              sizes="(max-width: 540px) 100px, 156px"
+              className="object-contain object-left"
             />
           </motion.div>
         </Link>
@@ -216,7 +216,7 @@ export function Navigation() {
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-primary to-primary-light px-5 py-2 text-white shadow-lg shadow-primary/30 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-primary/50"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-leanear-to-r from-primary to-primary-light px-5 py-2 text-white shadow-lg shadow-primary/30 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-primary/50"
             >
               <span
                 aria-hidden="true"
