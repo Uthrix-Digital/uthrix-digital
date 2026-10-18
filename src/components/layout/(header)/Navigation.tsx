@@ -5,9 +5,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { Menu, MessageCircle, X } from "lucide-react";
-
-const WHATSAPP_NUMBER = "94786733516";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { name: "Home", path: "home" },
@@ -212,19 +211,13 @@ export function Navigation() {
           })}
 
           <li>
-            <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-linear-to-r from-primary to-primary-light px-5 py-2 text-white shadow-lg shadow-primary/30 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-primary/50"
+            <Button
+              size="sm"
+              onClick={() => scrollToSection("contact")}
+              aria-label="Start a project — go to contact section"
             >
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 bg-white/20 opacity-0 transition-opacity group-hover:opacity-100"
-              />
-              <MessageCircle className="relative h-4 w-4" />
-              <span className="relative">Talk to Us</span>
-            </a>
+              Start a project
+            </Button>
           </li>
         </ul>
       </nav>
@@ -254,16 +247,14 @@ export function Navigation() {
               ))}
 
               <li className="mt-3">
-                <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="flex h-10 w-full items-center justify-center gap-2 rounded-md bg-primary font-medium text-white transition-colors hover:bg-primary/80"
+                <Button
+                  className="w-full"
+                  size="sm"
+                  onClick={() => scrollToSection("contact")}
+                  aria-label="Start a project — go to contact section"
                 >
-                  <MessageCircle className="h-4 w-4" />
-                  Contact Us
-                </a>
+                  Start a project
+                </Button>
               </li>
             </ul>
           </motion.div>
