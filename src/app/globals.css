@@ -29,6 +29,10 @@
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
+
+  /* ── Form field semantic colours ───────────────────────────────────────── */
+  --color-field-error:   var(--field-error);
+  --color-field-success: var(--field-success);
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
@@ -93,6 +97,9 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
+  /* Form field validation colours */
+  --field-error:   oklch(0.577 0.232 27.325);  /* red-600 equivalent  */
+  --field-success: oklch(0.527 0.154 150.069); /* green-700 equivalent */
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
@@ -128,6 +135,9 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
+  /* Form field validation colours — slightly lighter for dark backgrounds */
+  --field-error:   oklch(0.704 0.191 22.216);  /* red-400 equivalent  */
+  --field-success: oklch(0.627 0.194 149.214); /* green-400 equivalent */
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
