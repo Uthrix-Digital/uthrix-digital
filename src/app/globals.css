@@ -2,83 +2,97 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
-
-@theme inline {
-  /* ── Fonts ──────────────────────────────────────────────────────────── */
-  --font-sans: var(--font-manrope);
-  --font-mono: var(--font-manrope);
-  --font-heading: var(--font-manrope);
-
-  /* ── Colour aliases ─────────────────────────────────────────────────── */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-
-  /* ── Form field semantic colours ───────────────────────────────────────── */
-  --color-field-error:   var(--field-error);
-  --color-field-success: var(--field-success);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-
-  /* ── Radius ─────────────────────────────────────────────────────────── */
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-
-  /* ── Type scale — Tailwind utility tokens ───────────────────────────── */
-  /* Named after the semantic role; used as `text-display`, `text-h1` etc. */
-  /* Desktop values; responsive clamp() applied in @layer typography below. */
-  --font-size-display: 7.5rem;   /* 120px */
-  --font-size-h1:      4.8125rem; /* 77px  */
-  --font-size-h2:      3.4375rem; /* 55px  */
-  --font-size-h3:      2.5625rem; /* 41px  */
-  --font-size-h4:      1.6875rem; /* 27px  */
-  --font-size-h5:      1rem;      /* 16px  */
-  --font-size-h6:      0.6875rem; /* 11px  */
-  --font-size-lead:    1rem;      /* 16px  */
-  --font-size-body:    0.9375rem; /* 15px — comfortable body reading size */
-  --font-size-body-sm: 0.6875rem; /* 11px  */
-  --font-size-caption: 0.75rem;   /* 12px  */
-  --font-size-label:   0.6875rem; /* 11px  */
-  --font-size-eyebrow: 0.4375rem; /* 7px   */
-
-  /* Weight tokens */
-  --font-weight-regular: 400;
-  --font-weight-medium:  500;
+/* ═══════════════════════════════════════════════════════════════════════════
+   0. Breakpoints — match "Layout foundations"
+      < 768   mobile  (4 columns)
+      768–1199 tablet (8 columns)
+      ≥ 1200  desktop (12 columns)   ← `lg:` now means 1200px
+   ═══════════════════════════════════════════════════════════════════════════ */
+@theme {
+  --breakpoint-lg: 75rem;
 }
 
+@theme inline {
+  /* ── Fonts ─────────────────────────────────────────────────────────── */
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  /* ── shadcn colour aliases ─────────────────────────────────────────── */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-field-error: var(--field-error);
+  --color-field-success: var(--field-success);
+
+  /* ── Brand + surfaces (new) ────────────────────────────────────────── */
+  --color-brand: var(--brand);
+  --color-surface-base: var(--surface-base);
+  --color-surface-default: var(--surface-default);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-border-strong: var(--border-strong);
+
+  /* ── Shape: square 0 / control 16 / card 16 / card-large 24 / pill ─── */
+  --radius-control: 1rem;
+  --radius-card: 1rem;
+  --radius-card-lg: 1.5rem;
+  --radius-pill: 9999px;
+  /* shadcn's own scale, remapped so Card (rounded-xl) = 16px, large = 24px */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 1.5rem;
+  --radius-4xl: 1.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. Colour tokens
+   ═══════════════════════════════════════════════════════════════════════════ */
 :root {
+  color-scheme: light; /* light only: native controls and scrollbars stay light */
+  --radius: 1rem;
+
+  /* Brand red — #CC0000 is marked provisional in the standards sheet.
+     Change it here and everything follows. Use as sparse punctuation only. */
+  --brand: #cc0000;
+
+  /* Surfaces (light) */
+  --surface-base: #ffffff;
+  --surface-default: #ffffff;
+  --surface-raised: #f4f4f4; /* form card in Frame 9 */
+  --surface-overlay: #ffffff;
+  --border-strong: #666666;
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -96,16 +110,14 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  /* Form field validation colours */
-  --field-error:   oklch(0.577 0.232 27.325);  /* red-600 equivalent  */
-  --field-success: oklch(0.527 0.154 150.069); /* green-700 equivalent */
+  --ring: oklch(0.145 0 0);
+  --field-error: oklch(0.577 0.232 27.325);
+  --field-success: oklch(0.527 0.154 150.069);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -113,208 +125,212 @@
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-ring: oklch(0.145 0 0);
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  /* Form field validation colours — slightly lighter for dark backgrounds */
-  --field-error:   oklch(0.704 0.191 22.216);  /* red-400 equivalent  */
-  --field-success: oklch(0.627 0.194 149.214); /* green-400 equivalent */
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. Type scale — values straight from the Typography standards sheet
+      Mobile first; desktop values apply from 1200px.
+      Per role: size / line-height / tracking
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  /* Mobile */
+  --type-display-size: 3rem;      --type-display-lh: 3.375rem;  --type-display-ls: -0.03em;   /* 48/54 */
+  --type-h1-size: 2.5rem;         --type-h1-lh: 2.875rem;       --type-h1-ls: -0.025em;        /* 40/46 */
+  --type-h2-size: 2rem;           --type-h2-lh: 2.5rem;         --type-h2-ls: -0.02em;         /* 32/40 */
+  --type-h3-size: 1.75rem;        --type-h3-lh: 2.25rem;        --type-h3-ls: -0.015em;        /* 28/36 */
+  --type-h4-size: 1.5rem;         --type-h4-lh: 2rem;           --type-h4-ls: -0.01em;         /* 24/32 */
+  --type-h5-size: 1.25rem;        --type-h5-lh: 1.75rem;        --type-h5-ls: -0.005em;        /* 20/28 */
+  --type-h6-size: 1.125rem;       --type-h6-lh: 1.625rem;       --type-h6-ls: 0em;             /* 18/26 */
+  --type-lead-size: 1.25rem;      --type-lead-lh: 1.875rem;     --type-lead-ls: 0em;           /* 20/30 */
+  --type-body-size: 1rem;         --type-body-lh: 1.5rem;       --type-body-ls: 0em;           /* 16/24 */
+  --type-body-sm-size: 0.875rem;  --type-body-sm-lh: 1.375rem;  --type-body-sm-ls: 0em;        /* 14/22 */
 }
 
+@media (min-width: 75rem) {
+  :root {
+    /* Desktop */
+    --type-display-size: 6rem;      --type-display-lh: 6.5rem;    /* 96/104 */
+    --type-h1-size: 4.5rem;         --type-h1-lh: 5rem;           /* 72/80  */
+    --type-h2-size: 3.5rem;         --type-h2-lh: 4rem;           /* 56/64  */
+    --type-h3-size: 2.5rem;         --type-h3-lh: 3rem;           /* 40/48  */
+    --type-h4-size: 2rem;           --type-h4-lh: 2.5rem;         /* 32/40  */
+    --type-h5-size: 1.5rem;         --type-h5-lh: 2rem;           /* 24/32  */
+    --type-h6-size: 1.25rem;        --type-h6-lh: 1.75rem;        /* 20/28  */
+    --type-lead-size: 1.5rem;       --type-lead-lh: 2.25rem;      /* 24/36  */
+    --type-body-size: 1.125rem;     --type-body-lh: 1.75rem;      /* 18/28  */
+    --type-body-sm-size: 1rem;      --type-body-sm-lh: 1.5rem;    /* 16/24  */
+  }
+}
+
+/* One class per role: `type-h2`, `type-body`, … Same names as before, so
+   existing markup picks up the new values automatically. */
+@utility type-display {
+  font-size: var(--type-display-size);
+  line-height: var(--type-display-lh);
+  letter-spacing: var(--type-display-ls);
+  font-weight: 400;
+}
+@utility type-h1 {
+  font-size: var(--type-h1-size);
+  line-height: var(--type-h1-lh);
+  letter-spacing: var(--type-h1-ls);
+  font-weight: 400;
+}
+@utility type-h2 {
+  font-size: var(--type-h2-size);
+  line-height: var(--type-h2-lh);
+  letter-spacing: var(--type-h2-ls);
+  font-weight: 400;
+}
+@utility type-h3 {
+  font-size: var(--type-h3-size);
+  line-height: var(--type-h3-lh);
+  letter-spacing: var(--type-h3-ls);
+  font-weight: 400;
+}
+@utility type-h4 {
+  font-size: var(--type-h4-size);
+  line-height: var(--type-h4-lh);
+  letter-spacing: var(--type-h4-ls);
+  font-weight: 400;
+}
+@utility type-h5 {
+  font-size: var(--type-h5-size);
+  line-height: var(--type-h5-lh);
+  letter-spacing: var(--type-h5-ls);
+  font-weight: 400;
+}
+@utility type-h6 {
+  font-size: var(--type-h6-size);
+  line-height: var(--type-h6-lh);
+  letter-spacing: var(--type-h6-ls);
+  font-weight: 400;
+}
+@utility type-lead {
+  font-size: var(--type-lead-size);
+  line-height: var(--type-lead-lh);
+  letter-spacing: var(--type-lead-ls);
+  font-weight: 400;
+}
+@utility type-body {
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-lh);
+  letter-spacing: var(--type-body-ls);
+  font-weight: 400;
+}
+@utility type-body-sm {
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-lh);
+  letter-spacing: var(--type-body-sm-ls);
+  font-weight: 400;
+}
+
+/* Shared small type — identical on desktop and mobile */
+@utility type-button {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  letter-spacing: 0em;
+  font-weight: 500;
+}
+@utility type-label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  letter-spacing: 0em;
+  font-weight: 500;
+}
+@utility type-caption {
+  font-size: 0.75rem;
+  line-height: 1.125rem;
+  letter-spacing: 0em;
+  font-weight: 400;
+}
+@utility type-eyebrow {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+/* Reading measure: 45–75 characters */
+@utility measure {
+  max-width: 68ch;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. Layout foundations — 12 / 8 / 4 columns, 8px rhythm
+      mobile   4 cols · 24px margins · 16px gutters
+      tablet   8 cols · 32px margins · 24px gutters
+      desktop 12 cols · 64px margins · 24px gutters · 1312px content cap
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --grid-cols: 4;
+  --grid-margin: 1.5rem;
+  --grid-gutter: 1rem;
+  --content-max: 1312px;
+  --section-y: 4rem; /* 64 */
+}
+@media (min-width: 48rem) {
+  :root {
+    --grid-cols: 8;
+    --grid-margin: 2rem;
+    --grid-gutter: 1.5rem;
+    --section-y: 6rem; /* 96 */
+  }
+}
+@media (min-width: 75rem) {
+  :root {
+    --grid-cols: 12;
+    --grid-margin: 4rem;
+    --section-y: 8rem; /* 128 */
+  }
+}
+
+/* Outer wrapper: fluid between 1200–1439, capped at 1312 content from 1440 */
+@utility layout-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--grid-margin);
+  max-width: calc(var(--content-max) + 2 * var(--grid-margin));
+}
+/* Column grid. Children: `col-span-4 md:col-span-4 lg:col-span-6` */
+@utility layout-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+}
+/* Vertical section padding: 64 → 96 → 128 */
+@utility section-y {
+  padding-block: var(--section-y);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. Base
+   ═══════════════════════════════════════════════════════════════════════════ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   html {
-    /* Manrope is set on <html> so rem units always resolve correctly */
-    font-family: var(--font-manrope), sans-serif;
-    font-weight: 400;
     @apply font-sans;
+    -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply bg-background text-foreground;
-    font-size: 0.9375rem; /* 15px body — comfortable reading size */
-    line-height: 1.6;
-    font-weight: 400;
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   Uthrix Typography System — Brand Standards / Typography
-   Typeface : Manrope — Regular 400 / Medium 500
-   Scale    : Desktop → Mobile via clamp()
-   Source   : Website Component Library — Typography reference sheet
-   ═══════════════════════════════════════════════════════════════════════════ */
-@layer typography {
-
-  /* ── Display ────────────────────────────────────────────────────────────
-     Desktop 120/132px  ·  Mobile 48/56px  ·  Regular  ·  tracking 0%     */
-  .type-display {
-    font-size: clamp(3rem, 8.33vw, 7.5rem); /* 48 → 120px */
-    line-height: clamp(3.5rem, 9.17vw, 8.25rem); /* 56 → 132px */
-    font-weight: 400;
-    letter-spacing: 0em;
-    font-family: var(--font-manrope), sans-serif;
+    @apply bg-background text-foreground type-body antialiased;
   }
 
-  /* ── H1 — Page title, one H1 per page ──────────────────────────────────
-     Desktop 77/88px · Mobile 40/48px · Regular · tracking -0.5%          */
-  h1, .type-h1 {
-    font-size: clamp(2.5rem, 5.35vw, 4.8125rem); /* 40 → 77px */
-    line-height: clamp(3rem, 6.11vw, 5.5rem);   /* 48 → 88px */
-    font-weight: 400;
-    letter-spacing: -0.005em;
-    font-family: var(--font-manrope), sans-serif;
-  }
+  /* Semantic headings get their role by default; utilities still override. */
+  h1 { @apply type-h1 text-balance; }
+  h2 { @apply type-h2 text-balance; }
+  h3 { @apply type-h3 text-balance; }
+  h4 { @apply type-h4; }
+  h5 { @apply type-h5; }
+  h6 { @apply type-h6; }
+  small { @apply type-caption; }
 
-  /* ── H2 — Primary section heading ──────────────────────────────────────
-     Desktop 55/64px · Mobile 31/40px · Regular · tracking -1%            */
-  h2, .type-h2 {
-    font-size: clamp(1.9375rem, 3.82vw, 3.4375rem); /* 31 → 55px */
-    line-height: clamp(2.5rem, 4.44vw, 4rem);        /* 40 → 64px */
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    font-family: var(--font-manrope), sans-serif;
-  }
-
-  /* ── H3 — Sub-section heading ───────────────────────────────────────────
-     Desktop 41/48px · Mobile 25/32px · Regular · tracking -1%            */
-  h3, .type-h3 {
-    font-size: clamp(1.5625rem, 2.85vw, 2.5625rem); /* 25 → 41px */
-    line-height: clamp(2rem, 3.33vw, 3rem);          /* 32 → 48px */
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    font-family: var(--font-manrope), sans-serif;
-  }
-
-  /* ── H4 — Banner / in-text sub-heading ─────────────────────────────────
-     Desktop 27/32px · Mobile 17/20px · Regular · tracking -1%            */
-  h4, .type-h4 {
-    font-size: clamp(1.0625rem, 1.875vw, 1.6875rem); /* 17 → 27px */
-    line-height: clamp(1.25rem, 2.22vw, 2rem);        /* 20 → 32px */
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    font-family: var(--font-manrope), sans-serif;
-  }
-
-  /* ── H5 — Eyebrow text / in-text label ─────────────────────────────────
-     Desktop 16/20px · Mobile 13/17px · Regular · tracking -1%            */
-  h5, .type-h5 {
-    font-size: clamp(0.8125rem, 1.11vw, 1rem); /* 13 → 16px */
-    line-height: clamp(1.0625rem, 1.39vw, 1.25rem); /* 17 → 20px */
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    font-family: var(--font-manrope), sans-serif;
-  }
-
-  /* ── H6 ─────────────────────────────────────────────────────────────────
-     Desktop 11/17px · Mobile 11/15px · Regular · tracking -1%            */
-  h6, .type-h6 {
-    font-size: 0.6875rem; /* 11px — same at both breakpoints */
-    line-height: clamp(0.9375rem, 1.18vw, 1.0625rem); /* 15 → 17px */
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    font-family: var(--font-manrope), sans-serif;
-  }
-
-  /* ── Lead — Introductory body copy, use sparingly ───────────────────────
-     Desktop 16/1.5 · Mobile 16/1.5 · Regular · tracking 0%              */
-  .type-lead {
-    font-size: 1rem; /* 16px — fixed */
-    line-height: 1.5;
-    font-weight: 400;
-    letter-spacing: 0em;
-    font-family: var(--font-manrope), sans-serif;
-  }
-
-  /* ── Body — Primary mobile body ─────────────────────────────────────────
-     Desktop 15/1.6 · Mobile 15/1.6 · Regular · tracking 0%              */
-  .type-body {
-    font-size: 0.9375rem; /* 15px */
-    line-height: 1.6;
-    font-weight: 400;
-    letter-spacing: 0em;
-    font-family: var(--font-manrope), sans-serif;
-  }
-
-  /* ── Body small ─────────────────────────────────────────────────────────
-     Desktop 11/1.5 · Regular · tracking 0%                               */
-  .type-body-sm {
-    font-size: 0.6875rem; /* 11px */
-    line-height: 1.5;
-    font-weight: 400;
-    letter-spacing: 0em;
-    font-family: var(--font-manrope), sans-serif;
-  }
-
-  /* ── UI Small type ───────────────────────────────────────────────────── */
-
-  /* Button — 16/24px Medium · Reference: touch target ≥ 44px high        */
-  .type-button {
-    font-size: 1rem;     /* 16px */
-    line-height: 1.5rem; /* 24px */
-    font-weight: 500;
-    letter-spacing: 0em;
-    font-family: var(--font-manrope), sans-serif;
-  }
-
-  /* Label — 11/14px Medium · Field labels, navigation, short interface descriptions */
-  .type-label {
-    font-size: 0.6875rem; /* 11px */
-    line-height: 0.875rem; /* 14px */
-    font-weight: 500;
-    letter-spacing: 0em;
-    font-family: var(--font-manrope), sans-serif;
-  }
-
-  /* Caption — 12/16px Regular · Secondary info, use sparingly in body copy */
-  .type-caption {
-    font-size: 0.75rem;  /* 12px */
-    line-height: 1rem;   /* 16px */
-    font-weight: 400;
-    letter-spacing: 0em;
-    font-family: var(--font-manrope), sans-serif;
-  }
-
-  /* Eyebrow — 7/8px Medium · UPPERCASE · 6% tracking · use sparingly     */
-  .type-eyebrow {
-    font-size: 0.4375rem; /* 7px */
-    line-height: 0.5rem;  /* 8px */
-    font-weight: 500;
-    letter-spacing: 0.06em; /* 6% tracking per spec */
-    text-transform: uppercase;
-    font-family: var(--font-manrope), sans-serif;
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 4px;
   }
 }

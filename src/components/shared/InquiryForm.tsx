@@ -1,37 +1,17 @@
 /**
  * InquiryForm — Uthrix Digital
- *
- * "I want more quality leads for my company"
- * Lead capture form used on the home page (and reusable anywhere).
- *
- * Fields
- * ──────
- *   Name              — text input
- *   Email             — email input
- *   Phone Number *    — tel input  (required)
- *   What are you looking for? — text input
- *   How Did You Hear About Us? * — select  (required)
- *   Message           — textarea
- *
- * Behaviour
- * ─────────
- * • Client-side validation on submit — fields marked required are validated.
- * • Each invalid field switches to variant="error" with an inline message.
- * • On success the form resets and shows a brief confirmation state.
- * • All validation state is managed locally — wire `onSubmit` prop to your
- *   server action / API route for real submission.
+ * Lead capture form. Required (matches the design): Phone Number, How Did You Hear About Us?
+ * Pass `onSubmit` to call your own API; otherwise it POSTs JSON to /api/inquiry.
  */
-
 "use client"
 
 import * as React from "react"
-import { cn } from "cn"
+import { CheckCircle2, Loader2 } from "lucide-react"
+
+import { cn } from "@/lib/utils"
 import { FormField } from "@/components/ui/form-field"
 import { SelectFormField } from "@/components/ui/select-form-field"
 import { Button } from "@/components/ui/button"
-import { CheckCircle2, Loader2 } from "lucide-react"
-
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface InquiryFormData {
   name: string
@@ -43,163 +23,134 @@ export interface InquiryFormData {
 }
 
 export interface InquiryFormProps {
-  /** Called with validated form data on successful submission. */
-  onSubmit?: (data: InquiryFormData) => Promise<void> | void
-  /** Additional classes on the outer wrapper. */
+  onSubmit?: (data: InquiryFormData) => Promise<void>
   className?: string
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-
 const HEAR_ABOUT_US_OPTIONS = [
-  { value: "google",      label: "Google Search" },
-  { value: "social",      label: "Social Media" },
-  { value: "referral",    label: "Referral / Word of Mouth" },
-  { value: "linkedin",    label: "LinkedIn" },
-  { value: "event",       label: "Event or Conference" },
-  { value: "other",       label: "Other" },
+  { value: "google", label: "Google Search" },
+  { value: "social", label: "Social Media" },
+  { value: "referral", label: "Referral / Word of Mouth" },
+  { value: "linkedin", label: "LinkedIn" },
+  { value: "event", label: "Event or Conference" },
+  { value: "other", label: "Other" },
 ]
 
-type FieldKey = keyof InquiryFormData
-
-interface FieldError {
-  message: string
+const EMPTY: InquiryFormData = {
+  name: "",
+  email: "",
+  phone: "",
+  lookingFor: "",
+  hearAboutUs: "",
+  message: "",
 }
 
-// ─── Validation ───────────────────────────────────────────────────────────────
+type FieldKey = keyof InquiryFormData
+type Errors = Partial<Record<FieldKey, string>>
+type Status = "idle" | "submitting" | "success" | "error"
 
-function validate(data: InquiryFormData): Partial<Record<FieldKey, FieldError>> {
-  const errors: Partial<Record<FieldKey, FieldError>> = {}
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const PHONE_RE = /^\+?[\d\s()-]{7,20}$/
 
-  if (!data.name.trim()) {
-    errors.name = { message: "Full name is required." }
+function validate(d: InquiryFormData): Errors {
+  const errors: Errors = {}
+  if (d.email.trim() && !EMAIL_RE.test(d.email.trim())) {
+    errors.email = "Enter a valid email address."
   }
-
-  if (!data.email.trim()) {
-    errors.email = { message: "Email address is required." }
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-    errors.email = { message: "Please enter a valid email address." }
+  if (!d.phone.trim()) {
+    errors.phone = "Phone number is required."
+  } else if (!PHONE_RE.test(d.phone.trim())) {
+    errors.phone = "Enter a valid phone number, e.g. 94 123 4567."
   }
-
-  if (!data.phone.trim()) {
-    errors.phone = { message: "Phone number is required." }
+  if (!d.hearAboutUs) {
+    errors.hearAboutUs = "Please select an option."
   }
-
-  if (!data.hearAboutUs) {
-    errors.hearAboutUs = { message: "Please select an option." }
-  }
-
   return errors
 }
 
-// ─── InquiryForm ──────────────────────────────────────────────────────────────
-
-export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
-  const [values, setValues] = React.useState<InquiryFormData>({
-    name: "",
-    email: "",
-    phone: "",
-    lookingFor: "",
-    hearAboutUs: "",
-    message: "",
+async function submitInquiry(data: InquiryFormData) {
+  const res = await fetch("/api/inquiry", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
   })
+  if (!res.ok) throw new Error("Inquiry request failed")
+}
 
-  const [errors, setErrors] = React.useState<
-    Partial<Record<FieldKey, FieldError>>
-  >({})
+export function InquiryForm({
+  onSubmit = submitInquiry,
+  className,
+}: InquiryFormProps) {
+  const [values, setValues] = React.useState<InquiryFormData>(EMPTY)
+  const [errors, setErrors] = React.useState<Errors>({})
+  const [status, setStatus] = React.useState<Status>("idle")
+  const timer = React.useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined
+  )
 
-  const [status, setStatus] = React.useState<
-    "idle" | "submitting" | "success"
-  >("idle")
+  React.useEffect(() => () => clearTimeout(timer.current), [])
 
-  // ── Handlers ──────────────────────────────────────────────────────────────
-
-  function handleChange(field: FieldKey) {
-    return (
-      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-      setValues((prev) => ({ ...prev, [field]: e.target.value }))
-      clearError(field)
-    }
+  function setValue(field: FieldKey, value: string) {
+    setValues((prev) => ({ ...prev, [field]: value }))
+    setErrors((prev) => {
+      if (!prev[field]) return prev
+      const next = { ...prev }
+      delete next[field]
+      return next
+    })
   }
 
-  // For Base UI Select — receives string | null directly, not a DOM event
-  function handleSelectChange(field: FieldKey) {
-    return (val: string | null) => {
-      setValues((prev) => ({ ...prev, [field]: val ?? "" }))
-      clearError(field)
-    }
-  }
+  const onText =
+    (field: FieldKey) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setValue(field, e.target.value)
 
-  function clearError(field: FieldKey) {
-    if (errors[field]) {
-      setErrors((prev) => {
-        const next = { ...prev }
-        delete next[field]
-        return next
-      })
-    }
-  }
+  // Base UI Select passes string | null, not a DOM event
+  const onSelect = (field: FieldKey) => (val: string | null) =>
+    setValue(field, val ?? "")
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    const validationErrors = validate(values)
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors)
+    const found = validate(values)
+    if (Object.keys(found).length > 0) {
+      setErrors(found)
       return
     }
 
     setStatus("submitting")
     try {
-      await onSubmit?.(values)
+      await onSubmit(values)
+      setValues(EMPTY)
       setStatus("success")
-      // Reset after 3 s so the form can be reused
-      setTimeout(() => {
-        setStatus("idle")
-        setValues({
-          name: "",
-          email: "",
-          phone: "",
-          lookingFor: "",
-          hearAboutUs: "",
-          message: "",
-        })
-        setErrors({})
-      }, 3000)
+      timer.current = setTimeout(() => setStatus("idle"), 4000)
     } catch {
-      setStatus("idle")
+      setStatus("error")
     }
   }
 
-  // ── Helpers ───────────────────────────────────────────────────────────────
-
-  function variant(field: FieldKey): "default" | "error" {
-    return errors[field] ? "error" : "default"
-  }
-
-  // ── Render ────────────────────────────────────────────────────────────────
+  const variant = (f: FieldKey): "default" | "error" =>
+    errors[f] ? "error" : "default"
 
   return (
     <div
       className={cn(
-        "w-full max-w-[32rem] rounded-3xl bg-secondary/60 p-6 sm:p-8",
-        "border border-border shadow-sm",
+        "w-full rounded-[2rem] bg-[#f4f4f4] px-6 py-8 sm:px-8 xl:px-14 xl:py-10",
+        // Stop-gap sizing until FormField gets a `size` prop (design: 52px controls)
+        "[&_input]:h-[52px] [&_[role=combobox]]:h-[52px] [&_textarea]:min-h-[104px]",
         className
       )}
     >
-      {/* ── Heading ── */}
-      <h2 className="type-h4 mb-6 text-foreground">
+      <h2 className="mb-4 text-xl font-normal leading-snug tracking-[-0.02em] text-foreground sm:text-2xl">
         I want more quality leads for my company
       </h2>
 
-      {/* ── Form ── */}
       <form
         onSubmit={handleSubmit}
         noValidate
+        aria-busy={status === "submitting"}
         className="flex flex-col gap-4"
       >
-        {/* Name */}
         <FormField
           as="input"
           type="text"
@@ -208,12 +159,11 @@ export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
           placeholder="John David"
           autoComplete="name"
           value={values.name}
-          onChange={handleChange("name")}
+          onChange={onText("name")}
           variant={variant("name")}
-          helperText={errors.name?.message}
+          helperText={errors.name}
         />
 
-        {/* Email */}
         <FormField
           as="input"
           type="email"
@@ -222,12 +172,11 @@ export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
           placeholder="example@gmail.com"
           autoComplete="email"
           value={values.email}
-          onChange={handleChange("email")}
+          onChange={onText("email")}
           variant={variant("email")}
-          helperText={errors.email?.message}
+          helperText={errors.email}
         />
 
-        {/* Phone Number */}
         <FormField
           as="input"
           type="tel"
@@ -237,12 +186,11 @@ export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
           autoComplete="tel"
           required
           value={values.phone}
-          onChange={handleChange("phone")}
+          onChange={onText("phone")}
           variant={variant("phone")}
-          helperText={errors.phone?.message}
+          helperText={errors.phone}
         />
 
-        {/* What are you looking for? */}
         <FormField
           as="input"
           type="text"
@@ -250,39 +198,35 @@ export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
           label="What are you looking for?"
           placeholder="I want to help to manage my social media"
           value={values.lookingFor}
-          onChange={handleChange("lookingFor")}
+          onChange={onText("lookingFor")}
           variant="default"
         />
 
-        {/* How Did You Hear About Us? */}
         <SelectFormField
           label="How Did You Hear About Us?"
           placeholder="select"
           required
           options={HEAR_ABOUT_US_OPTIONS}
           value={values.hearAboutUs}
-          onValueChange={handleSelectChange("hearAboutUs")}
+          onValueChange={onSelect("hearAboutUs")}
           variant={variant("hearAboutUs")}
-          helperText={errors.hearAboutUs?.message}
+          helperText={errors.hearAboutUs}
         />
 
-        {/* Message */}
         <FormField
           as="textarea"
           name="message"
           label="Message"
           placeholder="My goal is to increase leads, web traffic."
           value={values.message}
-          onChange={handleChange("message")}
+          onChange={onText("message")}
           variant="default"
-          className="[&_textarea]:min-h-[7rem]"
         />
 
-        {/* Submit */}
         <Button
           type="submit"
           disabled={status === "submitting" || status === "success"}
-          className="mt-2 w-full"
+          className="mt-1 h-12 w-full rounded-full bg-black text-sm font-medium text-white hover:bg-black/85"
         >
           {status === "submitting" ? (
             <>
@@ -292,12 +236,21 @@ export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
           ) : status === "success" ? (
             <>
               <CheckCircle2 aria-hidden="true" />
-              Message Sent!
+              Message sent
             </>
           ) : (
             "Submit"
           )}
         </Button>
+
+        <p role="status" aria-live="polite" className="min-h-5 text-sm">
+          {status === "success" && "Thanks, we’ll get back to you shortly."}
+          {status === "error" && (
+            <span className="text-[#D1001F]">
+              We couldn’t send your message. Please try again.
+            </span>
+          )}
+        </p>
       </form>
     </div>
   )
