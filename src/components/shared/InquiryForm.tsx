@@ -183,15 +183,15 @@ export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
   return (
     <div
       className={cn(
-        "w-full max-w-[32rem] rounded-[24px] border border-black/[0.02] bg-[#f4f4f4] px-6 py-5 shadow-none sm:px-8",
+        "w-full max-w-lg rounded-[24px] border border-black/2 bg-[#f4f4f4] px-6 py-5 shadow-none sm:px-8",
         "[&_input]:h-11 [&_textarea]:min-h-20 [&_button]:h-11",
         className
       )}
     >
       {/* ── Heading ── */}
-      <h3 className="type-lead mb-6 max-w-100 text-foreground">
-        I want more quality leads for my comp
-      </h3>
+      <h5 className="type-lead mb-6 max-w-100 text-foreground">
+        I want more quality leads for my company
+      </h5>
 
       {/* ── Form ── */}
       <form

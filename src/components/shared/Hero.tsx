@@ -36,7 +36,7 @@ export function Hero() {
         aria-label="Uthrix Digital introduction"
         className="overflow-hidden bg-white pt-28 text-black sm:pt-32"
       >
-        <div className="mx-auto w-full max-w-[1440px] px-4 pb-10 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-310 px-4 pb-10 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_425px] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_548px]">
             {/* Left: headline + copy centred, actions pinned to the form's bottom edge */}
             <motion.div
@@ -48,7 +48,7 @@ export function Hero() {
               <div className="my-auto">
                 <motion.h1
                   variants={fadeUp}
-                  className="text-[clamp(2.75rem,7.25vw,6.9rem)] font-normal leading-[0.95] tracking-[-0.065em]"
+                  className="type-display font-normal leading-[0.95] tracking-[-0.065em]"
                 >
                   Digital
                   <br />
@@ -61,7 +61,7 @@ export function Hero() {
 
                 <motion.p
                   variants={fadeUp}
-                  className="mt-6 max-w-[34rem] text-[clamp(1.05rem,1.7vw,1.5rem)] leading-[1.25] tracking-[-0.035em] text-black/90 sm:mt-8"
+                  className="mt-6 max-w-136 type-h4 leading-tight tracking-[-0.035em] text-black/90 sm:mt-8"
                 >
                   We blend cutting-edge software development with data-driven
                   digital marketing to accelerate your business growth and
