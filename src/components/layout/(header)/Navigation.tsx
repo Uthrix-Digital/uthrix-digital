@@ -143,15 +143,19 @@ export function Navigation() {
         paddingBottom: paddingY,
         top: topOffset,
       }}
-      className={`fixed left-1/2 z-50 -translate-x-1/2 rounded-full border backdrop-blur-2xl transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-[0_18px_50px_-28px_rgba(0,0,0,0.55)] ${
+      className={`fixed left-1/2 z-50 -translate-x-1/2 rounded-full border backdrop-blur-2xl shadow-[0_18px_50px_-28px_rgba(0,0,0,0.55)] transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
         isSticky
-          ? "border-white/10 bg-white/20 dark:border-white/10 dark:bg-black/60"
-          : "border-white/20 bg-white/30 dark:border-white/10 dark:bg-white/10"
+          ? "border-background/10 bg-background/80 text-background"
+          : "border-background/10 bg-background/75 text-background"
       }`}
     >
-      <div className="pointer-events-none absolute inset-0 rounded-full bg-linear-to-r from-primary/20 via-transparent to-primary/20 opacity-60 blur-2xl" />
+      <div
+        className={`pointer-events-none absolute inset-0 rounded-full bg-linear-to-r from-primary/20 via-transparent to-primary/20 blur-2xl transition-opacity duration-500 ${
+          isSticky ? "opacity-40" : "opacity-20"
+        }`}
+      />
 
-      <nav className="relative flex w-full items-center justify-between gap-4 text-sm font-medium text-gray-800 dark:text-gray-100">
+      <nav className="relative flex w-full items-center justify-between gap-4 type-button">
         <Link
           href="/"
           aria-label="Uthrix Digital home"
@@ -176,7 +180,11 @@ export function Navigation() {
         <button
           type="button"
           onClick={() => setIsMenuOpen((open) => !open)}
-          className="rounded-md p-2 text-gray-700 transition-colors hover:bg-gray-100 focus:outline-none dark:text-gray-300 dark:hover:bg-white/5 md:hidden"
+          className={`rounded-md p-2 transition-colors focus:outline-none md:hidden ${
+            isSticky
+              ? "text-background hover:bg-background/10"
+              : "text-foreground hover:bg-foreground/10"
+          }`}
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
         >
@@ -194,13 +202,19 @@ export function Navigation() {
                   onClick={() => scrollToSection(link.path)}
                   className={`group relative whitespace-nowrap rounded-full px-3 py-2 transition-all duration-300 ease-out ${
                     isActive
-                      ? "text-primary"
-                      : "text-gray-700 hover:text-primary dark:text-gray-200"
+                      ? isSticky
+                        ? "text-primary"
+                        : "text-foreground/80 hover:text-foreground"
+                      : isSticky
+                        ? "text-foreground/80 hover:text-background"
+                        : "text-foreground/80 hover:text-foreground"
                   }`}
                 >
                   <span
                     aria-hidden="true"
-                    className={`absolute inset-0 rounded-full bg-white/50 blur-[1px] transition-opacity duration-300 dark:bg-white/10 ${
+                    className={`absolute inset-0 rounded-full blur-[1px] transition-opacity duration-200 ${
+                      isSticky ? "bg-background/15" : "bg-foreground/10"
+                    } ${
                       isActive ? "opacity-100" : "opacity-0 group-hover:opacity-60"
                     }`}
                   />
@@ -229,7 +243,11 @@ export function Navigation() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 top-full mt-2 w-48 rounded-lg border border-gray-200 bg-white px-6 py-4 shadow-lg dark:border-white/10 dark:bg-[#141414] md:hidden"
+            className={`absolute right-0 top-full mt-2 w-48 rounded-lg border px-6 py-4 shadow-lg md:hidden ${
+              isSticky
+                ? "border-background/10 bg-foreground text-background"
+                : "border-foreground/10 bg-background text-foreground"
+            }`}
           >
             <ul className="flex flex-col space-y-3 text-center">
               {navLinks.map((link) => (
