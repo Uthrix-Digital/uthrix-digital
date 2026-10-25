@@ -183,7 +183,7 @@ export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
   return (
     <div
       className={cn(
-        "w-full max-w-lg rounded-[24px] border border-black/2 bg-[#f4f4f4] px-6 py-5 shadow-none sm:px-8",
+        "w-full max-w-lg rounded-[24px] border border-black/2 bg-[#F5F5F5] px-6 py-5 shadow-none sm:px-8",
         "[&_input]:h-11 [&_textarea]:min-h-20 [&_button]:h-11",
         className
       )}
@@ -206,6 +206,7 @@ export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
           name="name"
           label="Name"
           placeholder="John David"
+          required
           autoComplete="name"
           value={values.name}
           onChange={handleChange("name")}
@@ -219,6 +220,7 @@ export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
           type="email"
           name="email"
           label="Email"
+          required
           placeholder="example@gmail.com"
           autoComplete="email"
           value={values.email}
