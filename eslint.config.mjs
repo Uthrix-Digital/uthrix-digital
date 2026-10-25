@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Generated Sites / OpenNext build output and configs:
+    ".open-next/**",
+    ".wrangler/**",
+    "freebuff-sites-build/**",
+    "freebuff.open-next.config.ts",
   ]),
 ]);
 
