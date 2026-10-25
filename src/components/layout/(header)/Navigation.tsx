@@ -38,11 +38,9 @@ export function Navigation() {
     { stiffness: 140, damping: 22, mass: 0.9 },
   );
 
-  const navWidth = useTransform(
-    smoothProgress,
-    [0, 1],
-    ["min(96vw, 1200px)", "min(84vw, 980px)"],
-  );
+  // Side insets come from the layout grid (--grid-margin: 24 / 32 / 64px), so
+  // the pill lines up with page content at every breakpoint. Only the cap shrinks.
+  const navMaxWidth = useTransform(smoothProgress, [0, 1], [1200, 980]);
   const navHeight = useTransform(smoothProgress, [0, 1], [72, 56]);
   const paddingX = useTransform(smoothProgress, [0, 1], [28, 18]);
   const topOffset = useTransform(smoothProgress, [0, 1], [32, 16]);
@@ -133,13 +131,13 @@ export function Navigation() {
     <motion.header
       initial={false}
       style={{
-        width: navWidth,
+        maxWidth: navMaxWidth,
         height: navHeight,
         paddingLeft: paddingX,
         paddingRight: paddingX,
         top: topOffset,
       }}
-      className={`fixed left-1/2 z-50 flex -translate-x-1/2 items-center rounded-full border border-foreground/10 text-foreground backdrop-blur-2xl shadow-[0_18px_50px_-28px_rgba(0,0,0,0.55)] transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+      className={`fixed left-1/2 z-50 flex w-[calc(100%_-_2*var(--grid-margin))] -translate-x-1/2 items-center rounded-full border border-foreground/10 text-foreground backdrop-blur-2xl shadow-[0_18px_50px_-28px_rgba(0,0,0,0.55)] transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
         isSticky ? "bg-background/90" : "bg-background/80"
       }`}
     >
@@ -174,14 +172,14 @@ export function Navigation() {
         <button
           type="button"
           onClick={() => setIsMenuOpen((open) => !open)}
-          className="rounded-full p-2 text-foreground transition-colors hover:bg-foreground/6 focus:outline-none md:hidden"
+          className="rounded-full p-2 text-foreground transition-colors hover:bg-foreground/6 focus:outline-none lg:hidden"
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        <ul className="hidden items-center gap-5 lg:gap-7 md:flex">
+        <ul className="hidden min-w-0 items-center gap-7 lg:flex">
           {navLinks.map((link) => {
             const isActive = activeSection === link.path;
 
@@ -222,7 +220,7 @@ export function Navigation() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="absolute right-0 top-full mt-2 w-48 rounded-lg border border-foreground/10 bg-background px-3 py-3 text-foreground shadow-lg md:hidden"
+            className="absolute right-0 top-full mt-2 w-48 rounded-lg border border-foreground/10 bg-background px-3 py-3 text-foreground shadow-lg lg:hidden"
           >
             <ul className="flex flex-col gap-1 text-center">
               {navLinks.map((link) => (
