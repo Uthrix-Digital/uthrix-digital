@@ -21,7 +21,7 @@ export function Navigation() {
   const router = useRouter();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+  const [activeSection, setActiveSection] = useState("home");
   const [isSticky, setIsSticky] = useState(false);
 
   const pendingScrollRef = useRef<string | null>(null);
@@ -45,7 +45,6 @@ export function Navigation() {
   );
   const navHeight = useTransform(smoothProgress, [0, 1], [72, 56]);
   const paddingX = useTransform(smoothProgress, [0, 1], [28, 18]);
-  const paddingY = useTransform(smoothProgress, [0, 1], [14, 10]);
   const topOffset = useTransform(smoothProgress, [0, 1], [32, 16]);
   const logoScale = useTransform(smoothProgress, [0, 1], [1, 0.9]);
 
@@ -132,21 +131,16 @@ export function Navigation() {
 
   return (
     <motion.header
-      layout
       initial={false}
       style={{
         width: navWidth,
         height: navHeight,
         paddingLeft: paddingX,
         paddingRight: paddingX,
-        paddingTop: paddingY,
-        paddingBottom: paddingY,
         top: topOffset,
       }}
-      className={`fixed left-1/2 z-50 -translate-x-1/2 rounded-full border backdrop-blur-2xl shadow-[0_18px_50px_-28px_rgba(0,0,0,0.55)] transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        isSticky
-          ? "border-background/10 bg-background/80 text-background"
-          : "border-background/10 bg-background/75 text-background"
+      className={`fixed left-1/2 z-50 flex -translate-x-1/2 items-center rounded-full border border-foreground/10 text-foreground backdrop-blur-2xl shadow-[0_18px_50px_-28px_rgba(0,0,0,0.55)] transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        isSticky ? "bg-background/90" : "bg-background/80"
       }`}
     >
       <div
@@ -180,11 +174,7 @@ export function Navigation() {
         <button
           type="button"
           onClick={() => setIsMenuOpen((open) => !open)}
-          className={`rounded-md p-2 transition-colors focus:outline-none md:hidden ${
-            isSticky
-              ? "text-background hover:bg-background/10"
-              : "text-foreground hover:bg-foreground/10"
-          }`}
+          className="rounded-full p-2 text-foreground transition-colors hover:bg-foreground/6 focus:outline-none md:hidden"
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMenuOpen}
         >
@@ -200,25 +190,14 @@ export function Navigation() {
                 <button
                   type="button"
                   onClick={() => scrollToSection(link.path)}
-                  className={`group relative whitespace-nowrap rounded-full px-3 py-2 transition-all duration-300 ease-out ${
+                  aria-current={isActive ? "location" : undefined}
+                  className={`whitespace-nowrap rounded-full px-3.5 py-2 text-foreground transition-[color,background-color] duration-150 ease-in-out ${
                     isActive
-                      ? isSticky
-                        ? "text-primary"
-                        : "text-foreground/80 hover:text-foreground"
-                      : isSticky
-                        ? "text-foreground/80 hover:text-background"
-                        : "text-foreground/80 hover:text-foreground"
+                      ? "bg-foreground/10 hover:bg-foreground/15"
+                      : "bg-transparent hover:bg-foreground/6 active:bg-foreground/10"
                   }`}
                 >
-                  <span
-                    aria-hidden="true"
-                    className={`absolute inset-0 rounded-full blur-[1px] transition-opacity duration-200 ${
-                      isSticky ? "bg-background/15" : "bg-foreground/10"
-                    } ${
-                      isActive ? "opacity-100" : "opacity-0 group-hover:opacity-60"
-                    }`}
-                  />
-                  <span className="relative z-10">{link.name}</span>
+                  {link.name}
                 </button>
               </li>
             );
@@ -243,20 +222,19 @@ export function Navigation() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
             transition={{ duration: 0.2 }}
-            className={`absolute right-0 top-full mt-2 w-48 rounded-lg border px-6 py-4 shadow-lg md:hidden ${
-              isSticky
-                ? "border-background/10 bg-foreground text-background"
-                : "border-foreground/10 bg-background text-foreground"
-            }`}
+            className="absolute right-0 top-full mt-2 w-48 rounded-lg border border-foreground/10 bg-background px-3 py-3 text-foreground shadow-lg md:hidden"
           >
-            <ul className="flex flex-col space-y-3 text-center">
+            <ul className="flex flex-col gap-1 text-center">
               {navLinks.map((link) => (
                 <li key={link.path}>
                   <button
                     type="button"
                     onClick={() => scrollToSection(link.path)}
-                    className={`block w-full py-2 font-medium transition-colors hover:text-primary ${
-                      activeSection === link.path ? "text-primary" : ""
+                    aria-current={activeSection === link.path ? "location" : undefined}
+                    className={`block w-full rounded-full px-3 py-2 transition-[color,background-color] duration-150 ease-in-out ${
+                      activeSection === link.path
+                        ? "bg-foreground/10 text-foreground hover:bg-foreground/15"
+                        : "text-foreground hover:bg-foreground/6 active:bg-foreground/10"
                     }`}
                   >
                     {link.name}
