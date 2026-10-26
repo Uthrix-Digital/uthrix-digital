@@ -1,0 +1,96 @@
+{
+  "phases": [
+    {
+      "id": "foundation",
+      "ring": 115,
+      "order": 1
+    },
+    {
+      "id": "build",
+      "ring": 190,
+      "order": 2
+    },
+    {
+      "id": "grow",
+      "ring": 265,
+      "order": 3
+    },
+    {
+      "id": "retain",
+      "ring": 335,
+      "order": 4
+    }
+  ],
+  "nodes": [
+    {
+      "id": "registration",
+      "label": "Business registration",
+      "phase": "foundation",
+      "order": 1,
+      "angle": -125,
+      "summary": "Company incorporation through our partner Nextoex, so the business is legally ready before any marketing spend.",
+      "feedsInto": "brand",
+      "why": "A registered name is something you can brand."
+    },
+    {
+      "id": "brand",
+      "label": "Brand identity",
+      "phase": "foundation",
+      "order": 2,
+      "angle": -70,
+      "summary": "Logo, colors, typography and voice guidelines every other service inherits.",
+      "feedsInto": "website",
+      "why": "The brand sets the look every page uses."
+    },
+    {
+      "id": "website",
+      "label": "Website",
+      "phase": "build",
+      "order": 3,
+      "angle": -15,
+      "summary": "A fast, mobile-first site that turns visits into enquiries; the home base all traffic lands on.",
+      "feedsInto": "social",
+      "why": "The site gives every post and ad somewhere to send people."
+    },
+    {
+      "id": "social",
+      "label": "Social & content",
+      "phase": "build",
+      "order": 4,
+      "angle": 40,
+      "summary": "Profiles, content system and branded creatives, published consistently on the platforms your customers use.",
+      "feedsInto": "ads",
+      "why": "Organic posts show which messages win before ad money is spent."
+    },
+    {
+      "id": "ads",
+      "label": "Meta + Google Ads",
+      "phase": "grow",
+      "order": 5,
+      "angle": 95,
+      "summary": "Paid campaigns that reach the right people now; ad budgets are paid separately to the platforms.",
+      "feedsInto": "seo",
+      "why": "Ad data shows what people actually search for."
+    },
+    {
+      "id": "seo",
+      "label": "SEO",
+      "phase": "grow",
+      "order": 6,
+      "angle": 145,
+      "summary": "Local and on-page SEO that brings free, compounding traffic over time.",
+      "feedsInto": "followup",
+      "why": "Search visitors expect fast replies."
+    },
+    {
+      "id": "followup",
+      "label": "Follow-up",
+      "phase": "retain",
+      "order": 7,
+      "angle": 195,
+      "summary": "WhatsApp replies, reminders and reporting that turn enquiries into customers and customers into repeat business.",
+      "feedsInto": "goal",
+      "why": "Repeat customers and referrals restart the cycle."
+    }
+  ]
+}
