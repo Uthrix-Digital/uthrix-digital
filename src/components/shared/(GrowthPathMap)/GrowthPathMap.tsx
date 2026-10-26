@@ -52,15 +52,15 @@ export function GrowthPathMap() {
   };
 
   const handleNudgeAdd = (bit: number) => {
-  const isNewItem = (mask & bit) === 0;
-  const willHaveMultipleItems = mask !== 0 && isNewItem;
+    const isNewItem = (mask & bit) === 0;
+    const willHaveMultipleItems = mask !== 0 && isNewItem;
 
-  if (willHaveMultipleItems) {
-    setMode("combined");
-  }
+    if (willHaveMultipleItems) {
+      setMode("combined");
+    }
 
-  setMask((prev) => prev | bit);
-};
+    setMask((prev) => prev | bit);
+  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -131,9 +131,9 @@ export function GrowthPathMap() {
                 key={nudge.addBit}
                 type="button"
                 onClick={() => handleNudgeAdd(nudge.addBit)}
-                className="flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-[11.5px] text-black/65 transition-all hover:border-amber-400 hover:text-black"
+                className="flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-[11.5px] text-red-700 transition-all hover:border-red-400 hover:bg-red-100 hover:text-red-900"
               >
-                <span className="text-amber-500">↗</span>
+                <span className="text-brand">↗</span>
                 {nudge.addLabel}
               </button>
             ))}
