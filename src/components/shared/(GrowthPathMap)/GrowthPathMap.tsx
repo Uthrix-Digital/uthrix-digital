@@ -224,32 +224,6 @@ export function GrowthPathMap() {
     </div>
   );
 }
-
-/* ── TabButton ───────────────────────────────────────────────────────────── */
-function TabShift({
-  label,
-  isActive,
-  onClick,
-}: {
-  label: string;
-  isActive: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`px-4 py-1.5 text-[13px] font-medium rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 ${
-        isActive
-          ? "bg-black text-white"
-          : "bg-transparent text-black/50 hover:text-black"
-      }`}
-    >
-      {label}
-    </button>
-  );
-}
-
 <Suspense
   fallback={
     <div
