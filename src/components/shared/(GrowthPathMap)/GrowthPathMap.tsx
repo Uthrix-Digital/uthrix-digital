@@ -1,10 +1,11 @@
 "use client";
 import { Suspense } from "react";
 import { motion } from "framer-motion";
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 import { RadarMap } from "./RadarMap";
 import { getNudges, resolveGoal } from "./data/resolver";
 import { AnimatePresence } from "framer-motion";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const WA_NUMBER = "94728282122";
@@ -22,9 +23,9 @@ export function GrowthPathMap() {
 
   /* ── Derived state ─────────────────────────────────────────────────────── */
   const resolved = mask ? resolveGoal(mask) : null;
-  const phases   = resolved?.phases ?? [];
+  const phases = resolved?.phases ?? [];
   const hubLines = resolved?.hubLines ?? ["Your", "goal"];
-  const nudges   = mask ? getNudges(mask) : [];
+  const nudges = mask ? getNudges(mask) : [];
   const selectedCount = resolved?.selectedNodes.length ?? 0;
 
   /* ── Selection handlers ────────────────────────────────────────────────── */
@@ -35,7 +36,7 @@ export function GrowthPathMap() {
         setMask((prev) => (prev === bit ? 0 : bit));
       } else {
         // Combined: toggle bit in/out
-        setMask((prev) => ((prev & bit) ? prev & ~bit : prev | bit));
+        setMask((prev) => (prev & bit ? prev & ~bit : prev | bit));
       }
     },
     [mode],
@@ -58,7 +59,6 @@ export function GrowthPathMap() {
 
   return (
     <div className="flex flex-col gap-4">
-
       {/* ── Header ────────────────────────────────────────────────────────── */}
       <div>
         <p className="text-sm font-medium text-black tracking-[-0.01em]">
@@ -66,17 +66,23 @@ export function GrowthPathMap() {
         </p>
 
         {/* Mode tabs */}
-        <div className="flex items-center gap-1 mt-3">
-          <TabButton
-            label="One Area"
-            isActive={mode === "single"}
-            onClick={() => handleModeChange("single")}
-          />
-          <TabButton
-            label="Combined activities"
-            isActive={mode === "combined"}
-            onClick={() => handleModeChange("combined")}
-          />
+        <div className="flex items-center gap-1 mt-3">        
+          <Tabs defaultValue="single">
+            <TabsList variant="line">
+              <TabsTrigger
+                value="single"
+                onClick={() => handleModeChange("single")}
+              >
+                One Area
+              </TabsTrigger>
+              <TabsTrigger
+                value="combined"
+                onClick={() => handleModeChange("combined")}
+              >
+                Combined activities
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
       </div>
 
@@ -178,11 +184,17 @@ export function GrowthPathMap() {
                 {resolved.selectedNodes.slice(0, -1).map((n, i) => {
                   const next = resolved.selectedNodes[i + 1];
                   return (
-                    <li key={n.bit} className="flex items-start gap-1.5 text-[12px] text-black/50">
-                      <span className="mt-0.5 text-[10px] text-black/30">→</span>
+                    <li
+                      key={n.bit}
+                      className="flex items-start gap-1.5 text-[12px] text-black/50"
+                    >
+                      <span className="mt-0.5 text-[10px] text-black/30">
+                        →
+                      </span>
                       <span>
-                        <strong className="font-medium text-black/65">{n.label}</strong>
-                        {" "}
+                        <strong className="font-medium text-black/65">
+                          {n.label}
+                        </strong>{" "}
                         {/* Use feedsInto "why" copy if they are adjacent in journey, else bridge */}
                         {next.bit === n.bit * 2
                           ? n.why
@@ -274,5 +286,4 @@ function TabButton({
   }
 >
   <GrowthPathMap />
-</Suspense>
-
+</Suspense>;

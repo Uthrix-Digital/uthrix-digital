@@ -84,7 +84,7 @@
 
   /* Brand red — #CC0000 is marked provisional in the standards sheet.
      Change it here and everything follows. Use as sparse punctuation only. */
-  --brand: #cc0000;
+  --brand: #C40202;
 
   /* Surfaces (light) */
   --surface-base: #ffffff;
