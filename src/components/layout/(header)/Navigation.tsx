@@ -4,7 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -33,10 +39,11 @@ export function Navigation() {
     });
   }, [scrollY]);
 
-  const smoothProgress = useSpring(
-    useTransform(scrollY, [0, 180], [0, 1]),
-    { stiffness: 140, damping: 22, mass: 0.9 },
-  );
+  const smoothProgress = useSpring(useTransform(scrollY, [0, 180], [0, 1]), {
+    stiffness: 140,
+    damping: 22,
+    mass: 0.9,
+  });
 
   // Side insets come from the layout grid (--grid-margin: 24 / 32 / 64px), so
   // the pill lines up with page content at every breakpoint. Only the cap shrinks.
@@ -137,7 +144,7 @@ export function Navigation() {
         paddingRight: paddingX,
         top: topOffset,
       }}
-      className={`fixed left-1/2 z-50 flex w-[calc(100%_-_2*var(--grid-margin))] -translate-x-1/2 items-center rounded-full border border-foreground/10 text-foreground backdrop-blur-2xl shadow-[0_18px_50px_-28px_rgba(0,0,0,0.55)] transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+      className={`fixed left-1/2 z-50 flex w-[calc(100%-2*var(--grid-margin))] -translate-x-1/2 items-center rounded-full border border-foreground/10 text-foreground backdrop-blur-2xl shadow-[0_18px_50px_-28px_rgba(0,0,0,0.55)] transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
         isSticky ? "bg-background/90" : "bg-background/80"
       }`}
     >
@@ -228,7 +235,9 @@ export function Navigation() {
                   <button
                     type="button"
                     onClick={() => scrollToSection(link.path)}
-                    aria-current={activeSection === link.path ? "location" : undefined}
+                    aria-current={
+                      activeSection === link.path ? "location" : undefined
+                    }
                     className={`block w-full rounded-full px-3 py-2 transition-[color,background-color] duration-150 ease-in-out ${
                       activeSection === link.path
                         ? "bg-foreground/10 text-foreground hover:bg-foreground/15"

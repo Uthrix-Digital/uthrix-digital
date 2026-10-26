@@ -158,7 +158,7 @@ export function GrowthPathMap() {
               {resolved.selectedNodes.map((n) => (
                 <span
                   key={n.bit}
-                  className="rounded-full bg-black/[0.05] px-2.5 py-0.5 text-[11px] text-black/55"
+                  className="rounded-full bg-black/5 px-2.5 py-0.5 text-[11px] text-black/55"
                 >
                   {n.label}
                 </span>
@@ -268,7 +268,7 @@ function TabButton({
 <Suspense
   fallback={
     <div
-      className="min-h-[520px] w-full animate-pulse rounded-2xl bg-black/[0.03]"
+      className="min-h-130 w-full animate-pulse rounded-2xl bg-black/3"
       aria-label="Loading growth path map"
     />
   }

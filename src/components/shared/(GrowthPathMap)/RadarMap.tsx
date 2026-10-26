@@ -281,7 +281,7 @@ export function RadarMap({
                 fill: isSelected ? "#c1121f" : "#111111",
                 opacity: isDimmed ? 0.2 : 1,
               }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.3 }}
             />
 
             {/* Label */}
@@ -315,6 +315,7 @@ export function RadarMap({
         cy={CY}
         r={HUB_R}
         fill="white"
+        style={{ strokeWidth: 1 }}
         animate={{
           stroke: mask > 0 ? "#c1121f" : "#111111",
           strokeWidth: mask > 0 ? 1.8 : 1,

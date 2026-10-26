@@ -12,8 +12,12 @@ const stagger: Variants = {
 };
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
+  hidden: { opacity: 0, y: 0 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: EASE },
+  },
 };
 
 const fadeRight: Variants = {
@@ -98,7 +102,7 @@ export function Hero() {
               <Suspense
                 fallback={
                   <div
-                    className="min-h-[520px] w-full animate-pulse rounded-2xl bg-black/[0.03]"
+                    className="min-h-130 w-full animate-pulse rounded-2xl bg-black/3"
                     aria-label="Loading growth path map"
                   />
                 }
