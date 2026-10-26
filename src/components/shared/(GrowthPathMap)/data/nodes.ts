@@ -24,15 +24,15 @@ export const RING_RADII = {
 export const NODES: readonly NodeDef[] = [
   {
     bit: 1,
-    id: "registration",
-    label: "Business Registration",
+    id: "idea",
+    label: "Business Idea",
     svgLabel: ["Business", "Reg."],
     angle: 215,          // JSON −125 → 90−(−125) = 215°  (lower-left)
     ringR: RING_RADII.foundation,
     phase: "foundation",
     why: "A registered name is something you can brand.",
     summary:
-      "Company incorporation through our partner Nextoex, so the business is legally ready before any marketing spend.",
+      "Generating a business idea is a simple process of finding a real problem that people face and figuring out an easy way to solve it.",
   },
   {
     bit: 2,
