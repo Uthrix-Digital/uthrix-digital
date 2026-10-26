@@ -43,9 +43,9 @@ export function Hero() {
               variants={stagger}
               initial="hidden"
               animate="visible"
-              className="flex flex-col lg:min-h-[calc(100svh-9rem)]"
+              className="flex flex-col"
             >
-              <div className="my-auto">
+              <div>
                 <motion.h1
                   variants={fadeUp}
                   className="type-display font-normal leading-[0.95] tracking-[-0.065em]"
@@ -71,7 +71,7 @@ export function Hero() {
 
               <motion.div
                 variants={fadeUp}
-                className="mt-10 flex flex-wrap gap-3 lg:mt-12"
+                className="mt-10 flex flex-wrap gap-3 lg:mt-16"
               >
                 <a
                   href="#services"
