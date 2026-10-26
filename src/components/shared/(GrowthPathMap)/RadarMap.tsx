@@ -1,9 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { NODES, RING_RADII } from "./data/nodes";
 import type { Phase } from "./types";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 /* ── SVG constants ───────────────────────────────────────────────────────── */
 const CX = 248;
@@ -116,271 +121,326 @@ export function RadarMap({
       ? polar(selectedNodes[0].angle, selectedNodes[0].ringR)
       : null;
 
-  return (
-    <svg
-      viewBox="0 0 496 496"
-      className="w-full h-auto select-none"
-      aria-label="Interactive Uthrix growth path radar — click a node to explore"
-      role="img"
-    >
-      {/* ── Decorative dashed tick rings ──────────────── */}
-      {[46, 95, 141, 186, 230].map((r) => (
-        <circle
-          key={r}
-          cx={CX}
-          cy={CY}
-          r={r}
-          fill="none"
-          stroke="black"
-          strokeWidth={0.5}
-          strokeDasharray="2 7"
-          opacity={0.09}
-        />
-      ))}
+  const [openNodeBit, setOpenNodeBit] = useState<number | null>(null);
 
-      {/* ── Solid phase rings ─────────────────────────── */}
-      {(["foundation", "build", "grow", "retain"] as const).map((phase) => {
-        const r = RING_RADII[phase];
-        return (
+  return (
+    <div className="relative w-full">
+      <svg
+        viewBox="0 0 496 496"
+        className="w-full h-auto select-none"
+        aria-label="Interactive Uthrix growth path radar — click a node to explore"
+        role="img"
+      >
+        {/* ── Decorative dashed tick rings ──────────────── */}
+        {[46, 95, 141, 186, 230].map((r) => (
           <circle
-            key={phase}
+            key={r}
             cx={CX}
             cy={CY}
             r={r}
             fill="none"
             stroke="black"
-            strokeWidth={0.9}
-            strokeDasharray={phase === "retain" ? "4 5" : undefined}
-            opacity={0.22}
+            strokeWidth={0.5}
+            strokeDasharray="2 7"
+            opacity={0.09}
           />
-        );
-      })}
+        ))}
 
-      {/* ── Axis cross lines ──────────────────────────── */}
-      <line
-        x1={CX}
-        y1={14}
-        x2={CX}
-        y2={482}
-        stroke="black"
-        strokeWidth={0.5}
-        opacity={0.1}
-      />
-      <line
-        x1={14}
-        y1={CY}
-        x2={482}
-        y2={CY}
-        stroke="black"
-        strokeWidth={0.5}
-        opacity={0.1}
-      />
-
-      {/* ── Phase ring labels ─────────────────────────── */}
-      {(["foundation", "build", "grow", "retain"] as const).map((phase) => {
-        const r = RING_RADII[phase];
-        const isActive = activePhases.includes(phase);
-        return (
-          <text
-            key={phase}
-            x={CX + 6}
-            y={CY - r + 10}
-            fontSize={8}
-            fontFamily="inherit"
-            letterSpacing={0.3}
-            fill={isActive ? "#c1121f" : "black"}
-            opacity={isActive ? 0.85 : 0.28}
-            style={{ transition: "fill 0.3s, opacity 0.3s" }}
-          >
-            {phase}
-          </text>
-        );
-      })}
-
-      {/* ── Spoke lines ───────────────────────────────── */}
-      {NODES.map((node) => {
-        const outer = polar(node.angle, node.ringR + 26);
-        const isSelected = (mask & node.bit) !== 0;
-        const isDimmed = mask !== 0 && !isSelected;
-        return (
-          <line
-            key={`spoke-${node.bit}`}
-            x1={CX}
-            y1={CY}
-            x2={f(outer.x)}
-            y2={f(outer.y)}
-            stroke="black"
-            strokeWidth={0.7}
-            strokeDasharray="3 6"
-            opacity={isDimmed ? 0.04 : 0.16}
-            style={{ transition: "opacity 0.25s" }}
-          />
-        );
-      })}
-
-      {/* ── Beam fills ────────────────────────────────── */}
-      {NODES.map((node) => {
-        const isSelected = (mask & node.bit) !== 0;
-        return isSelected ? (
-          <motion.path
-            key={`beam-${node.bit}`}
-            d={beamPath(node.angle, node.ringR)}
-            fill="rgba(193,18,31,0.11)"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            style={{ transformOrigin: `${CX}px ${CY}px` }}
-          />
-        ) : null;
-      })}
-
-      {/* ── Multi-node path ───────────────────────────── */}
-      {polylinePoints && (
-        <motion.polyline
-          key={`path-${mask}`}
-          points={polylinePoints}
-          fill="none"
-          stroke="#c1121f"
-          strokeWidth={1.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.9 }}
-          transition={{ duration: 0.4 }}
-        />
-      )}
-
-      {/* ── Single-node radial line ───────────────────── */}
-      {singlePoint && (
-        <motion.line
-          x1={CX}
-          y1={CY}
-          x2={f(singlePoint.x)}
-          y2={f(singlePoint.y)}
-          stroke="#c1121f"
-          strokeWidth={1.5}
-          strokeLinecap="round"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.85 }}
-          transition={{ duration: 0.3 }}
-        />
-      )}
-
-      {/* ── Node dots + labels ────────────────────────── */}
-      {NODES.map((node) => {
-        const pos = polar(node.angle, node.ringR);
-        const isSelected = (mask & node.bit) !== 0;
-        const isDimmed = mask !== 0 && !isSelected;
-        const ll = labelLayout(node.angle, node.ringR);
-
-        return (
-          <g
-            key={`node-${node.bit}`}
-            onClick={() => onNodeClick(node.bit)}
-            style={{ cursor: "pointer" }}
-            role="button"
-            aria-label={`${isSelected ? "Deselect" : "Select"} ${node.label}`}
-          >
-            {/* Invisible generous hit area */}
-            <circle cx={f(pos.x)} cy={f(pos.y)} r={22} fill="transparent" />
-
-            {/* Outer halo ring when selected */}
-            {isSelected && (
-              <motion.circle
-                cx={f(pos.x)}
-                cy={f(pos.y)}
-                r={12}
-                fill="none"
-                stroke="#c1121f"
-                strokeWidth={1.2}
-                initial={{ scale: 0.5, opacity: 0 }}
-                animate={{ scale: 1, opacity: 0.38 }}
-                transition={{ duration: 0.22 }}
-              />
-            )}
-
-            {/* Node dot — motion-animated radius + fill */}
-            <motion.circle
-              cx={f(pos.x)}
-              cy={f(pos.y)}
-              initial={false}
-              animate={{
-                r: isSelected ? 6.5 : 5,
-                fill: isSelected ? "#c1121f" : "#111111",
-                opacity: isDimmed ? 0.2 : 1,
-              }}
-              transition={{ duration: 0.2 }}
+        {/* ── Solid phase rings ─────────────────────────── */}
+        {(["foundation", "build", "grow", "retain"] as const).map((phase) => {
+          const r = RING_RADII[phase];
+          return (
+            <circle
+              key={phase}
+              cx={CX}
+              cy={CY}
+              r={r}
+              fill="none"
+              stroke="black"
+              strokeWidth={0.9}
+              strokeDasharray={phase === "retain" ? "4 5" : undefined}
+              opacity={0.22}
             />
+          );
+        })}
 
-            {/* Label */}
-            <text
-              x={ll.x}
-              y={ll.y}
-              textAnchor={ll.textAnchor}
-              dominantBaseline={ll.dominantBaseline}
-              fontSize={9.5}
-              fontFamily="inherit"
-              fill={isSelected ? "#c1121f" : "#111"}
-              opacity={isDimmed ? 0.16 : isSelected ? 0.9 : 0.55}
-              style={{
-                pointerEvents: "none",
-                transition: "fill 0.25s, opacity 0.25s",
-              }}
-            >
-              {node.svgLabel.map((line, i) => (
-                <tspan key={i} x={ll.x} dy={i === 0 ? 0 : 12}>
-                  {line}
-                </tspan>
-              ))}
-            </text>
-          </g>
-        );
-      })}
+        {/* ── Axis cross lines ──────────────────────────── */}
+        <line
+          x1={CX}
+          y1={14}
+          x2={CX}
+          y2={482}
+          stroke="black"
+          strokeWidth={0.5}
+          opacity={0.1}
+        />
+        <line
+          x1={14}
+          y1={CY}
+          x2={482}
+          y2={CY}
+          stroke="black"
+          strokeWidth={0.5}
+          opacity={0.1}
+        />
 
-      {/* ── Hub circle ────────────────────────────────── */}
-      <motion.circle
-        cx={CX}
-        cy={CY}
-        r={HUB_R}
-        fill="white"
-        initial={false}
-        animate={{
-          stroke: mask > 0 ? "#c1121f" : "#111111",
-          strokeWidth: mask > 0 ? 1.8 : 1,
-        }}
-        transition={{ duration: 0.3 }}
-      />
-
-      {/* Hub text — key forces re-mount on title change for clean cross-fade */}
-      <motion.g
-        key={hubLines.join("|")}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.25 }}
-      >
-        {hubLines.map((line, i) => {
-          const lineH = 13;
-          const totalH = (hubLines.length - 1) * lineH;
-          const y = CY - totalH / 2 + i * lineH;
+        {/* ── Phase ring labels ─────────────────────────── */}
+        {(["foundation", "build", "grow", "retain"] as const).map((phase) => {
+          const r = RING_RADII[phase];
+          const isActive = activePhases.includes(phase);
           return (
             <text
-              key={i}
-              x={CX}
-              y={y}
-              textAnchor="middle"
-              dominantBaseline="central"
-              fontSize={9.5}
-              fontWeight={mask > 0 ? 600 : 400}
+              key={phase}
+              x={CX + 6}
+              y={CY - r + 10}
+              fontSize={8}
               fontFamily="inherit"
-              fill={mask > 0 ? "#c1121f" : "#111"}
-              style={{ pointerEvents: "none", transition: "fill 0.3s" }}
+              letterSpacing={0.3}
+              fill={isActive ? "#c1121f" : "black"}
+              opacity={isActive ? 0.85 : 0.28}
+              style={{ transition: "fill 0.3s, opacity 0.3s" }}
             >
-              {line}
+              {phase}
             </text>
           );
         })}
-      </motion.g>
-    </svg>
+
+        {/* ── Spoke lines ───────────────────────────────── */}
+        {NODES.map((node) => {
+          const outer = polar(node.angle, node.ringR + 26);
+          const isSelected = (mask & node.bit) !== 0;
+          const isDimmed = mask !== 0 && !isSelected;
+          return (
+            <line
+              key={`spoke-${node.bit}`}
+              x1={CX}
+              y1={CY}
+              x2={f(outer.x)}
+              y2={f(outer.y)}
+              stroke="black"
+              strokeWidth={0.7}
+              strokeDasharray="3 6"
+              opacity={isDimmed ? 0.04 : 0.16}
+              style={{ transition: "opacity 0.25s" }}
+            />
+          );
+        })}
+
+        {/* ── Beam fills ────────────────────────────────── */}
+        {NODES.map((node) => {
+          const isSelected = (mask & node.bit) !== 0;
+          return isSelected ? (
+            <motion.path
+              key={`beam-${node.bit}`}
+              d={beamPath(node.angle, node.ringR)}
+              fill="rgba(193,18,31,0.11)"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              style={{ transformOrigin: `${CX}px ${CY}px` }}
+            />
+          ) : null;
+        })}
+
+        {/* ── Multi-node path ───────────────────────────── */}
+        {polylinePoints && (
+          <motion.polyline
+            key={`path-${mask}`}
+            points={polylinePoints}
+            fill="none"
+            stroke="#c1121f"
+            strokeWidth={1.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.9 }}
+            transition={{ duration: 0.4 }}
+          />
+        )}
+
+        {/* ── Single-node radial line ───────────────────── */}
+        {singlePoint && (
+          <motion.line
+            x1={CX}
+            y1={CY}
+            x2={f(singlePoint.x)}
+            y2={f(singlePoint.y)}
+            stroke="#c1121f"
+            strokeWidth={1.5}
+            strokeLinecap="round"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.85 }}
+            transition={{ duration: 0.3 }}
+          />
+        )}
+
+        {/* ── Node dots + labels ────────────────────────── */}
+        {NODES.map((node) => {
+          const pos = polar(node.angle, node.ringR);
+          const isSelected = (mask & node.bit) !== 0;
+          const isDimmed = mask !== 0 && !isSelected;
+          const ll = labelLayout(node.angle, node.ringR);
+
+          return (
+            <g
+              key={`node-${node.bit}`}
+              onClick={() => onNodeClick(node.bit)}
+              style={{ cursor: "pointer" }}
+              role="button"
+              aria-label={`${isSelected ? "Deselect" : "Select"} ${node.label}`}
+            >
+              {/* Invisible generous hit area */}
+              <circle cx={f(pos.x)} cy={f(pos.y)} r={22} fill="transparent" />
+
+              {/* Outer halo ring when selected */}
+              {isSelected && (
+                <motion.circle
+                  cx={f(pos.x)}
+                  cy={f(pos.y)}
+                  r={12}
+                  fill="none"
+                  stroke="#c1121f"
+                  strokeWidth={1.2}
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 0.38 }}
+                  transition={{ duration: 0.22 }}
+                />
+              )}
+
+              {/* Node dot — motion-animated radius + fill */}
+              <motion.circle
+                cx={f(pos.x)}
+                cy={f(pos.y)}
+                initial={false}
+                animate={{
+                  r: isSelected ? 6.5 : 5,
+                  fill: isSelected ? "#c1121f" : "#111111",
+                  opacity: isDimmed ? 0.2 : 1,
+                }}
+                transition={{ duration: 0.2 }}
+              />
+
+              {/* Label */}
+              <text
+                x={ll.x}
+                y={ll.y}
+                textAnchor={ll.textAnchor}
+                dominantBaseline={ll.dominantBaseline}
+                fontSize={9.5}
+                fontFamily="inherit"
+                fill={isSelected ? "#c1121f" : "#111"}
+                opacity={isDimmed ? 0.16 : isSelected ? 0.9 : 0.55}
+                style={{
+                  pointerEvents: "none",
+                  transition: "fill 0.25s, opacity 0.25s",
+                }}
+              >
+                {node.svgLabel.map((line, i) => (
+                  <tspan key={i} x={ll.x} dy={i === 0 ? 0 : 12}>
+                    {line}
+                  </tspan>
+                ))}
+              </text>
+            </g>
+          );
+        })}
+
+        {/* ── Hub circle ────────────────────────────────── */}
+        <motion.circle
+          cx={CX}
+          cy={CY}
+          r={HUB_R}
+          fill="white"
+          initial={false}
+          animate={{
+            stroke: mask > 0 ? "#c1121f" : "#111111",
+            strokeWidth: mask > 0 ? 1.8 : 1,
+          }}
+          transition={{ duration: 0.3 }}
+        />
+
+        {/* Hub text — key forces re-mount on title change for clean cross-fade */}
+        <motion.g
+          key={hubLines.join("|")}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.25 }}
+        >
+          {hubLines.map((line, i) => {
+            const lineH = 13;
+            const totalH = (hubLines.length - 1) * lineH;
+            const y = CY - totalH / 2 + i * lineH;
+            return (
+              <text
+                key={i}
+                x={CX}
+                y={y}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize={9.5}
+                fontWeight={mask > 0 ? 600 : 400}
+                fontFamily="inherit"
+                fill={mask > 0 ? "#c1121f" : "#111"}
+                style={{ pointerEvents: "none", transition: "fill 0.3s" }}
+              >
+                {line}
+              </text>
+            );
+          })}
+        </motion.g>
+      </svg>
+
+      {/* Node popover overlays go here */}
+      {NODES.map((node) => {
+        const pos = polar(node.angle, node.ringR);
+
+        return (
+          <Popover
+            key={`popover-${node.bit}`}
+            open={openNodeBit === node.bit}
+            onOpenChange={(open) => {
+              setOpenNodeBit(open ? node.bit : null);
+            }}
+          >
+            <PopoverTrigger
+              type="button"
+              aria-label={`Show details for ${node.label}`}
+              onClick={(event) => {
+                event.stopPropagation();
+                const isSelected = (mask & node.bit) !== 0;
+
+                // Select the node if this is the first click.
+                if (!isSelected) {
+                  onNodeClick(node.bit);
+                }
+
+                // Open its popover immediately.
+                setOpenNodeBit(node.bit);
+              }}
+              className="absolute size-8 -translate-x-1/2 -translate-y-1/2 rounded-full"
+              style={{
+                left: `${(pos.x / 496) * 100}%`,
+                top: `${(pos.y / 496) * 100}%`,
+              }}
+            >
+              <span className="sr-only">{node.label}</span>
+            </PopoverTrigger>
+
+            <PopoverContent side="top" sideOffset={10} className="w-64" align="start">
+              <div className="space-y-1.5">
+                <p className="font-semibold text-black">{node.label}</p>
+                <p className="text-xs leading-relaxed text-black/60">
+                  {node.summary}
+                </p>
+                <p className="text-xs leading-relaxed text-black/45">
+                  {node.why}
+                </p>
+              </div>
+            </PopoverContent>
+          </Popover>
+        );
+      })}
+    </div>
   );
 }

@@ -63,15 +63,15 @@ export function GrowthPathMap() {
 };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       {/* ── Header ────────────────────────────────────────────────────────── */}
       <div>
-        <p className="text-sm font-medium text-black tracking-[-0.01em]">
+        <p className="type-h6  text-black tracking-[-0.01em]">
           Choose your starting point
         </p>
 
         {/* Mode tabs */}
-        <div className="flex items-center gap-1 mt-3">
+        <div className="flex items-center gap-1 mt-2">
           <Tabs
             value={mode}
             onValueChange={(value) => {
@@ -179,35 +179,6 @@ export function GrowthPathMap() {
                 {resolved.selectedNodes[0].summary}
               </p>
             )}
-
-            {/* Combined story: adjacent-pair "why" captions */}
-            {resolved.selectedNodes.length > 1 && (
-              <ul className="flex flex-col gap-1">
-                {resolved.selectedNodes.slice(0, -1).map((n, i) => {
-                  const next = resolved.selectedNodes[i + 1];
-                  return (
-                    <li
-                      key={n.bit}
-                      className="flex items-start gap-1.5 text-[12px] text-black/50"
-                    >
-                      <span className="mt-0.5 text-[10px] text-black/30">
-                        →
-                      </span>
-                      <span>
-                        <strong className="font-medium text-black/65">
-                          {n.label}
-                        </strong>{" "}
-                        {/* Use feedsInto "why" copy if they are adjacent in journey, else bridge */}
-                        {next.bit === n.bit * 2
-                          ? n.why
-                          : `connects to ${next.label}.`}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-
             {/* CTA */}
             <a
               href={buildWaLink(
