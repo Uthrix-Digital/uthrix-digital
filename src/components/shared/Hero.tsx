@@ -2,7 +2,7 @@
 
 import { motion, MotionConfig, type Variants } from "framer-motion";
 
-import { InquiryForm } from "@/components/shared/InquiryForm";
+import { GrowthPathMap } from "@/components/shared/GrowthPathMap";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -38,7 +38,7 @@ export function Hero() {
       >
         <div className="mx-auto w-full max-w-310 px-4 pb-10 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_425px] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_548px]">
-            {/* Left: headline + copy centred, actions pinned to the form's bottom edge */}
+            {/* Left: headline + copy, actions */}
             <motion.div
               variants={stagger}
               initial="hidden"
@@ -56,7 +56,7 @@ export function Hero() {
                   <br />
                   Engineered for
                   <br />
-                  Growth
+                  <span className="text-[#c1121f]">Growth</span>
                 </motion.h1>
 
                 <motion.p
@@ -74,10 +74,10 @@ export function Hero() {
                 className="mt-10 flex flex-wrap gap-3 lg:mt-12"
               >
                 <a
-                  href="#contact"
+                  href="#services"
                   className={`inline-flex h-14 items-center justify-center rounded-full bg-black px-9 text-sm font-medium text-white transition-transform hover:scale-[1.03] ${focusRing}`}
                 >
-                  Start a project
+                  See how we help
                 </a>
                 <a
                   href="#portfolio"
@@ -88,15 +88,14 @@ export function Hero() {
               </motion.div>
             </motion.div>
 
-            {/* Right: lead form */}
+            {/* Right: growth path map */}
             <motion.div
-              id="contact"
               variants={fadeRight}
               initial="hidden"
               animate="visible"
-              className="w-full scroll-mt-28 self-start"
+              className="w-full self-start"
             >
-              <InquiryForm />
+              <GrowthPathMap />
             </motion.div>
           </div>
         </div>
