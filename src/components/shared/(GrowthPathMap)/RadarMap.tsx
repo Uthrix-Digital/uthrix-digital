@@ -61,10 +61,22 @@ function labelLayout(angle: number, ringR: number): LabelLayout {
   let textAnchor: "start" | "middle" | "end" = "middle";
   let dominantBaseline: LabelLayout["dominantBaseline"] = "middle";
 
-  if (a > 330 || a <= 30)  { textAnchor = "middle"; dominantBaseline = "auto"; }    // top
-  else if (a <= 150)        { textAnchor = "start";  dominantBaseline = "middle"; }  // right
-  else if (a <= 210)        { textAnchor = "middle"; dominantBaseline = "hanging"; } // bottom
-  else                      { textAnchor = "end";    dominantBaseline = "middle"; }  // left
+  if (a > 330 || a <= 30) {
+    textAnchor = "middle";
+    dominantBaseline = "auto";
+  } // top
+  else if (a <= 150) {
+    textAnchor = "start";
+    dominantBaseline = "middle";
+  } // right
+  else if (a <= 210) {
+    textAnchor = "middle";
+    dominantBaseline = "hanging";
+  } // bottom
+  else {
+    textAnchor = "end";
+    dominantBaseline = "middle";
+  } // left
 
   return { x: lp.x, y: lp.y, textAnchor, dominantBaseline };
 }
@@ -145,8 +157,24 @@ export function RadarMap({
       })}
 
       {/* ── Axis cross lines ──────────────────────────── */}
-      <line x1={CX} y1={14} x2={CX} y2={482} stroke="black" strokeWidth={0.5} opacity={0.1} />
-      <line x1={14} y1={CY} x2={482} y2={CY} stroke="black" strokeWidth={0.5} opacity={0.1} />
+      <line
+        x1={CX}
+        y1={14}
+        x2={CX}
+        y2={482}
+        stroke="black"
+        strokeWidth={0.5}
+        opacity={0.1}
+      />
+      <line
+        x1={14}
+        y1={CY}
+        x2={482}
+        y2={CY}
+        stroke="black"
+        strokeWidth={0.5}
+        opacity={0.1}
+      />
 
       {/* ── Phase ring labels ─────────────────────────── */}
       {(["foundation", "build", "grow", "retain"] as const).map((phase) => {
@@ -276,12 +304,13 @@ export function RadarMap({
             <motion.circle
               cx={f(pos.x)}
               cy={f(pos.y)}
+              initial={false}
               animate={{
                 r: isSelected ? 6.5 : 5,
                 fill: isSelected ? "#c1121f" : "#111111",
                 opacity: isDimmed ? 0.2 : 1,
               }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.2 }}
             />
 
             {/* Label */}
@@ -315,7 +344,7 @@ export function RadarMap({
         cy={CY}
         r={HUB_R}
         fill="white"
-        style={{ strokeWidth: 1 }}
+        initial={false}
         animate={{
           stroke: mask > 0 ? "#c1121f" : "#111111",
           strokeWidth: mask > 0 ? 1.8 : 1,
