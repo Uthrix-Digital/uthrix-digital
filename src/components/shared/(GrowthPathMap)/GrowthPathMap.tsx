@@ -52,10 +52,15 @@ export function GrowthPathMap() {
   };
 
   const handleNudgeAdd = (bit: number) => {
-    setMask((prev) => prev | bit);
-    // Nudge always means multiple services → switch to combined
-    if (mode === "single") setMode("combined");
-  };
+  const isNewItem = (mask & bit) === 0;
+  const willHaveMultipleItems = mask !== 0 && isNewItem;
+
+  if (willHaveMultipleItems) {
+    setMode("combined");
+  }
+
+  setMask((prev) => prev | bit);
+};
 
   return (
     <div className="flex flex-col gap-4">
@@ -66,21 +71,18 @@ export function GrowthPathMap() {
         </p>
 
         {/* Mode tabs */}
-        <div className="flex items-center gap-1 mt-3">        
-          <Tabs defaultValue="single">
+        <div className="flex items-center gap-1 mt-3">
+          <Tabs
+            value={mode}
+            onValueChange={(value) => {
+              if (value === "single" || value === "combined") {
+                handleModeChange(value);
+              }
+            }}
+          >
             <TabsList variant="line">
-              <TabsTrigger
-                value="single"
-                onClick={() => handleModeChange("single")}
-              >
-                One Area
-              </TabsTrigger>
-              <TabsTrigger
-                value="combined"
-                onClick={() => handleModeChange("combined")}
-              >
-                Combined activities
-              </TabsTrigger>
+              <TabsTrigger value="single">One Area</TabsTrigger>
+              <TabsTrigger value="combined">Combined activities</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -253,7 +255,7 @@ export function GrowthPathMap() {
 }
 
 /* ── TabButton ───────────────────────────────────────────────────────────── */
-function TabButton({
+function TabShift({
   label,
   isActive,
   onClick,
