@@ -1,13 +1,13 @@
 "use client";
-
-import { useCallback, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-
+import { Suspense } from "react";
+import { motion } from "framer-motion";
+import { useState, useCallback } from 'react';
 import { RadarMap } from "./RadarMap";
 import { getNudges, resolveGoal } from "./data/resolver";
+import { AnimatePresence } from "framer-motion";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const WA_NUMBER = "94786733516";
+const WA_NUMBER = "94728282122";
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */
 function buildWaLink(headline: string, services: string[]): string {
@@ -264,4 +264,15 @@ function TabButton({
     </button>
   );
 }
+
+<Suspense
+  fallback={
+    <div
+      className="min-h-[520px] w-full animate-pulse rounded-2xl bg-black/[0.03]"
+      aria-label="Loading growth path map"
+    />
+  }
+>
+  <GrowthPathMap />
+</Suspense>
 

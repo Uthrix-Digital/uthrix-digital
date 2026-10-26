@@ -36,7 +36,20 @@ interface LabelLayout {
   x: number;
   y: number;
   textAnchor: "start" | "middle" | "end";
-  dominantBaseline: string;
+  dominantBaseline:
+    | "auto"
+    | "alphabetic"
+    | "central"
+    | "hanging"
+    | "ideographic"
+    | "mathematical"
+    | "middle"
+    | "text-after-edge"
+    | "text-before-edge"
+    | "use-script"
+    | "no-change"
+    | "reset-size"
+    | "inherit";
 }
 
 const LABEL_EXTRA = 22; // extra distance from node dot to label anchor
@@ -46,7 +59,7 @@ function labelLayout(angle: number, ringR: number): LabelLayout {
   const lp = polar(angle, ringR + LABEL_EXTRA);
 
   let textAnchor: "start" | "middle" | "end" = "middle";
-  let dominantBaseline = "middle";
+  let dominantBaseline: LabelLayout["dominantBaseline"] = "middle";
 
   if (a > 330 || a <= 30)  { textAnchor = "middle"; dominantBaseline = "auto"; }    // top
   else if (a <= 150)        { textAnchor = "start";  dominantBaseline = "middle"; }  // right

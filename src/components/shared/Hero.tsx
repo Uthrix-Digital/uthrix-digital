@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, MotionConfig, type Variants } from "framer-motion";
-
+import { Suspense } from "react";
 import { GrowthPathMap } from "@/components/shared/(GrowthPathMap)/GrowthPathMap";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -95,7 +95,16 @@ export function Hero() {
               animate="visible"
               className="w-full self-start"
             >
-              <GrowthPathMap />
+              <Suspense
+                fallback={
+                  <div
+                    className="min-h-[520px] w-full animate-pulse rounded-2xl bg-black/[0.03]"
+                    aria-label="Loading growth path map"
+                  />
+                }
+              >
+                <GrowthPathMap />
+              </Suspense>
             </motion.div>
           </div>
         </div>
