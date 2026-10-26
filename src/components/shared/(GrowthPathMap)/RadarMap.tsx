@@ -105,22 +105,6 @@ export function RadarMap({
     [mask],
   );
 
-  /** Polyline points for multi-select path (journey order = bit order) */
-  const polylinePoints = useMemo(() => {
-    if (selectedNodes.length < 2) return "";
-    return selectedNodes
-      .map((n) => {
-        const p = polar(n.angle, n.ringR);
-        return `${f(p.x)},${f(p.y)}`;
-      })
-      .join(" ");
-  }, [selectedNodes]);
-
-  const singlePoint =
-    selectedNodes.length === 1
-      ? polar(selectedNodes[0].angle, selectedNodes[0].ringR)
-      : null;
-
   const [openNodeBit, setOpenNodeBit] = useState<number | null>(null);
 
   return (
@@ -210,6 +194,7 @@ export function RadarMap({
           const outer = polar(node.angle, node.ringR + 26);
           const isSelected = (mask & node.bit) !== 0;
           const isDimmed = mask !== 0 && !isSelected;
+
           return (
             <line
               key={`spoke-${node.bit}`}
@@ -243,37 +228,26 @@ export function RadarMap({
           ) : null;
         })}
 
-        {/* ── Multi-node path ───────────────────────────── */}
-        {polylinePoints && (
-          <motion.polyline
-            key={`path-${mask}`}
-            points={polylinePoints}
-            fill="none"
-            stroke="#c1121f"
-            strokeWidth={1.5}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.9 }}
-            transition={{ duration: 0.4 }}
-          />
-        )}
+        {/* ── Dashed connection from hub to every node ───────── */}
+        {NODES.map((node) => {
+          const pos = polar(node.angle, node.ringR);
 
-        {/* ── Single-node radial line ───────────────────── */}
-        {singlePoint && (
-          <motion.line
-            x1={CX}
-            y1={CY}
-            x2={f(singlePoint.x)}
-            y2={f(singlePoint.y)}
-            stroke="#c1121f"
-            strokeWidth={1.5}
-            strokeLinecap="round"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.85 }}
-            transition={{ duration: 0.3 }}
-          />
-        )}
+          return (
+            <line
+              key={`spoke-${node.bit}`}
+              x1={CX}
+              y1={CY}
+              x2={f(pos.x)}
+              y2={f(pos.y)}
+              stroke="#111111"
+              strokeWidth={0.8}
+              strokeDasharray="3 6"
+              strokeLinecap="round"
+              opacity={0.28}
+              style={{ transition: "opacity 0.25s" }}
+            />
+          );
+        })}
 
         {/* ── Node dots + labels ────────────────────────── */}
         {NODES.map((node) => {
@@ -398,25 +372,28 @@ export function RadarMap({
         return (
           <Popover
             key={`popover-${node.bit}`}
-            open={openNodeBit === node.bit}
+            open={openNodeBit === node.bit && (mask & node.bit) !== 0}
             onOpenChange={(open) => {
               setOpenNodeBit(open ? node.bit : null);
             }}
           >
             <PopoverTrigger
               type="button"
-              aria-label={`Show details for ${node.label}`}
+              aria-label={`${(mask & node.bit) !== 0 ? "Unselect" : "Select"} ${node.label}`}
               onClick={(event) => {
                 event.stopPropagation();
+
                 const isSelected = (mask & node.bit) !== 0;
 
-                // Select the node if this is the first click.
-                if (!isSelected) {
-                  onNodeClick(node.bit);
-                }
+                onNodeClick(node.bit);
 
-                // Open its popover immediately.
-                setOpenNodeBit(node.bit);
+                if (isSelected) {
+                  // The node is being unselected.
+                  setOpenNodeBit(null);
+                } else {
+                  // The node is being selected.
+                  setOpenNodeBit(node.bit);
+                }
               }}
               className="absolute size-8 -translate-x-1/2 -translate-y-1/2 rounded-full"
               style={{
@@ -427,12 +404,19 @@ export function RadarMap({
               <span className="sr-only">{node.label}</span>
             </PopoverTrigger>
 
-            <PopoverContent side="top" sideOffset={10} className="w-64" align="start">
+            <PopoverContent
+              side="top"
+              sideOffset={10}
+              className="w-64"
+              align="start"
+            >
               <div className="space-y-1.5">
                 <p className="font-semibold text-black">{node.label}</p>
+
                 <p className="text-xs leading-relaxed text-black/60">
                   {node.summary}
                 </p>
+
                 <p className="text-xs leading-relaxed text-black/45">
                   {node.why}
                 </p>

@@ -60,7 +60,7 @@ export function Hero() {
                   <br />
                   Engineered for
                   <br />
-                  <span className="text-[#c1121f]">Growth</span>
+                  <span className="text-[#c1121f]">Growth.</span>
                 </motion.h1>
 
                 <motion.p
