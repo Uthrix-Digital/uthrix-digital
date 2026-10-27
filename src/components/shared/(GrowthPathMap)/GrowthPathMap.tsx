@@ -63,7 +63,7 @@ export function GrowthPathMap() {
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-0">
       {/* ── Header ────────────────────────────────────────────────────────── */}
       <div>
         <p className="type-h6  text-black tracking-[-0.01em]">

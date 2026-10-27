@@ -11,7 +11,7 @@ export default function Home() {
         <Navigation />
         <ScrollToTopButton />
       </div>
-      <main className="py-16">
+      <main className="py-0">
         <Hero />
       </main>
       <section className="flex flex-1 items-center justify-center px-4 py-16 sm:py-24"></section>

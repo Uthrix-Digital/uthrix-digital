@@ -38,7 +38,7 @@ export function Hero() {
       <section
         id="home"
         aria-label="Uthrix Digital introduction"
-        className="overflow-hidden bg-white pt-28 text-black sm:pt-32"
+        className="overflow-hidden bg-white pt-4 text-black sm:pt-32"
       >
         <div className="mx-auto w-full max-w-310 px-4 pb-10 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_425px] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_548px]">
@@ -65,7 +65,7 @@ export function Hero() {
 
                 <motion.p
                   variants={fadeUp}
-                  className="mt-6 max-w-136 type-h4 leading-tight tracking-[-0.035em] text-black/90 sm:mt-8"
+                  className="mt-6 max-w-136 type-h5 leading-tight tracking-[-0.035em] text-black/90 sm:mt-4"
                 >
                   We blend cutting-edge software development with data-driven
                   digital marketing to accelerate your business growth and
@@ -75,7 +75,7 @@ export function Hero() {
 
               <motion.div
                 variants={fadeUp}
-                className="mt-10 flex flex-wrap gap-3 lg:mt-16"
+                className="mt-10 flex flex-wrap gap-1 lg:mt-6"
               >
                 <a
                   href="#services"
