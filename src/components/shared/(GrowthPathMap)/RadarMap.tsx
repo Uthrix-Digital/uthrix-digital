@@ -156,46 +156,78 @@ export function RadarMap({
           y2={482}
           stroke="black"
           strokeWidth={1}
-          opacity={1.0}
+          opacity={0.5}
         />
-        <line
+        <line 
           x1={14}
           y1={CY}
           x2={482}
           y2={CY}
           stroke="black"
           strokeWidth={1}
-          opacity={1.0}
+          opacity={0.5}
         />
 
-        {/* ── Phase ring labels (outside each ring at the north/top arc) ── */}
+        {/* ── Outer 360° degree measurement ring (one dash per degree) ── */}
+        {(() => {
+          const MEAS_R = 235; // sits just beyond retain (208)
+          return (
+            <g opacity={0.2}>
+              {Array.from({ length: 360 }, (_, deg) => {
+                // 4 tiers — major every 90°, medium every 30°, minor every 10°, tiny every 1°
+                const isMajor  = deg % 90 === 0;
+                const isMedium = !isMajor  && deg % 30 === 0;
+                const isMinor  = !isMedium && deg % 10 === 0;
+
+                const tickLen   = isMajor ? 9 : isMedium ? 6 : isMinor ? 4 : 2.5;
+                const tickWidth = isMajor ? 1.4 : isMedium ? 1.0 : isMinor ? 0.7 : 0.45;
+
+                const inner = polar(deg, MEAS_R - tickLen);
+                const outer = polar(deg, MEAS_R);
+                return (
+                  <line
+                    key={deg}
+                    x1={f(inner.x)}
+                    y1={f(inner.y)}
+                    x2={f(outer.x)}
+                    y2={f(outer.y)}
+                    stroke="black"
+                    strokeWidth={tickWidth}
+                    strokeLinecap="round"
+                  />
+                );
+              })}
+            </g>
+          );
+        })()}
+
+        {/* ── Phase ring labels (axis intersection, label sits just below arc) ── */}
         {(["foundation", "build", "grow", "retain"] as const).map((phase) => {
           const r = RING_RADII[phase];
           const isActive = activePhases.includes(phase);
-          // The top of the ring sits at y = CY - r
-          // Place a small tick ON the ring, then the label text just above/outside it
+          // Top of the ring = where vertical axis crosses
           const ringTopY = CY - r;
           return (
             <g key={phase}>
-              {/* Tick mark sitting on the outer edge of the ring */}
+              {/* Small vertical tick straddling the ring/axis intersection */}
               <line
                 x1={CX}
-                y1={ringTopY - 5}
+                y1={ringTopY - 4}
                 x2={CX}
-                y2={ringTopY + 5}
+                y2={ringTopY + 4}
                 stroke={isActive ? "#c1121f" : "black"}
-                strokeWidth={0.9}
-                opacity={isActive ? 0.8 : 0.4}
+                strokeWidth={1.2}
+                opacity={isActive ? 0.75 : 0.45}
                 style={{ transition: "stroke 0.3s, opacity 0.3s" }}
               />
-              {/* Label just outside the ring, anchored to the right of the axis */}
+              {/* Label just below the ring top, to the right of the axis */}
               <text
-                x={CX + 5}
-                y={ringTopY - 3}
+                x={CX + 6}
+                y={ringTopY + 10}
                 fontSize={7.5}
                 fontFamily="inherit"
                 letterSpacing={0.4}
-                dominantBaseline="auto"
+                dominantBaseline="middle"
                 fill={isActive ? "#c1121f" : "black"}
                 opacity={isActive ? 0.85 : 0.3}
                 style={{ transition: "fill 0.3s, opacity 0.3s" }}
