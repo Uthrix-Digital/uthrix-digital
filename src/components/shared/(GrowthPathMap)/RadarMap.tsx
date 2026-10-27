@@ -168,24 +168,41 @@ export function RadarMap({
           opacity={1.0}
         />
 
-        {/* ── Phase ring labels ─────────────────────────── */}
+        {/* ── Phase ring labels (outside each ring at the north/top arc) ── */}
         {(["foundation", "build", "grow", "retain"] as const).map((phase) => {
           const r = RING_RADII[phase];
           const isActive = activePhases.includes(phase);
+          // The top of the ring sits at y = CY - r
+          // Place a small tick ON the ring, then the label text just above/outside it
+          const ringTopY = CY - r;
           return (
-            <text
-              key={phase}
-              x={CX + 6}
-              y={CY - r + 10}
-              fontSize={8}
-              fontFamily="inherit"
-              letterSpacing={0.3}
-              fill={isActive ? "#c1121f" : "black"}
-              opacity={isActive ? 0.85 : 0.28}
-              style={{ transition: "fill 0.3s, opacity 0.3s" }}
-            >
-              {phase}
-            </text>
+            <g key={phase}>
+              {/* Tick mark sitting on the outer edge of the ring */}
+              <line
+                x1={CX}
+                y1={ringTopY - 5}
+                x2={CX}
+                y2={ringTopY + 5}
+                stroke={isActive ? "#c1121f" : "black"}
+                strokeWidth={0.9}
+                opacity={isActive ? 0.8 : 0.4}
+                style={{ transition: "stroke 0.3s, opacity 0.3s" }}
+              />
+              {/* Label just outside the ring, anchored to the right of the axis */}
+              <text
+                x={CX + 5}
+                y={ringTopY - 3}
+                fontSize={7.5}
+                fontFamily="inherit"
+                letterSpacing={0.4}
+                dominantBaseline="auto"
+                fill={isActive ? "#c1121f" : "black"}
+                opacity={isActive ? 0.85 : 0.3}
+                style={{ transition: "fill 0.3s, opacity 0.3s" }}
+              >
+                {phase}
+              </text>
+            </g>
           );
         })}
 
