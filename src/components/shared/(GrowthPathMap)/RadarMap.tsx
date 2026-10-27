@@ -57,7 +57,7 @@ interface LabelLayout {
     | "inherit";
 }
 
-const LABEL_EXTRA = 22; // extra distance from node dot to label anchor
+const LABEL_EXTRA = 20; // extra distance from node dot to label anchor
 
 function labelLayout(angle: number, ringR: number): LabelLayout {
   const a = ((angle % 360) + 360) % 360;
@@ -155,8 +155,8 @@ export function RadarMap({
           x2={CX}
           y2={482}
           stroke="black"
-          strokeWidth={0.5}
-          opacity={0.1}
+          strokeWidth={1}
+          opacity={1.0}
         />
         <line
           x1={14}
@@ -164,8 +164,8 @@ export function RadarMap({
           x2={482}
           y2={CY}
           stroke="black"
-          strokeWidth={0.5}
-          opacity={0.1}
+          strokeWidth={1}
+          opacity={1.0}
         />
 
         {/* ── Phase ring labels ─────────────────────────── */}

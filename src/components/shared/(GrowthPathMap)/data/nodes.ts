@@ -26,7 +26,7 @@ export const NODES: readonly NodeDef[] = [
     bit: 1,
     id: "idea",
     label: "Business Idea",
-    svgLabel: ["Business", "Reg."],
+    svgLabel: ["Business Idea"],
     angle: 215,          // JSON −125 → 90−(−125) = 215°  (lower-left)
     ringR: RING_RADII.foundation,
     phase: "foundation",
@@ -75,7 +75,7 @@ export const NODES: readonly NodeDef[] = [
     id: "ads",
     label: "Meta + Google Ads",
     svgLabel: ["Meta +", "Google Ads"],
-    angle: 355,          // JSON 95 → 90−95 = −5 → 355°  (near top)
+    angle: 340,          // JSON 95 → 90−95 = −5 → 355°  (near top)
     ringR: RING_RADII.grow,
     phase: "grow",
     why: "Ad data shows what people actually search for.",
@@ -86,7 +86,7 @@ export const NODES: readonly NodeDef[] = [
     bit: 32,
     id: "seo",
     label: "SEO",
-    svgLabel: ["SEO"],
+    svgLabel: ["SEO, AEO, GEO"],
     angle: 305,          // JSON 145 → 90−145 = −55 → 305°  (upper-left)
     ringR: RING_RADII.grow,
     phase: "grow",
@@ -99,7 +99,7 @@ export const NODES: readonly NodeDef[] = [
     id: "followup",
     label: "Follow-up",
     svgLabel: ["Follow-up"],
-    angle: 255,          // JSON 195 → 90−195 = −105 → 255°  (left)
+    angle: 190,          // JSON 195 → 90−195 = −105 → 255°  (left)
     ringR: RING_RADII.retain,
     phase: "retain",
     why: "Repeat customers and referrals restart the cycle.",
