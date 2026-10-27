@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { useMemo, useState, useEffect } from "react";
 import { NODES, RING_RADII } from "./data/nodes";
 import type { Phase } from "./types";
 import {
@@ -107,6 +107,41 @@ export function RadarMap({
 
   const [openNodeBit, setOpenNodeBit] = useState<number | null>(null);
 
+  /* ── Radar sweep motion value ─────────────────────────────────────── */
+  const sweepDeg = useMotionValue(0);
+
+  // Idle: continuous slow rotation when nothing is selected
+  useEffect(() => {
+    if (mask !== 0) return;
+    const controls = animate(sweepDeg, sweepDeg.get() + 360, {
+      duration: 9,
+      ease: "linear",
+      repeat: Infinity,
+    });
+    return () => controls.stop();
+  }, [mask]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // On node select: smoothly snap sweep to the selected node's angle
+  useEffect(() => {
+    if (mask === 0 || selectedNodes.length === 0) return;
+    const target = selectedNodes[selectedNodes.length - 1].angle;
+    // Shortest-arc rotation from current accumulated angle
+    const current = ((sweepDeg.get() % 360) + 360) % 360;
+    let delta = ((target % 360) + 360) % 360 - current;
+    if (delta > 180) delta -= 360;
+    if (delta < -180) delta += 360;
+    const controls = animate(sweepDeg, sweepDeg.get() + delta, {
+      duration: 0.75,
+      ease: [0.22, 1, 0.36, 1],
+    });
+    return () => controls.stop();
+  }, [mask]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // SVG-native rotate string — rotates around (0,0) in local space
+  // which after translate(CX,CY) is exactly the hub/radar centre.
+  // This avoids CSS transform-origin issues that caused off-center rotation.
+  const sweepSvgTransform = useTransform(sweepDeg, (d) => `rotate(${d})`);
+
   return (
     <div className="relative w-full">
       <svg
@@ -115,6 +150,13 @@ export function RadarMap({
         aria-label="Interactive Uthrix growth path radar — click a node to explore"
         role="img"
       >
+        {/* ── Radar clip path ───────────────────────────── */}
+        <defs>
+          <clipPath id="radar-sweep-clip">
+            <circle cx={CX} cy={CY} r={235} />
+          </clipPath>
+        </defs>
+
         {/* ── Decorative dashed tick rings ──────────────── */}
         {[46, 95, 141, 186, 230].map((r) => (
           <circle
@@ -259,6 +301,55 @@ export function RadarMap({
             />
           );
         })}
+
+        {/* ── Radar sweep animation ──────────────────────────────────
+            Like a real radar: sweep line goes from CENTER (0,0) to the outer
+            ring. The hub circle is rendered later in SVG order so it sits
+            on top and naturally hides the inner portion — exactly as a real
+            radar screen works.
+        */}
+        <g clipPath="url(#radar-sweep-clip)">
+          <g transform={`translate(${CX}, ${CY})`}>
+            <motion.g transform={sweepSvgTransform}>
+              {/* ── Trailing glow — full pie wedges fading behind sweep ── */}
+
+              {/* 90° — widest, most faint */}
+              <path
+                d="M 0 0 L -235 0 A 235 235 0 0 1 0 -235 Z"
+                fill="rgba(193,18,31,0.03)"
+              />
+              {/* 60° */}
+              <path
+                d="M 0 0 L -203.47 -117.50 A 235 235 0 0 1 0 -235 Z"
+                fill="rgba(193,18,31,0.05)"
+              />
+              {/* 30° */}
+              <path
+                d="M 0 0 L -117.50 -203.47 A 235 235 0 0 1 0 -235 Z"
+                fill="rgba(193,18,31,0.08)"
+              />
+              {/* 10° — hottest, just behind sweep line */}
+              <path
+                d="M 0 0 L -40.82 -231.41 A 235 235 0 0 1 0 -235 Z"
+                fill="rgba(193,18,31,0.14)"
+              />
+
+              {/* ── Sweep line — full length, center → outer ring ── */}
+              {/* Halo */}
+              <line x1={0} y1={0} x2={0} y2={-235}
+                stroke="#c1121f" strokeWidth={10} opacity={0.06} />
+              {/* Glow */}
+              <line x1={0} y1={0} x2={0} y2={-235}
+                stroke="#c1121f" strokeWidth={3.5} opacity={0.18} />
+              {/* Bright core */}
+              <line x1={0} y1={0} x2={0} y2={-235}
+                stroke="#c1121f" strokeWidth={1.2} opacity={0.65} />
+              {/* Scan-head dot at outer tip */}
+              <circle cx={0} cy={-235} r={2.5}
+                fill="#c1121f" opacity={0.75} />
+            </motion.g>
+          </g>
+        </g>
 
         {/* ── Beam fills ────────────────────────────────── */}
         {NODES.map((node) => {
