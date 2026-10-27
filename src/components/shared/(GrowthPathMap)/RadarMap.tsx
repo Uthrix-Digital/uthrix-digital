@@ -137,10 +137,12 @@ export function RadarMap({
     return () => controls.stop();
   }, [mask]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // SVG-native rotate string — rotates around (0,0) in local space
-  // which after translate(CX,CY) is exactly the hub/radar centre.
-  // This avoids CSS transform-origin issues that caused off-center rotation.
-  const sweepSvgTransform = useTransform(sweepDeg, (d) => `rotate(${d})`);
+  // SVG rotate(angle, cx, cy) — built-in 3-argument form rotates precisely
+  // around (CX, CY) in SVG coordinate space. No CSS transform-origin needed.
+  const sweepSvgTransform = useTransform(
+    sweepDeg,
+    (d) => `rotate(${d}, ${CX}, ${CY})`,
+  );
 
   return (
     <div className="relative w-full">
@@ -302,53 +304,53 @@ export function RadarMap({
           );
         })}
 
-        {/* ── Radar sweep animation ──────────────────────────────────
-            Like a real radar: sweep line goes from CENTER (0,0) to the outer
-            ring. The hub circle is rendered later in SVG order so it sits
-            on top and naturally hides the inner portion — exactly as a real
-            radar screen works.
+        {/* ── Radar sweep animation ────────────────────────────────────
+            All paths in absolute SVG coordinates.
+            `rotate(d, CX, CY)` is SVG’s built-in 3-arg rotate — it
+            explicitly rotates around (248, 248) with no CSS origin issues.
+            The hub circle is drawn later in SVG order so it sits on top
+            and naturally masks the inner part of the sweep — exactly how
+            a real radar screen works.
         */}
         <g clipPath="url(#radar-sweep-clip)">
-          <g transform={`translate(${CX}, ${CY})`}>
-            <motion.g transform={sweepSvgTransform}>
-              {/* ── Trailing glow — full pie wedges fading behind sweep ── */}
+          <motion.g transform={sweepSvgTransform}>
+            {/* ── Trailing glow wedges (absolute SVG coords) ── */}
 
-              {/* 90° — widest, most faint */}
-              <path
-                d="M 0 0 L -235 0 A 235 235 0 0 1 0 -235 Z"
-                fill="rgba(193,18,31,0.03)"
-              />
-              {/* 60° */}
-              <path
-                d="M 0 0 L -203.47 -117.50 A 235 235 0 0 1 0 -235 Z"
-                fill="rgba(193,18,31,0.05)"
-              />
-              {/* 30° */}
-              <path
-                d="M 0 0 L -117.50 -203.47 A 235 235 0 0 1 0 -235 Z"
-                fill="rgba(193,18,31,0.08)"
-              />
-              {/* 10° — hottest, just behind sweep line */}
-              <path
-                d="M 0 0 L -40.82 -231.41 A 235 235 0 0 1 0 -235 Z"
-                fill="rgba(193,18,31,0.14)"
-              />
+            {/* 90° — widest, most faint: west point (13,248) → north point (248,13) */}
+            <path
+              d={`M ${CX} ${CY} L 13 ${CY} A 235 235 0 0 1 ${CX} 13 Z`}
+              fill="rgba(193,18,31,0.03)"
+            />
+            {/* 60° — (44.53, 130.50) → north */}
+            <path
+              d={`M ${CX} ${CY} L 44.53 130.50 A 235 235 0 0 1 ${CX} 13 Z`}
+              fill="rgba(193,18,31,0.05)"
+            />
+            {/* 30° — (130.50, 44.53) → north */}
+            <path
+              d={`M ${CX} ${CY} L 130.50 44.53 A 235 235 0 0 1 ${CX} 13 Z`}
+              fill="rgba(193,18,31,0.08)"
+            />
+            {/* 10° — (207.18, 16.59) → north */}
+            <path
+              d={`M ${CX} ${CY} L 207.18 16.59 A 235 235 0 0 1 ${CX} 13 Z`}
+              fill="rgba(193,18,31,0.14)"
+            />
 
-              {/* ── Sweep line — full length, center → outer ring ── */}
-              {/* Halo */}
-              <line x1={0} y1={0} x2={0} y2={-235}
-                stroke="#c1121f" strokeWidth={10} opacity={0.06} />
-              {/* Glow */}
-              <line x1={0} y1={0} x2={0} y2={-235}
-                stroke="#c1121f" strokeWidth={3.5} opacity={0.18} />
-              {/* Bright core */}
-              <line x1={0} y1={0} x2={0} y2={-235}
-                stroke="#c1121f" strokeWidth={1.2} opacity={0.65} />
-              {/* Scan-head dot at outer tip */}
-              <circle cx={0} cy={-235} r={2.5}
-                fill="#c1121f" opacity={0.75} />
-            </motion.g>
-          </g>
+            {/* ── Sweep line: hub center → outer ring (north) ── */}
+            {/* Halo */}
+            <line x1={CX} y1={CY} x2={CX} y2={13}
+              stroke="#c1121f" strokeWidth={10} opacity={0.06} />
+            {/* Glow */}
+            <line x1={CX} y1={CY} x2={CX} y2={13}
+              stroke="#c1121f" strokeWidth={3.5} opacity={0.18} />
+            {/* Bright core */}
+            <line x1={CX} y1={CY} x2={CX} y2={13}
+              stroke="#c1121f" strokeWidth={1.2} opacity={0.65} />
+            {/* Scan-head dot at outer tip */}
+            <circle cx={CX} cy={13} r={2.5}
+              fill="#c1121f" opacity={0.75} />
+          </motion.g>
         </g>
 
         {/* ── Beam fills ────────────────────────────────── */}
