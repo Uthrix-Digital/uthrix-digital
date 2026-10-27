@@ -65,60 +65,31 @@ export function GrowthPathMap() {
   return (
     <div className="flex flex-col gap-0">
       {/* ── Header ────────────────────────────────────────────────────────── */}
-      <div>
-        <p className="type-h6  text-black tracking-[-0.01em]">
-          Choose your starting point
-        </p>
 
-        {/* Mode tabs */}
-        <div className="flex items-center gap-1 mt-2">
-          <Tabs
-            value={mode}
-            onValueChange={(value) => {
-              if (value === "single" || value === "combined") {
-                handleModeChange(value);
-              }
-            }}
-          >
-            <TabsList variant="line">
-              <TabsTrigger value="single">One Area</TabsTrigger>
-              <TabsTrigger value="combined">Combined activities</TabsTrigger>
-            </TabsList>
-          </Tabs>
+      <div className="grid grid-cols-2 gap-4">
+  <div className="..."> 
+          <p className="type-h6  text-black tracking-[-0.01em]">
+            Choose your starting point
+          </p>
+          {/* Mode tabs */}
+          <div className="flex items-center gap-1 mt-2">
+            <Tabs
+              value={mode}
+              onValueChange={(value) => {
+                if (value === "single" || value === "combined") {
+                  handleModeChange(value);
+                }
+              }}
+            >
+              <TabsList variant="line">
+                <TabsTrigger value="single">One Area</TabsTrigger>
+                <TabsTrigger value="combined">Combined activities</TabsTrigger>
+              </TabsList>
+            </Tabs>
         </div>
-      </div>
-
-      {/* ── Radar ─────────────────────────────────────────────────────────── */}
-      <RadarMap
-        mask={mask}
-        hubLines={hubLines}
-        activePhases={phases}
-        onNodeClick={handleNodeClick}
-      />
-
-      {/* ── Combined-mode chip ────────────────────────────────────────────── */}
-      {mode === "combined" && mask !== 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: -4 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-2"
-        >
-          <span className="text-[12px] text-black/45">
-            {selectedCount} selected
-          </span>
-          <span className="text-black/20">·</span>
-          <button
-            type="button"
-            onClick={() => setMask(0)}
-            className="text-[12px] text-black/40 underline underline-offset-2 hover:text-black transition-colors"
-          >
-            Clear
-          </button>
-        </motion.div>
-      )}
-
-      {/* ── Nudge chips ───────────────────────────────────────────────────── */}
-      <AnimatePresence>
+  </div>
+  <div className="..."><div className="grid grid-cols-1 gap-4"> 
+        <AnimatePresence>
         {nudges.length > 0 && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
@@ -140,87 +111,118 @@ export function GrowthPathMap() {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
+      {/* ── Combined-mode chip ────────────────────────────────────────────── */}
+      {mode === "combined" && mask !== 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-2"
+        >
+          <span className="text-[12px] text-black/45">
+            {selectedCount} selected
+          </span>
+          <span className="text-black/20">·</span>
+          <button
+            type="button"
+            onClick={() => setMask(0)}
+            className="text-[12px] text-black/40 underline underline-offset-2 hover:text-black transition-colors"
+          >
+            Clear
+          </button>
+        </motion.div>
+      )}</div>
+</div>
+      {/* ── Radar ─────────────────────────────────────────────────────────── */}
+      <RadarMap
+        mask={mask}
+        hubLines={hubLines}
+        activePhases={phases}
+        onNodeClick={handleNodeClick}
+      />
 
       {/* ── Divider ───────────────────────────────────────────────────────── */}
       <hr className="border-black/10" />
+<div className="..."> 
+          {" "}
+          <AnimatePresence mode="wait">
+            {resolved ? (
+              /* ── Selected state ────────────────────────────────────────────── */
+              <motion.div
+                key={`sel-${mask}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.3, ease: EASE }}
+                className="flex flex-col gap-3"
+              >
+                {/* Headline */}
+                <p className="text-[13px] font-semibold text-black leading-snug tracking-[-0.01em]">
+                  {resolved.panelHeadline}
+                </p>
 
-      {/* ── Dynamic panel ─────────────────────────────────────────────────── */}
-      <AnimatePresence mode="wait">
-        {resolved ? (
-          /* ── Selected state ────────────────────────────────────────────── */
-          <motion.div
-            key={`sel-${mask}`}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.3, ease: EASE }}
-            className="flex flex-col gap-3"
-          >
-            {/* Headline */}
-            <p className="text-[13px] font-semibold text-black leading-snug tracking-[-0.01em]">
-              {resolved.panelHeadline}
-            </p>
+                {/* Service tags */}
+                <div className="flex flex-wrap gap-1.5">
+                  {resolved.selectedNodes.map((n) => (
+                    <span
+                      key={n.bit}
+                      className="rounded-full bg-black/5 px-2.5 py-0.5 text-[11px] text-black/55"
+                    >
+                      {n.label}
+                    </span>
+                  ))}
+                </div>
 
-            {/* Service tags */}
-            <div className="flex flex-wrap gap-1.5">
-              {resolved.selectedNodes.map((n) => (
-                <span
-                  key={n.bit}
-                  className="rounded-full bg-black/5 px-2.5 py-0.5 text-[11px] text-black/55"
+                {/* Story (single node only) */}
+                {resolved.selectedNodes.length === 1 && (
+                  <p className="text-[12.5px] leading-relaxed text-black/55">
+                    {resolved.selectedNodes[0].summary}
+                  </p>
+                )}
+                {/* CTA */}
+                <a
+                  href={buildWaLink(
+                    resolved.hubTitle,
+                    resolved.selectedNodes.map((n) => n.label),
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 inline-flex w-fit items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-[#c1121f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
                 >
-                  {n.label}
-                </span>
-              ))}
-            </div>
-
-            {/* Story (single node only) */}
-            {resolved.selectedNodes.length === 1 && (
-              <p className="text-[12.5px] leading-relaxed text-black/55">
-                {resolved.selectedNodes[0].summary}
-              </p>
+                  Start with this path
+                  <span aria-hidden>→</span>
+                </a>
+              </motion.div>
+            ) : (
+              /* ── Idle state ────────────────────────────────────────────────── */
+              <motion.div
+                key="idle"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-col gap-3"
+              >
+                <p className="text-[13px] font-semibold text-black tracking-[-0.01em]">
+                  A few actions. A shared direction.
+                </p>
+                <p className="text-[13px] leading-relaxed text-black/60">
+                  Content builds interest. The website helps lead to a
+                  conversation. Each element has its own purpose.
+                </p>
+                <a
+                  href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hi! I'd like to discuss the scope of a project.")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-fit items-center justify-center rounded-full border border-black/20 bg-white px-5 py-2.5 text-[13px] font-medium text-black transition-all hover:bg-black hover:text-white hover:border-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                >
+                  Let&apos;s discuss the scope.
+                </a>
+              </motion.div>
             )}
-            {/* CTA */}
-            <a
-              href={buildWaLink(
-                resolved.hubTitle,
-                resolved.selectedNodes.map((n) => n.label),
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-1 inline-flex w-fit items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-[#c1121f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-            >
-              Start with this path
-              <span aria-hidden>→</span>
-            </a>
-          </motion.div>
-        ) : (
-          /* ── Idle state ────────────────────────────────────────────────── */
-          <motion.div
-            key="idle"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col gap-3"
-          >
-            <p className="text-[13px] font-semibold text-black tracking-[-0.01em]">
-              A few actions. A shared direction.
-            </p>
-            <p className="text-[13px] leading-relaxed text-black/60">
-              Content builds interest. The website helps lead to a conversation.
-              Each element has its own purpose.
-            </p>
-            <a
-              href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hi! I'd like to discuss the scope of a project.")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex w-fit items-center justify-center rounded-full border border-black/20 bg-white px-5 py-2.5 text-[13px] font-medium text-black transition-all hover:bg-black hover:text-white hover:border-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-            >
-              Let&apos;s discuss the scope.
-            </a>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </AnimatePresence>
+        </div>
+      {/* ── Dynamic panel ─────────────────────────────────────────────────── */}
     </div>
   );
 }
