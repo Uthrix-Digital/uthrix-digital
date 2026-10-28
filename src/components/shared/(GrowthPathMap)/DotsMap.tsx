@@ -339,7 +339,7 @@ export function DotsMap({
         return (
           <Popover
             key={`popover-${node.bit}`}
-            open={openNodeBit === node.bit && isSelected}
+           open={openNodeBit === node.bit && isSelected}
             onOpenChange={(open) => setOpenNodeBit(open ? node.bit : null)}
           >
             <PopoverTrigger
