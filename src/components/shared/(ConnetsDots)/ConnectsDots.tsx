@@ -80,13 +80,12 @@ export function ConnectsDots() {
           ))}
 
           <Link
-            href="mailto:contact@acme.com"
-            aria-label="Start a conversation by email"
+            href="/ConnetMainDots"
+            aria-label="View our brand identity services"
             className="absolute left-1/2 top-1/2 flex size-[clamp(8.5rem,20vw,12rem)] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#111113] text-white transition-transform duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#ff302f]"
           >
             <ArrowUpRight className="size-[clamp(3rem,6vw,4.5rem)] stroke-[1.5]" />
           </Link>
-
           <span className="absolute bottom-[12%] left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-medium sm:text-sm">
             From idea to first step
           </span>
