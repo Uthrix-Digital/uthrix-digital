@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RadarMap } from "./RadarMap";
+import { DotsMap } from "./DotsMap";
 import { getNudges, resolveGoal } from "./data/resolver";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -64,7 +64,7 @@ export function GrowthPathMap() {
         aria-label="Growth path signal map"
         className="rounded-2xl bg-foreground"
       >
-        <RadarMap
+        <DotsMap
           mask={mask}
           hubLines={hubLines}
           activePhases={phases}
