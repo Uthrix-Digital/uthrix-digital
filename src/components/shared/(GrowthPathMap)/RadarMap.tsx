@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { animate, motion, useMotionValue } from "framer-motion";
 import { useMemo, useState, useEffect } from "react";
 import { NODES, RING_RADII } from "./data/nodes";
 import type { Phase } from "./types";
@@ -66,7 +66,7 @@ interface LabelLayout {
     | "inherit";
 }
 
-const LABEL_EXTRA = 20; // extra distance from node dot to label anchor
+const LABEL_EXTRA = 24;
 
 const PHASE_ARCS = {
   foundation: { start: 300, end: 60 },
@@ -153,13 +153,6 @@ export function RadarMap({
     return () => controls.stop();
   }, [mask]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // SVG rotate(angle, cx, cy) — built-in 3-argument form rotates precisely
-  // around (CX, CY) in SVG coordinate space. No CSS transform-origin needed.
-  const sweepSvgTransform = useTransform(
-    sweepDeg,
-    (d) => `rotate(${d}, ${CX}, ${CY})`,
-  );
-
   return (
     <div className="relative w-full">
       <svg
@@ -186,10 +179,11 @@ export function RadarMap({
               key={phase}
               d={arcPath(arc.start, arc.end, r)}
               fill="none"
-              stroke="black"
-              strokeWidth={phase === "retain" ? 2.4 : 1.8}
+              stroke={activePhases.includes(phase) ? "#c1121f" : "#7c7c7c"}
+              strokeWidth={activePhases.includes(phase) ? 3.2 : 2.4}
               strokeLinecap="round"
-              opacity={0.22}
+              opacity={activePhases.includes(phase) ? 0.9 : 0.65}
+              style={{ transition: "stroke 0.3s, opacity 0.3s" }}
             />
           );
         })}
@@ -207,16 +201,16 @@ export function RadarMap({
               <circle
                 cx={f(start.x)}
                 cy={f(start.y)}
-                r={isActive ? 3 : 2}
+                r={isActive ? 4 : 3}
                 fill={isActive ? "#c1121f" : "#111111"}
-                opacity={isActive ? 0.85 : 0.35}
+                opacity={isActive ? 1 : 0.65}
               />
               <circle
                 cx={f(end.x)}
                 cy={f(end.y)}
-                r={isActive ? 3 : 2}
+                r={isActive ? 4 : 3}
                 fill={isActive ? "#c1121f" : "#111111"}
-                opacity={isActive ? 0.85 : 0.35}
+                opacity={isActive ? 1 : 0.65}
               />
             </g>
           );
@@ -233,24 +227,25 @@ export function RadarMap({
               {/* Small vertical tick straddling the ring/axis intersection */}
               <line
                 x1={CX}
-                y1={ringTopY - 4}
+                y1={ringTopY - 6}
                 x2={CX}
-                y2={ringTopY + 4}
+                y2={ringTopY + 6}
                 stroke={isActive ? "#c1121f" : "black"}
-                strokeWidth={1.2}
-                opacity={isActive ? 0.75 : 0.45}
+                strokeWidth={1.8}
+                opacity={isActive ? 0.95 : 0.7}
                 style={{ transition: "stroke 0.3s, opacity 0.3s" }}
               />
               {/* Label just below the ring top, to the right of the axis */}
               <text
-                x={CX + 6}
-                y={ringTopY + 10}
-                fontSize={7.5}
+                x={CX + 9}
+                y={ringTopY + 13}
+                fontSize={11}
                 fontFamily="inherit"
-                letterSpacing={0.4}
+                fontWeight={600}
+                letterSpacing={0.6}
                 dominantBaseline="middle"
                 fill={isActive ? "#c1121f" : "black"}
-                opacity={isActive ? 0.85 : 0.3}
+                opacity={isActive ? 1 : 0.72}
                 style={{ transition: "fill 0.3s, opacity 0.3s" }}
               >
                 {phase}
@@ -272,10 +267,10 @@ export function RadarMap({
               y1={CY}
               x2={f(outer.x)}
               y2={f(outer.y)}
-              stroke="black"
-              strokeWidth={0.7}
-              strokeDasharray="3 6"
-              opacity={isDimmed ? 0.04 : 0.16}
+              stroke="#6b6b6b"
+              strokeWidth={1}
+              strokeDasharray="4 7"
+              opacity={isDimmed ? 0.12 : 0.36}
               style={{ transition: "opacity 0.25s" }}
             />
           );
@@ -288,7 +283,7 @@ export function RadarMap({
             <motion.path
               key={`beam-${node.bit}`}
               d={beamPath(node.angle, node.ringR)}
-              fill="rgba(193,18,31,0.11)"
+              fill="rgba(193,18,31,0.18)"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
@@ -309,11 +304,11 @@ export function RadarMap({
               y1={CY}
               x2={f(pos.x)}
               y2={f(pos.y)}
-              stroke="#111111"
-              strokeWidth={0.8}
-              strokeDasharray="3 6"
+              stroke="#555555"
+              strokeWidth={1}
+              strokeDasharray="4 6"
               strokeLinecap="round"
-              opacity={0.28}
+              opacity={0.5}
               style={{ transition: "opacity 0.25s" }}
             />
           );
@@ -342,10 +337,10 @@ export function RadarMap({
                 <motion.circle
                   cx={f(pos.x)}
                   cy={f(pos.y)}
-                  r={12}
+                  r={16}
                   fill="none"
                   stroke="#c1121f"
-                  strokeWidth={1.2}
+                  strokeWidth={1.8}
                   initial={{ scale: 0.5, opacity: 0 }}
                   animate={{ scale: 1, opacity: 0.38 }}
                   transition={{ duration: 0.22 }}
@@ -358,7 +353,7 @@ export function RadarMap({
                 cy={f(pos.y)}
                 initial={false}
                 animate={{
-                  r: isSelected ? 6.5 : 5,
+                  r: isSelected ? 9 : 7,
                   fill: isSelected ? "#c1121f" : "#111111",
                   opacity: isDimmed ? 0.2 : 1,
                 }}
@@ -371,17 +366,18 @@ export function RadarMap({
                 y={ll.y}
                 textAnchor={ll.textAnchor}
                 dominantBaseline={ll.dominantBaseline}
-                fontSize={9.5}
+                fontSize={12.5}
+                fontWeight={isSelected ? 700 : 600}
                 fontFamily="inherit"
                 fill={isSelected ? "#c1121f" : "#111"}
-                opacity={isDimmed ? 0.16 : isSelected ? 0.9 : 0.55}
+                opacity={isDimmed ? 0.38 : isSelected ? 1 : 0.9}
                 style={{
                   pointerEvents: "none",
                   transition: "fill 0.25s, opacity 0.25s",
                 }}
               >
                 {node.svgLabel.map((line, i) => (
-                  <tspan key={i} x={ll.x} dy={i === 0 ? 0 : 12}>
+                  <tspan key={i} x={ll.x} dy={i === 0 ? 0 : 15}>
                     {line}
                   </tspan>
                 ))}
@@ -422,8 +418,8 @@ export function RadarMap({
                 y={y}
                 textAnchor="middle"
                 dominantBaseline="central"
-                fontSize={9.5}
-                fontWeight={mask > 0 ? 600 : 400}
+                fontSize={12}
+                fontWeight={mask > 0 ? 700 : 500}
                 fontFamily="inherit"
                 fill={mask > 0 ? "#c1121f" : "#111"}
                 style={{ pointerEvents: "none", transition: "fill 0.3s" }}

@@ -61,8 +61,8 @@ export function GrowthPathMap() {
   return (
     <div className="mt-12 grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(20rem,0.65fr)] lg:gap-12">
       <section
-        aria-label="Growth path radar"
-        className="min-w-0 rounded-3xl bg-white p-4 sm:p-8"
+        aria-label="Growth path signal map"
+        className="rounded-2xl bg-foreground"
       >
         <RadarMap
           mask={mask}
@@ -72,12 +72,12 @@ export function GrowthPathMap() {
         />
       </section>
 
-      <aside className="min-w-0 rounded-3xl bg-foreground p-6 text-black sm:p-8 lg:sticky lg:top-8">
-        <p className="type-h6 tracking-[-0.01em]">
+      <aside className="min-w-0 rounded-3xl border border-white/10 bg-[#111113] p-6 text-white shadow-[0_24px_70px_rgba(0,0,0,0.22)] sm:p-8 lg:sticky lg:top-8">
+        <p className="text-xl font-semibold tracking-[-0.03em] sm:text-2xl">
           Choose your starting point
         </p>
 
-        <div className="mt-3">
+        <div className="mt-5">
           <Tabs
             value={mode}
             onValueChange={(value) => {
@@ -86,9 +86,19 @@ export function GrowthPathMap() {
               }
             }}
           >
-            <TabsList variant="line">
-              <TabsTrigger value="single">One Area</TabsTrigger>
-              <TabsTrigger value="combined">Combined activities</TabsTrigger>
+            <TabsList variant="line" className="gap-3">
+              <TabsTrigger
+                value="single"
+                className="h-10 px-2 text-base text-white/60 hover:text-white data-active:text-white"
+              >
+                One Area
+              </TabsTrigger>
+              <TabsTrigger
+                value="combined"
+                className="h-10 px-2 text-base text-white/60 hover:text-white data-active:text-white"
+              >
+                Combined activities
+              </TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -106,7 +116,7 @@ export function GrowthPathMap() {
                   key={nudge.addBit}
                   type="button"
                   onClick={() => handleNudgeAdd(nudge.addBit)}
-                  className="flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-[11.5px] text-red-700 transition-colors hover:border-red-400 hover:bg-red-100 hover:text-red-900"
+                  className="flex items-center gap-1.5 rounded-full border border-[#c1121f]/50 bg-[#c1121f]/10 px-4 py-2 text-sm text-red-200 transition-colors hover:border-[#c1121f] hover:bg-[#c1121f]/20 hover:text-white"
                 >
                   <span className="text-brand">↗</span>
                   {nudge.addLabel}
@@ -122,21 +132,21 @@ export function GrowthPathMap() {
             animate={{ opacity: 1, y: 0 }}
             className="mt-5 flex items-center gap-2"
           >
-            <span className="text-xs text-black/45">
+            <span className="text-sm text-white/60">
               {selectedCount} selected
             </span>
-            <span className="text-black/20">·</span>
+            <span className="text-white/30">·</span>
             <button
               type="button"
               onClick={() => setMask(0)}
-              className="text-xs text-black/40 underline underline-offset-2 transition-colors hover:text-black"
+              className="text-sm text-white/60 underline underline-offset-2 transition-colors hover:text-white"
             >
               Clear
             </button>
           </motion.div>
         )}
 
-        <div className="mt-8 border-t border-black/10 pt-6">
+        <div className="mt-8 border-t border-white/15 pt-7">
           <AnimatePresence mode="wait">
             {resolved ? (
               <motion.div
@@ -145,9 +155,9 @@ export function GrowthPathMap() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.3, ease: EASE }}
-                className="flex flex-col gap-3"
+                className="flex flex-col gap-4"
               >
-                <p className="text-[13px] font-semibold leading-snug tracking-[-0.01em]">
+                <p className="text-xl font-semibold leading-snug tracking-[-0.02em]">
                   {resolved.panelHeadline}
                 </p>
 
@@ -155,7 +165,7 @@ export function GrowthPathMap() {
                   {resolved.selectedNodes.map((node) => (
                     <span
                       key={node.bit}
-                      className="rounded-full bg-black/5 px-2.5 py-0.5 text-[11px] text-black/55"
+                      className="rounded-full bg-white/10 px-3 py-1 text-sm text-white/75"
                     >
                       {node.label}
                     </span>
@@ -163,7 +173,7 @@ export function GrowthPathMap() {
                 </div>
 
                 {resolved.selectedNodes.length === 1 && (
-                  <p className="text-[12.5px] leading-relaxed text-black/55">
+                  <p className="text-base leading-relaxed text-white/65">
                     {resolved.selectedNodes[0].summary}
                   </p>
                 )}
@@ -175,7 +185,7 @@ export function GrowthPathMap() {
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-1 inline-flex w-fit items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-[#c1121f]"
+                  className="mt-1 inline-flex w-fit items-center gap-2 rounded-full bg-white px-6 py-3 text-base font-semibold text-black transition-colors hover:bg-[#c1121f] hover:text-white"
                 >
                   Start with this path
                   <span aria-hidden="true">→</span>
@@ -188,12 +198,12 @@ export function GrowthPathMap() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="flex flex-col gap-3"
+                className="flex flex-col gap-4"
               >
-                <p className="text-[13px] font-semibold tracking-[-0.01em]">
+                <p className="text-xl font-semibold tracking-[-0.02em]">
                   A few actions. A shared direction.
                 </p>
-                <p className="text-[13px] leading-relaxed text-black/60">
+                <p className="text-base leading-relaxed text-white/65">
                   Content builds interest. The website helps lead to a
                   conversation. Each element has its own purpose.
                 </p>
@@ -201,7 +211,7 @@ export function GrowthPathMap() {
                   href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hi! I'd like to discuss the scope of a project.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex w-fit items-center justify-center rounded-full border border-black/20 bg-white px-5 py-2.5 text-[13px] font-medium text-black transition-colors hover:border-black hover:bg-black hover:text-white"
+                  className="inline-flex w-fit items-center justify-center rounded-full border border-white/25 px-6 py-3 text-base font-semibold text-white transition-colors hover:border-white hover:bg-white hover:text-black"
                 >
                   Let&apos;s discuss the scope.
                 </a>
