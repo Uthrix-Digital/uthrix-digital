@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { siteConfig } from "@/config/siteConfig";
 
 const COPYRIGHT_YEAR = 2026;
 
@@ -50,7 +51,7 @@ export function Footer() {
             <Link href="/" aria-label="Uthrix Digital home" className="inline-block">
               <Image
                 src="/assets/logo.svg"
-                alt="Uthrix Digital"
+                alt={siteConfig.companyName}
                 width={333}
                 height={84}
                 className="h-auto w-56 sm:w-72 lg:w-84"

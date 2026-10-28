@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
+import { siteConfig } from "@/config/siteConfig";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -10,16 +11,13 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Uthrix Digital",
-  description: "Uthrix Digital — creative digital experiences.",
+  title: siteConfig.companyName,
+  description: siteConfig.description,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${manrope.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${manrope.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
