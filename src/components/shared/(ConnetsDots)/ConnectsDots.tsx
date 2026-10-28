@@ -1,6 +1,4 @@
 "use client";
-
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
@@ -37,7 +35,7 @@ export function ConnectsDots() {
             dots<span className="text-white">.</span>
           </h2>
 
-          <p className="mt-[clamp(2rem,4vw,3.5rem)] max-w-md text-[clamp(1.125rem,1.8vw,1.5rem)] leading-[1.45] tracking-[-0.025em]">
+          <p className="mt-[clamp(2rem,4vw,3.5rem)] max-w-md text-[clamp(1.125rem,1.8vw,1.5rem)] leading-[1.45] tracking-tight">
             One project or several areas? Describe your needs. We&apos;ll
             establish a good first step.
           </p>
@@ -71,7 +69,7 @@ export function ConnectsDots() {
             <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 bg-black/10" />
             <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-90 bg-black/10" />
             <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-45 bg-black/10" />
-            <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-[-45deg] bg-black/10" />
+            <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-45 bg-black/10" />
           </div>
 
           {orbitDots.map((dot, index) => (
