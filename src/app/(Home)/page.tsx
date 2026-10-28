@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/layout/(header)/Navigation";
 import { Footer } from "@/components/layout/(Footer)/Footer";
 import { Hero2 } from "@/components/shared/(HeroSection)/Hero2";
+import { ConnectsDots } from "@/components/shared/(ConnetsDots)/ConnectsDots";
 import { ScrollToTopButton } from "@/components/shared/ScrollToTopButton";
 
 export default function Home() {
@@ -11,8 +12,8 @@ export default function Home() {
       </div>
       <main className="py-0">
         <Hero2 />
+        <ConnectsDots />
       </main>
-      <section className="flex flex-1 items-center justify-center px-4 py-16 sm:py-24"></section>
       <Footer />
       <ScrollToTopButton />
     </div>
