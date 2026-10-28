@@ -159,7 +159,7 @@ export function Navigation() {
             className="relative h-10 w-25 shrink-0 transition-transform duration-300 ease-out hover:scale-105 hover:-rotate-1 hover:drop-shadow-[0_8px_24px_rgba(0,0,0,0.2)] sm:h-12 sm:w-29"
           >
             <Image
-              src="/assets/logo.svg"
+              src="/assets/Images/logo.svg"
               alt="Uthrix Digital logo"
               fill
               priority

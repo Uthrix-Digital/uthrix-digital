@@ -6,11 +6,19 @@ import { siteConfig } from "@/config/siteConfig";
 import { Navigation } from "@/components/layout/(header)/Navigation2";
 import { Footer } from "@/components/layout/(Footer)/Footer";
 import { ScrollToTopButton } from "@/components/shared/ScrollToTopButton";
+import IntroAnimation from "@/components/shared/IntroAnimation"
 
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "800"],
+  display: "swap",
+});
+
+const robotomono = Roboto_Mono({
+  variable: "--font-robotomono",
+  subsets: ["latin"],
+  weight: ["400", "500", "800"],
   display: "swap",
 });
 
