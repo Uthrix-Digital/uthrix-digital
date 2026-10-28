@@ -73,7 +73,7 @@ export function GrowthPathMap() {
       </section>
 
       <aside className="min-w-0 rounded-3xl border border-white/10 bg-[#111113] p-6 text-white shadow-[0_24px_70px_rgba(0,0,0,0.22)] sm:p-8 lg:sticky lg:top-8">
-        <p className="!text-white text-xl font-semibold tracking-[-0.03em] sm:text-2xl">
+        <p className="text-white text-xl font-semibold tracking-[-0.03em] sm:text-2xl">
           Choose your starting point
         </p>
 
@@ -89,13 +89,13 @@ export function GrowthPathMap() {
             <TabsList variant="line" className="gap-3">
               <TabsTrigger
                 value="single"
-                className="!text-white/60 h-10 px-2 text-base hover:!text-white data-active:!text-white"
+                className="text-white/60 h-10 px-2 text-base hover:text-white data-active:text-white"
               >
                 One Area
               </TabsTrigger>
               <TabsTrigger
                 value="combined"
-                className="!text-white/60 h-10 px-2 text-base hover:!text-white data-active:!text-white"
+                className="text-white/60 h-10 px-2 text-base hover:text-white data-active:text-white"
               >
                 Combined activities
               </TabsTrigger>
