@@ -34,16 +34,6 @@ export function ConnectsDots() {
             <br />
             connect
             <br />
-            <span className="inline-flex w-[clamp(7rem,18vw,11rem)] align-baseline">
-              <Image
-                src="/assets/whiteLarge.svg"
-                alt="Uthrix Digital"
-                fill
-                priority
-                className="h-auto w-full"
-              />
-            </span>{" "}
-            <br></br>
             dots<span className="text-white">.</span>
           </h2>
 
