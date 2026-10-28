@@ -25,6 +25,15 @@ function polar(angle: number, r: number) {
   return { x: CX + r * Math.sin(a), y: CY - r * Math.cos(a) };
 }
 
+function arcPath(startAngle: number, endAngle: number, radius: number): string {
+  const start = polar(startAngle, radius);
+  const end = polar(endAngle, radius);
+  const sweep = endAngle <= startAngle ? endAngle + 360 - startAngle : endAngle - startAngle;
+  const largeArcFlag = sweep > 180 ? 1 : 0;
+
+  return `M ${f(start.x)} ${f(start.y)} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${f(end.x)} ${f(end.y)}`;
+}
+
 /** Filled pie-slice from center to the node's ring, ±BEAM_SPREAD degrees */
 function beamPath(angle: number, r: number): string {
   const a1 = toRad(angle - BEAM_SPREAD);
@@ -58,6 +67,13 @@ interface LabelLayout {
 }
 
 const LABEL_EXTRA = 20; // extra distance from node dot to label anchor
+
+const PHASE_ARCS = {
+  foundation: { start: 300, end: 60 },
+  build: { start: 315, end: 45 },
+  grow: { start: 330, end: 30 },
+  retain: { start: 345, end: 15 },
+} as const;
 
 function labelLayout(angle: number, ringR: number): LabelLayout {
   const a = ((angle % 360) + 360) % 360;
@@ -159,91 +175,52 @@ export function RadarMap({
           </clipPath>
         </defs>
 
-        {/* ── Decorative dashed tick rings ──────────────── */}
-        {[46, 95, 141, 186, 230].map((r) => (
-          <circle
-            key={r}
-            cx={CX}
-            cy={CY}
-            r={r}
-            fill="none"
-            stroke="black"
-            strokeWidth={0.5}
-            strokeDasharray="2 7"
-            opacity={0.09}
-          />
-        ))}
-
-        {/* ── Solid phase rings ─────────────────────────── */}
+        {/* ── Phase progression arcs ──────────────────────
+            Short signal bands replace full rings while preserving the
+            foundation → build → grow → retain progression. */}
         {(["foundation", "build", "grow", "retain"] as const).map((phase) => {
           const r = RING_RADII[phase];
+          const arc = PHASE_ARCS[phase];
           return (
-            <circle
+            <path
               key={phase}
-              cx={CX}
-              cy={CY}
-              r={r}
+              d={arcPath(arc.start, arc.end, r)}
               fill="none"
               stroke="black"
-              strokeWidth={0.9}
-              strokeDasharray={phase === "retain" ? "4 5" : undefined}
+              strokeWidth={phase === "retain" ? 2.4 : 1.8}
+              strokeLinecap="round"
               opacity={0.22}
             />
           );
         })}
 
-        {/* ── Axis cross lines ──────────────────────────── */}
-        <line
-          x1={CX}
-          y1={14}
-          x2={CX}
-          y2={482}
-          stroke="black"
-          strokeWidth={1}
-          opacity={0.5}
-        />
-        <line 
-          x1={14}
-          y1={CY}
-          x2={482}
-          y2={CY}
-          stroke="black"
-          strokeWidth={1}
-          opacity={0.5}
-        />
+        {/* ── Phase progression endpoints ───────────────── */}
+        {(["foundation", "build", "grow", "retain"] as const).map((phase) => {
+          const r = RING_RADII[phase];
+          const arc = PHASE_ARCS[phase];
+          const start = polar(arc.start, r);
+          const end = polar(arc.end, r);
+          const isActive = activePhases.includes(phase);
 
-        {/* ── Outer 360° degree measurement ring (one dash per degree) ── */}
-        {(() => {
-          const MEAS_R = 235; // sits just beyond retain (208)
           return (
-            <g opacity={0.2}>
-              {Array.from({ length: 360 }, (_, deg) => {
-                // 4 tiers — major every 90°, medium every 30°, minor every 10°, tiny every 1°
-                const isMajor  = deg % 90 === 0;
-                const isMedium = !isMajor  && deg % 30 === 0;
-                const isMinor  = !isMedium && deg % 10 === 0;
-
-                const tickLen   = isMajor ? 9 : isMedium ? 6 : isMinor ? 4 : 2.5;
-                const tickWidth = isMajor ? 1.4 : isMedium ? 1.0 : isMinor ? 0.7 : 0.45;
-
-                const inner = polar(deg, MEAS_R - tickLen);
-                const outer = polar(deg, MEAS_R);
-                return (
-                  <line
-                    key={deg}
-                    x1={f(inner.x)}
-                    y1={f(inner.y)}
-                    x2={f(outer.x)}
-                    y2={f(outer.y)}
-                    stroke="black"
-                    strokeWidth={tickWidth}
-                    strokeLinecap="round"
-                  />
-                );
-              })}
+            <g key={`phase-marker-${phase}`}>
+              <circle
+                cx={f(start.x)}
+                cy={f(start.y)}
+                r={isActive ? 3 : 2}
+                fill={isActive ? "#c1121f" : "#111111"}
+                opacity={isActive ? 0.85 : 0.35}
+              />
+              <circle
+                cx={f(end.x)}
+                cy={f(end.y)}
+                r={isActive ? 3 : 2}
+                fill={isActive ? "#c1121f" : "#111111"}
+                opacity={isActive ? 0.85 : 0.35}
+              />
             </g>
           );
-        })()}
+        })}
 
         {/* ── Phase ring labels (axis intersection, label sits just below arc) ── */}
         {(["foundation", "build", "grow", "retain"] as const).map((phase) => {
@@ -303,55 +280,6 @@ export function RadarMap({
             />
           );
         })}
-
-        {/* ── Radar sweep animation ────────────────────────────────────
-            All paths in absolute SVG coordinates.
-            `rotate(d, CX, CY)` is SVG’s built-in 3-arg rotate — it
-            explicitly rotates around (248, 248) with no CSS origin issues.
-            The hub circle is drawn later in SVG order so it sits on top
-            and naturally masks the inner part of the sweep — exactly how
-            a real radar screen works.
-        */}
-        <g clipPath="url(#radar-sweep-clip)">
-          <motion.g transform={sweepSvgTransform}>
-            {/* ── Trailing glow wedges (absolute SVG coords) ── */}
-
-            {/* 90° — widest, most faint: west point (13,248) → north point (248,13) */}
-            <path
-              d={`M ${CX} ${CY} L 13 ${CY} A 235 235 0 0 1 ${CX} 13 Z`}
-              fill="rgba(193,18,31,0.03)"
-            />
-            {/* 60° — (44.53, 130.50) → north */}
-            <path
-              d={`M ${CX} ${CY} L 44.53 130.50 A 235 235 0 0 1 ${CX} 13 Z`}
-              fill="rgba(193,18,31,0.05)"
-            />
-            {/* 30° — (130.50, 44.53) → north */}
-            <path
-              d={`M ${CX} ${CY} L 130.50 44.53 A 235 235 0 0 1 ${CX} 13 Z`}
-              fill="rgba(193,18,31,0.08)"
-            />
-            {/* 10° — (207.18, 16.59) → north */}
-            <path
-              d={`M ${CX} ${CY} L 207.18 16.59 A 235 235 0 0 1 ${CX} 13 Z`}
-              fill="rgba(193,18,31,0.14)"
-            />
-
-            {/* ── Sweep line: hub center → outer ring (north) ── */}
-            {/* Halo */}
-            <line x1={CX} y1={CY} x2={CX} y2={13}
-              stroke="#c1121f" strokeWidth={10} opacity={0.06} />
-            {/* Glow */}
-            <line x1={CX} y1={CY} x2={CX} y2={13}
-              stroke="#c1121f" strokeWidth={3.5} opacity={0.18} />
-            {/* Bright core */}
-            <line x1={CX} y1={CY} x2={CX} y2={13}
-              stroke="#c1121f" strokeWidth={1.2} opacity={0.65} />
-            {/* Scan-head dot at outer tip */}
-            <circle cx={CX} cy={13} r={2.5}
-              fill="#c1121f" opacity={0.75} />
-          </motion.g>
-        </g>
 
         {/* ── Beam fills ────────────────────────────────── */}
         {NODES.map((node) => {

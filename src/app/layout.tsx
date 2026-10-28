@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
-import {Roboto_Mono} from "next/font/google";
+import { Roboto_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { siteConfig } from "@/config/siteConfig";
 import { Navigation } from "@/components/layout/(header)/Navigation2";
 import { Footer } from "@/components/layout/(Footer)/Footer";
 import { ScrollToTopButton } from "@/components/shared/ScrollToTopButton";
-
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -51,13 +50,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${manrope.variable} ${hkg.variable} ${robotomono.variable} ${rogta.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <div className="relative min-h-screen bg-[#0b0b0b] text-white transition-colors duration-300">
+        <div className="relative min-h-screen bg-foreground text-white transition-colors duration-300">
           <div className="relative z-10">
             <Navigation />
           </div>
-
           <main>{children}</main>
-<ScrollToTopButton />
+          <ScrollToTopButton />
           <Footer />
         </div>
       </body>

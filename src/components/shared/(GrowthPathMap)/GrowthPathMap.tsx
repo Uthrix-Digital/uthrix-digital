@@ -1,42 +1,37 @@
 "use client";
-import { Suspense } from "react";
-import { motion } from "framer-motion";
-import { useState, useCallback } from "react";
+
+import { useCallback, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadarMap } from "./RadarMap";
 import { getNudges, resolveGoal } from "./data/resolver";
-import { AnimatePresence } from "framer-motion";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const WA_NUMBER = "94728282122";
 
-/* ── Helpers ─────────────────────────────────────────────────────────────── */
 function buildWaLink(headline: string, services: string[]): string {
   const text = `Hi! I'd like to start with the "${headline}" path.\n\nServices: ${services.join(", ")}`;
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 
-/* ── Component ───────────────────────────────────────────────────────────── */
 export function GrowthPathMap() {
   const [mode, setMode] = useState<"single" | "combined">("single");
   const [mask, setMask] = useState(0);
 
-  /* ── Derived state ─────────────────────────────────────────────────────── */
   const resolved = mask ? resolveGoal(mask) : null;
   const phases = resolved?.phases ?? [];
   const hubLines = resolved?.hubLines ?? ["Your", "goal"];
   const nudges = mask ? getNudges(mask) : [];
   const selectedCount = resolved?.selectedNodes.length ?? 0;
 
-  /* ── Selection handlers ────────────────────────────────────────────────── */
   const handleNodeClick = useCallback(
     (bit: number) => {
       if (mode === "single") {
-        // Toggle: click same node deselects; click different node replaces
-        setMask((prev) => (prev === bit ? 0 : bit));
+        setMask((previous) => (previous === bit ? 0 : bit));
       } else {
-        // Combined: toggle bit in/out
-        setMask((prev) => (prev & bit ? prev & ~bit : prev | bit));
+        setMask((previous) =>
+          previous & bit ? previous & ~bit : previous | bit,
+        );
       }
     },
     [mode],
@@ -44,10 +39,11 @@ export function GrowthPathMap() {
 
   const handleModeChange = (next: "single" | "combined") => {
     if (next === mode) return;
+
     if (next === "single" && mask) {
-      // Keep only the lowest-bit selected node (earliest in journey)
       setMask(mask & -mask);
     }
+
     setMode(next);
   };
 
@@ -59,142 +55,133 @@ export function GrowthPathMap() {
       setMode("combined");
     }
 
-    setMask((prev) => prev | bit);
+    setMask((previous) => previous | bit);
   };
 
   return (
-    <div className="flex flex-col gap-0">
-      {/* ── Header ────────────────────────────────────────────────────────── */}
+    <div className="mt-12 grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(20rem,0.65fr)] lg:gap-12">
+      <section
+        aria-label="Growth path radar"
+        className="min-w-0 rounded-3xl bg-white p-4 sm:p-8"
+      >
+        <RadarMap
+          mask={mask}
+          hubLines={hubLines}
+          activePhases={phases}
+          onNodeClick={handleNodeClick}
+        />
+      </section>
 
-      <div className="grid grid-cols-2 gap-4">
-  <div className="..."> 
-          <p className="type-h6  text-black tracking-[-0.01em]">
-            Choose your starting point
-          </p>
-          {/* Mode tabs */}
-          <div className="flex items-center gap-1 mt-2">
-            <Tabs
-              value={mode}
-              onValueChange={(value) => {
-                if (value === "single" || value === "combined") {
-                  handleModeChange(value);
-                }
-              }}
-            >
-              <TabsList variant="line">
-                <TabsTrigger value="single">One Area</TabsTrigger>
-                <TabsTrigger value="combined">Combined activities</TabsTrigger>
-              </TabsList>
-            </Tabs>
-        </div>
-  </div>
-  <div className="..."><div className="grid grid-cols-1 gap-4"> 
-        <AnimatePresence>
-        {nudges.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="flex flex-wrap gap-2 overflow-hidden"
+      <aside className="min-w-0 rounded-3xl bg-foreground p-6 text-black sm:p-8 lg:sticky lg:top-8">
+        <p className="type-h6 tracking-[-0.01em]">
+          Choose your starting point
+        </p>
+
+        <div className="mt-3">
+          <Tabs
+            value={mode}
+            onValueChange={(value) => {
+              if (value === "single" || value === "combined") {
+                handleModeChange(value);
+              }
+            }}
           >
-            {nudges.map((nudge) => (
-              <button
-                key={nudge.addBit}
-                type="button"
-                onClick={() => handleNudgeAdd(nudge.addBit)}
-                className="flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-[11.5px] text-red-700 transition-all hover:border-red-400 hover:bg-red-100 hover:text-red-900"
-              >
-                <span className="text-brand">↗</span>
-                {nudge.addLabel}
-              </button>
-            ))}
+            <TabsList variant="line">
+              <TabsTrigger value="single">One Area</TabsTrigger>
+              <TabsTrigger value="combined">Combined activities</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+
+        <AnimatePresence>
+          {nudges.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mt-6 flex flex-wrap gap-2 overflow-hidden"
+            >
+              {nudges.map((nudge) => (
+                <button
+                  key={nudge.addBit}
+                  type="button"
+                  onClick={() => handleNudgeAdd(nudge.addBit)}
+                  className="flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-[11.5px] text-red-700 transition-colors hover:border-red-400 hover:bg-red-100 hover:text-red-900"
+                >
+                  <span className="text-brand">↗</span>
+                  {nudge.addLabel}
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {mode === "combined" && mask !== 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-5 flex items-center gap-2"
+          >
+            <span className="text-xs text-black/45">
+              {selectedCount} selected
+            </span>
+            <span className="text-black/20">·</span>
+            <button
+              type="button"
+              onClick={() => setMask(0)}
+              className="text-xs text-black/40 underline underline-offset-2 transition-colors hover:text-black"
+            >
+              Clear
+            </button>
           </motion.div>
         )}
-      </AnimatePresence>
-      </div>
-      {/* ── Combined-mode chip ────────────────────────────────────────────── */}
-      {mode === "combined" && mask !== 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: -4 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-2"
-        >
-          <span className="text-[12px] text-black/45">
-            {selectedCount} selected
-          </span>
-          <span className="text-black/20">·</span>
-          <button
-            type="button"
-            onClick={() => setMask(0)}
-            className="text-[12px] text-black/40 underline underline-offset-2 hover:text-black transition-colors"
-          >
-            Clear
-          </button>
-        </motion.div>
-      )}</div>
-</div>
-      {/* ── Radar ─────────────────────────────────────────────────────────── */}
-      <RadarMap
-        mask={mask}
-        hubLines={hubLines}
-        activePhases={phases}
-        onNodeClick={handleNodeClick}
-      />
 
-      {/* ── Divider ───────────────────────────────────────────────────────── */}
-      <hr className="border-black/10" />
-<div className="..."> 
-          {" "}
+        <div className="mt-8 border-t border-black/10 pt-6">
           <AnimatePresence mode="wait">
             {resolved ? (
-              /* ── Selected state ────────────────────────────────────────────── */
               <motion.div
-                key={`sel-${mask}`}
+                key={`selected-${mask}`}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.3, ease: EASE }}
                 className="flex flex-col gap-3"
               >
-                {/* Headline */}
-                <p className="text-[13px] font-semibold text-black leading-snug tracking-[-0.01em]">
+                <p className="text-[13px] font-semibold leading-snug tracking-[-0.01em]">
                   {resolved.panelHeadline}
                 </p>
 
-                {/* Service tags */}
                 <div className="flex flex-wrap gap-1.5">
-                  {resolved.selectedNodes.map((n) => (
+                  {resolved.selectedNodes.map((node) => (
                     <span
-                      key={n.bit}
+                      key={node.bit}
                       className="rounded-full bg-black/5 px-2.5 py-0.5 text-[11px] text-black/55"
                     >
-                      {n.label}
+                      {node.label}
                     </span>
                   ))}
                 </div>
 
-                {/* Story (single node only) */}
                 {resolved.selectedNodes.length === 1 && (
                   <p className="text-[12.5px] leading-relaxed text-black/55">
                     {resolved.selectedNodes[0].summary}
                   </p>
                 )}
-                {/* CTA */}
+
                 <a
                   href={buildWaLink(
                     resolved.hubTitle,
-                    resolved.selectedNodes.map((n) => n.label),
+                    resolved.selectedNodes.map((node) => node.label),
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-1 inline-flex w-fit items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-[#c1121f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                  className="mt-1 inline-flex w-fit items-center gap-2 rounded-full bg-black px-5 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-[#c1121f]"
                 >
                   Start with this path
-                  <span aria-hidden>→</span>
+                  <span aria-hidden="true">→</span>
                 </a>
               </motion.div>
             ) : (
-              /* ── Idle state ────────────────────────────────────────────────── */
               <motion.div
                 key="idle"
                 initial={{ opacity: 0 }}
@@ -203,7 +190,7 @@ export function GrowthPathMap() {
                 transition={{ duration: 0.3 }}
                 className="flex flex-col gap-3"
               >
-                <p className="text-[13px] font-semibold text-black tracking-[-0.01em]">
+                <p className="text-[13px] font-semibold tracking-[-0.01em]">
                   A few actions. A shared direction.
                 </p>
                 <p className="text-[13px] leading-relaxed text-black/60">
@@ -214,7 +201,7 @@ export function GrowthPathMap() {
                   href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hi! I'd like to discuss the scope of a project.")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex w-fit items-center justify-center rounded-full border border-black/20 bg-white px-5 py-2.5 text-[13px] font-medium text-black transition-all hover:bg-black hover:text-white hover:border-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                  className="inline-flex w-fit items-center justify-center rounded-full border border-black/20 bg-white px-5 py-2.5 text-[13px] font-medium text-black transition-colors hover:border-black hover:bg-black hover:text-white"
                 >
                   Let&apos;s discuss the scope.
                 </a>
@@ -222,17 +209,7 @@ export function GrowthPathMap() {
             )}
           </AnimatePresence>
         </div>
-      {/* ── Dynamic panel ─────────────────────────────────────────────────── */}
+      </aside>
     </div>
   );
 }
-<Suspense
-  fallback={
-    <div
-      className="min-h-130 w-full animate-pulse rounded-2xl bg-black/3"
-      aria-label="Loading growth path map"
-    />
-  }
->
-  <GrowthPathMap />
-</Suspense>;
