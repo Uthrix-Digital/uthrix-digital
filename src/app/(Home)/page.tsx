@@ -1,13 +1,11 @@
 import { Navigation } from "@/components/layout/(header)/Navigation";
 import { Footer } from "@/components/layout/(Footer)/Footer";
-import { AnimatedBackground } from "@/components/shared/AnimatedBackground";
 import { Hero2 } from "@/components/shared/(HeroSection)/Hero2";
 import { ScrollToTopButton } from "@/components/shared/ScrollToTopButton";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-(--bg-primary)] text-(--text-primary)] transition-colors duration-300 relative">
-      <AnimatedBackground />
+    <div className="relative min-h-screen bg-[#0b0b0b] text-white transition-colors duration-300">
       <div className="relative z-10">
         <Navigation />
       </div>

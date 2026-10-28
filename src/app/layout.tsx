@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import {Roboto_Mono} from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { siteConfig } from "@/config/siteConfig";
 
@@ -10,6 +12,29 @@ const manrope = Manrope({
   display: "swap",
 });
 
+const robotomono = Roboto_Mono({
+  variable: "--font-robotomono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+});
+
+const rogta = localFont({
+  src: "../../public/fonts/rogta-modern.bold.otf",
+  variable: "--font-rogta",
+  weight: "700",
+  style: "normal",
+  display: "swap",
+});
+
+const hkg = localFont({
+  src: "../../public/fonts/hk-grotesk/WEB/HKGrotesk-BoldLegacy.woff",
+  variable: "--font-hkg",
+  weight: "100",
+  style: "normal",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: siteConfig.companyName,
   description: siteConfig.description,
@@ -17,7 +42,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${manrope.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${manrope.variable} ${hkg.variable} ${robotomono.variable} ${rogta.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

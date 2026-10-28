@@ -16,6 +16,8 @@
   /* ── Fonts ─────────────────────────────────────────────────────────── */
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-heading2: var(--font-robotomono), ui-sans-serif, system-ui, sans-serif;
+  --font-hkg: var(--font-hkg), sans-serif;
 
   /* ── shadcn colour aliases ─────────────────────────────────────────── */
   --color-background: var(--background);
@@ -334,3 +336,10 @@
     outline-offset: 4px;
   }
 }
+
+@utility font-hkg {
+  font-family: var(--font-hkg);
+  font-weight: 900;
+  font-style: normal;
+}
+
