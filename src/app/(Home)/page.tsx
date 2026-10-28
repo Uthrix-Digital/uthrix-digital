@@ -6,7 +6,7 @@ export default function Home() {
     <div className="relative min-h-screen bg-foreground text-white transition-colors duration-300">
       <div className="relative z-10">
       </div>
-      <main className="py-0">
+      <main>
         <Hero2 />
         <ConnectsDots />
       </main>

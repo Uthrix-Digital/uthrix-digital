@@ -26,7 +26,7 @@ export function ConnectsDots() {
 
           <h2
             id="connects-dots-title"
-            className="font-hkg max-w-[10ch] text-[clamp(3.75rem,8vw,8.5rem)] font-black uppercase leading-[0.84] tracking-[-0.075em]"
+            className="font-archivo-black max-w-[10ch] text-[clamp(3.75rem,8vw,8.5rem)] font-black uppercase leading-[0.84] tracking-[-0.075em]"
           >
             Let&apos;s
             <br />

@@ -30,7 +30,7 @@ export default function ConnectDots() {
         >
           <motion.h1
             variants={fadeUp}
-            className="font-hkg w-full text-[clamp(3.25rem,13vw,11rem)] font-black uppercase leading-[0.86] tracking-[-0.07em] sm:text-[clamp(4rem,10vw,11rem)] sm:leading-[0.82] sm:tracking-[-0.075em]"
+            className="font-archivo-black w-full text-[clamp(2.25rem,12vw,10rem)] font-black uppercase leading-[0.86] tracking-[-0.07em] sm:text-[clamp(1rem,8vw,10rem)] sm:leading-[0.82] sm:tracking-[-0.075em]"
           >
             <span className="block sm:whitespace-nowrap">
               Let&apos;s connect dots.
