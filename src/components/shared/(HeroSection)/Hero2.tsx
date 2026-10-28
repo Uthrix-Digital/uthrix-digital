@@ -29,7 +29,7 @@ export function Hero2() {
         aria-label="Uthrix Digital introduction"
         className="flex min-h-screen items-start overflow-hidden bg-[#0b0b0b] text-white"
       >
-        <div className="mx-auto flex w-full max-w-none px-4 pb-16 pt-36 sm:px-6 sm:pb-20 lg:px-12 lg:pt-40">
+        <div className="mx-auto flex w-full max-w-none px-4 pb-16 pt-32 sm:px-6 sm:pb-20 lg:px-12 lg:pt-38">
           <motion.div
             variants={stagger}
             initial="hidden"
@@ -55,16 +55,16 @@ export function Hero2() {
 
             <motion.p
               variants={fadeUp}
-              className="font-sans mt-6 max-w-250 text-[clamp(1.05rem,3.8vw,2rem)] leading-[1.3] tracking-[-0.025em] text-white/95 sm:mt-4 sm:text-[clamp(1.25rem,2.1vw,2rem)] sm:leading-[1.18]"
+              className="font-sans mt-6 max-w-250 text-[clamp(1.05rem,3.8vw,2rem)] leading-[1.3] tracking-tight text-white/95 sm:mt-4 sm:text-[clamp(1.25rem,2.1vw,2rem)] sm:leading-[1.18]"
             >
-              We blend cutting-edge software development with data-driven
+              We blend cutting-edge web & software development with data-driven
               digital marketing to accelerate your business growth and market
               dominance.
             </motion.p>
 
             <motion.div
               variants={fadeUp}
-              className="mt-20 flex flex-wrap gap-2 sm:mt-8"
+              className="mt-20 flex flex-wrap gap-2 sm:mt-2"
             >
               <a
                 href="#services"
