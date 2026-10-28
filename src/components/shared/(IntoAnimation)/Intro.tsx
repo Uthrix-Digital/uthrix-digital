@@ -2,7 +2,7 @@ import {
   LOGO_PATH,
   LOGO_VIEWBOX,
   DOT,
-} from "../../../public/assets/Videos/logoPath";
+} from "../../../../public/assets/Videos/logoPath";
 
 const DOT_START_X = 8;
 const LETTERS_END_X = 520.5;

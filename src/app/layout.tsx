@@ -6,8 +6,8 @@ import { siteConfig } from "@/config/siteConfig";
 import { Navigation } from "@/components/layout/(header)/Navigation2";
 import { Footer } from "@/components/layout/(Footer)/Footer";
 import { ScrollToTopButton } from "@/components/shared/ScrollToTopButton";
-import Intro from "@/components/shared/Intro";
-import IntroController from "@/components/shared/IntroController";
+import Intro from "@/components/shared/(IntoAnimation)/Intro";
+import IntroController from "@/components/shared/(IntoAnimation)/IntroController";
 import ScrollToTopOnLoad from "@/components/shared/ScrollToTopOnLoad";
 
 const manrope = Manrope({

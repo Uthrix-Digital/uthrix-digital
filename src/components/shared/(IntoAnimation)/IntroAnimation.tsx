@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { LOGO_PATH, LOGO_VIEWBOX, DOT } from "../../../public/assets/Videos/logoPath";
+import { LOGO_PATH, LOGO_VIEWBOX, DOT } from "../../../../public/assets/Videos/logoPath";
 import { Suspense } from "react";
 
 

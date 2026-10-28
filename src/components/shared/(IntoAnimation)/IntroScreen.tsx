@@ -181,24 +181,26 @@ export function IntroScreen() {
 
     // Respect prefers-reduced-motion
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setMounted(false);
+      window.setTimeout(() => setMounted(false), 0);
       return;
     }
     // Session guard
     if (ssGet(SS_KEY)) {
-      setMounted(false);
+      window.setTimeout(() => setMounted(false), 0);
       return;
     }
 
     // Fail-safe: remove overlay after 10 s even on errors
     const failSafe = setTimeout(finish, 10_000);
-
-    setActive(true);
-    lockScroll();
+    const activate = setTimeout(() => {
+      setActive(true);
+      lockScroll();
+    }, 0);
 
     return () => {
       isMounted.current = false;
       clearTimeout(failSafe);
+      clearTimeout(activate);
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
