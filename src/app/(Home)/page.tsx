@@ -1,4 +1,4 @@
-import { Navigation } from "@/components/layout/(header)/Navigation";
+import { Navigation } from "@/components/layout/(header)/Navigation2";
 import { Footer } from "@/components/layout/(Footer)/Footer";
 import { Hero2 } from "@/components/shared/(HeroSection)/Hero2";
 import { ScrollToTopButton } from "@/components/shared/ScrollToTopButton";
