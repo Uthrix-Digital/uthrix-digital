@@ -27,9 +27,9 @@ export function Hero2() {
       <section
         id="home"
         aria-label="Uthrix Digital introduction"
-        className="flex min-h-screen items-start overflow-hidden bg-[#0b0b0b] text-white"
+        className="flex min-h-screen items-start overflow-hidden bg-foreground text-white"
       >
-        <div className="mx-auto flex w-full max-w-none px-4 pb-16 pt-32 sm:px-6 sm:pb-20 lg:px-12 lg:pt-38">
+        <div className="mx-auto flex w-full max-w-none px-4 pb-6 pt-6 sm:px-6 sm:pb-20 lg:px-12 lg:pt-38">
           <motion.div
             variants={stagger}
             initial="hidden"
@@ -38,24 +38,20 @@ export function Hero2() {
           >
             <motion.h1
               variants={fadeUp}
-              className="font-hkg w-full text-[clamp(3.25rem,13vw,11rem)] font-black uppercase leading-[0.86] tracking-[-0.07em] sm:text-[clamp(4rem,10vw,11rem)] sm:leading-[0.82] sm:tracking-[-0.075em]"
+              className="font-archivo-black w-full whitespace-nowrap text-[clamp(4.5rem,16vw,20rem)] uppercase leading-[0.78] tracking-[-0.08em] sm:text-[clamp(6rem,15vw,20rem)] lg:text-[clamp(7rem,14vw,20rem)]"
             >
-              <span className="block sm:whitespace-nowrap">
-                Digital Excellence
-              </span>
+              <span className="block">WE DESIGN</span>
 
-              <span className="block sm:whitespace-nowrap">
-                Engineered for
-              </span>
+              <span className="block">PRODUCTS</span>
 
-              <span className="block text-[#d00000] sm:whitespace-nowrap">
-                Growth.
+              <span className="block">
+                THAT <span className="text-brand">GROW.</span>
               </span>
             </motion.h1>
 
             <motion.p
               variants={fadeUp}
-              className="font-sans mt-6 max-w-250 text-[clamp(1.05rem,3.8vw,2rem)] leading-[1.3] tracking-tight text-white/95 sm:mt-4 sm:text-[clamp(1.25rem,2.1vw,2rem)] sm:leading-[1.18]"
+              className="font-sans mt-2 max-w-250 text-h4 leading-[1.3] tracking-tight text-white/95 sm:mt-4 sm:text-[clamp(1.25rem,2.1vw,2rem)] sm:leading-[1.18]"
             >
               We blend cutting-edge web & software development with data-driven
               digital marketing to accelerate your business growth and market

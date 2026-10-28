@@ -18,6 +18,7 @@
   --font-heading: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-heading2: var(--font-robotomono), ui-sans-serif, system-ui, sans-serif;
   --font-hkg: var(--font-hkg), sans-serif;
+  --font-archivo-black: var(--font-archivo-black), "Arial Narrow", Arial, sans-serif;
 
   /* ── shadcn colour aliases ─────────────────────────────────────────── */
   --color-background: var(--background);
@@ -343,3 +344,8 @@
   font-style: normal;
 }
 
+@utility font-archivo-black {
+  font-family: var(--font-archivo-black);
+  font-weight: 400;
+  font-style: normal;
+}

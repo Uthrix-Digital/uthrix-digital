@@ -10,7 +10,7 @@ export default function Home() {
       <div className="relative z-10">
         <Navigation />
       </div>
-      <main className="py-0">
+      <main>
         <Hero2 />
         <ConnectsDots />
       </main>

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
-import {Roboto_Mono} from "next/font/google";
+import { Archivo_Black, Manrope, Roboto_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { siteConfig } from "@/config/siteConfig";
@@ -16,6 +15,13 @@ const robotomono = Roboto_Mono({
   variable: "--font-robotomono",
   subsets: ["latin"],
   weight: ["400", "500"],
+  display: "swap",
+});
+
+const archivoBlack = Archivo_Black({
+  variable: "--font-archivo-black",
+  subsets: ["latin"],
+  weight: ["400"],
   display: "swap",
 });
 
@@ -44,7 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${hkg.variable} ${robotomono.variable} ${rogta.variable} h-full antialiased`}
+      className={`${manrope.variable} ${hkg.variable} ${robotomono.variable} ${archivoBlack.variable} ${rogta.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
