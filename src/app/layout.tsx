@@ -6,7 +6,8 @@ import { siteConfig } from "@/config/siteConfig";
 import { Navigation } from "@/components/layout/(header)/Navigation2";
 import { Footer } from "@/components/layout/(Footer)/Footer";
 import { ScrollToTopButton } from "@/components/shared/ScrollToTopButton";
-import IntroAnimation from "@/components/shared/IntroAnimation";
+import Intro from "@/components/shared/Intro";
+import IntroController from "@/components/shared/IntroController";
 import ScrollToTopOnLoad from "@/components/shared/ScrollToTopOnLoad";
 
 const manrope = Manrope({
@@ -50,15 +51,22 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
+const introScript = `try{var d=document.documentElement;d.dataset.intro=sessionStorage.getItem("introSeen")==="1"?"seen":"playing";setTimeout(function(){d.dataset.intro="seen"},4500)}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
-      className={`${manrope.variable} ${hkg.variable} ${robotomono.variable} ${archivoBlack.variable} ${rogta.variable} h-full antialiased`}
-    >
+  lang="en"
+  suppressHydrationWarning
+  className={`${manrope.variable} ${hkg.variable} ${robotomono.variable} ${archivoBlack.variable} ${rogta.variable} h-full antialiased`}
+>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introScript }} />
+      </head>
       <body className="min-h-full flex flex-col">
+        <Intro />
+        <IntroController />
         <ScrollToTopOnLoad />
-        <IntroAnimation />
         <div className="relative min-h-screen bg-foreground text-white transition-colors duration-300">
           <div className="relative z-10">
             <Navigation />
