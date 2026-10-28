@@ -1,5 +1,7 @@
-"use client"
+"use client";
+import { Suspense } from "react";
 import { motion, MotionConfig, type Variants } from "framer-motion";
+import { GrowthPathMap } from "@/components/shared/(GrowthPathMap)/GrowthPathMap";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -19,25 +21,35 @@ const fadeUp: Variants = {
 export default function ConnectDots() {
   return (
     <div className="relative min-h-screen bg-foreground text-white transition-colors duration-300">
-      
-        <div className="mx-auto flex w-full max-w-none px-4 pb-16 pt-32 sm:px-6 sm:pb-20 lg:px-12 lg:pt-38">
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            animate="visible"
-            className="flex w-full flex-col"
+      <div className="mx-auto flex w-full max-w-none px-4 pb-16 pt-32 sm:px-6 sm:pb-20 lg:px-12 lg:pt-38">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          animate="visible"
+          className="flex w-full flex-col"
+        >
+          <motion.h1
+            variants={fadeUp}
+            className="font-hkg w-full text-[clamp(3.25rem,13vw,11rem)] font-black uppercase leading-[0.86] tracking-[-0.07em] sm:text-[clamp(4rem,10vw,11rem)] sm:leading-[0.82] sm:tracking-[-0.075em]"
           >
-            <motion.h1
-              variants={fadeUp}
-              className="font-hkg w-full text-[clamp(3.25rem,13vw,11rem)] font-black uppercase leading-[0.86] tracking-[-0.07em] sm:text-[clamp(4rem,10vw,11rem)] sm:leading-[0.82] sm:tracking-[-0.075em]"
-            >
-              <span className="block sm:whitespace-nowrap">
-                Let&apos;s connect dots.
-              </span>
-            </motion.h1>
-          </motion.div>
-        </div>
+            <span className="block sm:whitespace-nowrap">
+              Let&apos;s connect dots.
+            </span>
+          </motion.h1>
+          <div>
+            <Suspense
+                fallback={
+                  <div
+                    className="min-h-130 w-full animate-pulse rounded-2xl bg-black/3"
+                    aria-label="Loading growth path map"
+                  />
+                }
+              >
+                <GrowthPathMap />
+              </Suspense>
+          </div>
+        </motion.div>
       </div>
-    
+    </div>
   );
 }
