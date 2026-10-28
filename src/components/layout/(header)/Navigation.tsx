@@ -13,14 +13,7 @@ import {
 } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const navLinks = [
-  { name: "Home", path: "home" },
-  { name: "Services", path: "services" },
-  { name: "Projects", path: "portfolio" },
-  { name: "About", path: "about" },
-  { name: "Contact", path: "contact" },
-];
+import { navLinks } from "./NavConfig";
 
 export function Navigation() {
   const pathname = usePathname();
