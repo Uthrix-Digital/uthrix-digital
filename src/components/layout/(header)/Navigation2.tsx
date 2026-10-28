@@ -176,7 +176,7 @@ export function Navigation() {
                   type="button"
                   onClick={() => scrollToSection(link.path)}
                   aria-current={isActive ? "location" : undefined}
-                  className={`whitespace-nowrap px-0.5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-white/75 transition-colors duration-150 ease-in-out hover:text-white ${
+                  className={`whitespace-nowrap px-0.5 py-2 text-[0.9rem] font-sans uppercase tracking-[0.20em] text-white/95 transition-colors duration-150 ease-in-out hover:text-brand ${
                     isActive
                       ? "text-white"
                       : ""
@@ -192,7 +192,7 @@ export function Navigation() {
             <button
               type="button"
               onClick={() => scrollToSection("contact")}
-              className="rounded-full bg-[#d00000] px-5 py-3 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#e00000]"
+              className="rounded-full bg-brand px-5 py-3 text-[0.7rem] font-sans uppercase tracking-[0.20em] text-white transition-colors hover:bg-brand/90"
               aria-label="Start a project — go to contact section"
             >
               Start a project
