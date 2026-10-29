@@ -53,15 +53,15 @@ export function Hero() {
                 THAT <span className="text-brand">GROW.</span>
               </span>
 
-              <span className="hidden whitespace-nowrap text-[clamp(6rem,15vw,20rem)] leading-[0.78] sm:block lg:text-[clamp(7rem,14vw,20rem)]">
+              <span className="hidden whitespace-nowrap text-[clamp(6rem,15vw,20rem)] leading-[0.78] sm:block sm:tracking-[-0.1em] lg:text-[clamp(7rem,14vw,20rem)]">
                 WE DESIGN
               </span>
 
-              <span className="hidden whitespace-nowrap text-[clamp(6rem,15vw,20rem)] leading-[0.78] sm:block lg:text-[clamp(7rem,14vw,20rem)]">
+              <span className="hidden whitespace-nowrap text-[clamp(6rem,15vw,20rem)] leading-[0.78] sm:block sm:tracking-[-0.1em] lg:text-[clamp(7rem,14vw,20rem)]">
                 PRODUCTS
               </span>
 
-              <span className="hidden whitespace-nowrap text-[clamp(6rem,15vw,20rem)] leading-[0.78] sm:block lg:text-[clamp(7rem,14vw,20rem)]">
+              <span className="hidden whitespace-nowrap text-[clamp(6rem,15vw,20rem)] leading-[0.78] sm:block sm:tracking-[-0.1em] lg:text-[clamp(7rem,14vw,20rem)]">
                 THAT <span className="text-brand">GROW.</span>
               </span>
             </motion.h1>
