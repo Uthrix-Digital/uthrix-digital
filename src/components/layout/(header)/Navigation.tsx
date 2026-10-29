@@ -1,19 +1,18 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  AnimatePresence,
   motion,
   useScroll,
   useSpring,
   useTransform,
 } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { navLinks } from "./NavConfig";
+import { DesktopNavigation } from "./DesktopNavigation";
+import { MobileNavigation } from "./MobileNavigation";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -38,13 +37,7 @@ export function Navigation() {
     mass: 0.9,
   });
 
-  // Side insets come from the layout grid (--grid-margin: 24 / 32 / 64px), so
-  // the pill lines up with page content at every breakpoint. Only the cap shrinks.
-  const navMaxWidth = useTransform(smoothProgress, [0, 1], [1200, 980]);
-  const navHeight = useTransform(smoothProgress, [0, 1], [72, 56]);
-  const paddingX = useTransform(smoothProgress, [0, 1], [28, 18]);
-  const topOffset = useTransform(smoothProgress, [0, 1], [32, 16]);
-  const logoScale = useTransform(smoothProgress, [0, 1], [1, 0.9]);
+  const navOpacity = useTransform(smoothProgress, [0, 1], [0.94, 1]);
 
   const scrollToElement = useCallback(
     (sectionId: string) => {
@@ -65,6 +58,8 @@ export function Navigation() {
     },
     [isSticky],
   );
+
+  const logoScale = useTransform(smoothProgress, [0, 1], [1, 0.9]);
 
   useEffect(() => {
     if (pathname !== "/" || !pendingScrollRef.current) {
@@ -123,6 +118,16 @@ export function Navigation() {
     scrollToElement(sectionId);
   };
 
+  const navigateTo = (path: string) => {
+    if (path.startsWith("/")) {
+      setIsMenuOpen(false);
+      router.push(path);
+      return;
+    }
+
+    scrollToSection(path);
+  };
+
   if (pathname === "/careers") {
     return null;
   }
@@ -131,131 +136,49 @@ export function Navigation() {
     <motion.header
       initial={false}
       style={{
-        maxWidth: navMaxWidth,
-        height: navHeight,
-        paddingLeft: paddingX,
-        paddingRight: paddingX,
-        top: topOffset,
+        opacity: navOpacity,
       }}
-      className={`fixed left-1/2 z-50 flex w-[calc(100%-2*var(--grid-margin))] -translate-x-1/2 items-center rounded-full border border-foreground/10 text-foreground backdrop-blur-2xl shadow-[0_18px_50px_-28px_rgba(0,0,0,0.55)] transition-colors duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-        isSticky ? "bg-background/90" : "bg-background/80"
+      className={`fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300 ${
+        isSticky
+          ? "border-b border-white/10 bg-[#0b0b0b]/90 backdrop-blur-xl"
+          : "bg-transparent"
       }`}
     >
-      <div
-        className={`pointer-events-none absolute inset-0 rounded-full bg-linear-to-r from-primary/20 via-transparent to-primary/20 blur-2xl transition-opacity duration-500 ${
-          isSticky ? "opacity-40" : "opacity-20"
-        }`}
-      />
-
-      <nav className="relative flex w-full items-center justify-between gap-4 type-button">
+      <nav className="mx-auto flex h-[clamp(4.5rem,8vw,6.5rem)] w-full max-w-[100rem] items-center justify-between gap-6 px-[clamp(1.25rem,4vw,4rem)]">
         <Link
           href="/"
           aria-label="Uthrix Digital home"
-          className="flex items-center gap-3"
+          className="font-hkg text-[clamp(1.25rem,2vw,1.8rem)] font-black tracking-[-0.06em] text-white transition-opacity hover:opacity-75"
           onClick={() => setIsMenuOpen(false)}
         >
           <motion.div
-            style={{ scale: logoScale }}
-            className="relative h-10 w-25 shrink-0 transition-transform duration-300 ease-out hover:scale-105 hover:-rotate-1 hover:drop-shadow-[0_8px_24px_rgba(0,0,0,0.2)] sm:h-12 sm:w-29"
-          >
-            <Image
-              src="/assets/Images/logo.svg"
-              alt="Uthrix Digital logo"
-              fill
-              priority
-              sizes="(max-width: 540px) 100px, 156px"
-              className="object-contain object-left"
-            />
-          </motion.div>
+                      style={{ scale: logoScale }}
+                      className="relative h-10 w-25 shrink-0 transition-transform duration-300 ease-out hover:scale-105 hover:-rotate-1 hover:drop-shadow-[0_8px_24px_rgba(0,0,0,0.2)] sm:h-12 sm:w-29"
+                    >
+                      <Image
+                        src="/assets/logoWhite.svg"
+                        alt="Uthrix Digital logo"
+                        fill
+                        priority
+                        sizes="(max-width: 540px) 100px, 156px"
+                        className="object-contain object-left"
+                      />
+                    </motion.div>
         </Link>
 
-        <button
-          type="button"
-          onClick={() => setIsMenuOpen((open) => !open)}
-          className="rounded-full p-2 text-foreground transition-colors hover:bg-foreground/6 focus:outline-none lg:hidden"
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isMenuOpen}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
-        <ul className="hidden min-w-0 items-center gap-7 lg:flex">
-          {navLinks.map((link) => {
-            const isActive = activeSection === link.path;
-
-            return (
-              <li key={link.path}>
-                <button
-                  type="button"
-                  onClick={() => scrollToSection(link.path)}
-                  aria-current={isActive ? "location" : undefined}
-                  className={`whitespace-nowrap rounded-full px-3.5 py-2 text-foreground transition-[color,background-color] duration-150 ease-in-out ${
-                    isActive
-                      ? "bg-foreground/10 hover:bg-foreground/15"
-                      : "bg-transparent hover:bg-foreground/6 active:bg-foreground/10"
-                  }`}
-                >
-                  {link.name}
-                </button>
-              </li>
-            );
-          })}
-
-          <li>
-            <Button
-              size="sm"
-              onClick={() => scrollToSection("contact")}
-              aria-label="Start a project — go to contact section"
-            >
-              Start a project
-            </Button>
-          </li>
-        </ul>
+        <MobileNavigation
+          isOpen={isMenuOpen}
+          activeSection={activeSection}
+          onToggle={() => setIsMenuOpen((open) => !open)}
+          onNavigate={navigateTo}
+          onContact={() => scrollToSection("contact")}
+        />
+        <DesktopNavigation
+          activeSection={activeSection}
+          onNavigate={navigateTo}
+          onContact={() => scrollToSection("contact")}
+        />
       </nav>
-
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute right-0 top-full mt-2 w-48 rounded-lg border border-foreground/10 bg-background px-3 py-3 text-foreground shadow-lg lg:hidden"
-          >
-            <ul className="flex flex-col gap-1 text-center">
-              {navLinks.map((link) => (
-                <li key={link.path}>
-                  <button
-                    type="button"
-                    onClick={() => scrollToSection(link.path)}
-                    aria-current={
-                      activeSection === link.path ? "location" : undefined
-                    }
-                    className={`block w-full rounded-full px-3 py-2 transition-[color,background-color] duration-150 ease-in-out ${
-                      activeSection === link.path
-                        ? "bg-foreground/10 text-foreground hover:bg-foreground/15"
-                        : "text-foreground hover:bg-foreground/6 active:bg-foreground/10"
-                    }`}
-                  >
-                    {link.name}
-                  </button>
-                </li>
-              ))}
-
-              <li className="mt-3">
-                <Button
-                  className="w-full"
-                  size="sm"
-                  onClick={() => scrollToSection("contact")}
-                  aria-label="Start a project — go to contact section"
-                >
-                  Start a project
-                </Button>
-              </li>
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.header>
   );
 }

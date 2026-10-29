@@ -3,7 +3,7 @@ import { Archivo_Black, Manrope, Roboto_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { siteConfig } from "@/config/siteConfig";
-import { Navigation } from "@/components/layout/(header)/Navigation2";
+import { Navigation } from "@/components/layout/(header)/Navigation";
 import { Footer } from "@/components/layout/(Footer)/Footer";
 import { ScrollToTopButton } from "@/components/shared/ScrollToTopButton";
 import Intro from "@/components/shared/(IntoAnimation)/Intro";
