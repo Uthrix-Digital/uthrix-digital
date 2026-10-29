@@ -1,4 +1,4 @@
-import { Hero2 } from "@/components/shared/(HeroSection)/Hero2";
+import { Hero } from "@/components/shared/(HeroSection)/Hero";
 import { ConnectsDots } from "@/components/shared/(ConnetsDots)/ConnectsDots";
 import { HowCanWeHelp } from "@/components/shared/(HowCanWeHelp)/HowCanWeHelp";
 
@@ -8,7 +8,7 @@ export default function Home() {
       <div className="relative z-10">
       </div>
       <main>
-        <Hero2 />
+        <Hero />
         <HowCanWeHelp />
         <ConnectsDots />
       </main>
