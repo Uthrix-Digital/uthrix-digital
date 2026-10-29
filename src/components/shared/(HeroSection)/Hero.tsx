@@ -29,7 +29,7 @@ export function Hero() {
         aria-label="Uthrix Digital introduction"
         className="flex min-h-screen items-start overflow-hidden bg-foreground text-white"
       >
-        <div className="mx-auto flex w-full max-w-none px-4 pb-6 pt-6 sm:px-6 sm:pb-20 lg:px-12 lg:pt-38">
+        <div className="mx-auto flex w-full max-w-none px-4 pb-12 pt-[clamp(7rem,20vw,9.5rem)] sm:px-6 sm:pb-20 sm:pt-[clamp(8rem,16vw,10rem)] lg:px-12 lg:pt-38">
           <motion.div
             variants={stagger}
             initial="hidden"
@@ -38,20 +38,37 @@ export function Hero() {
           >
             <motion.h1
               variants={fadeUp}
-              className="font-archivo-black w-full whitespace-nowrap text-[clamp(4.5rem,16vw,20rem)] uppercase leading-[0.78] tracking-[-0.08em] sm:text-[clamp(6rem,15vw,20rem)] lg:text-[clamp(7rem,14vw,20rem)]"
+              className="font-archivo-black w-full uppercase tracking-[-0.08em]"
             >
-              <span className="block">WE DESIGN</span>
+              <span className="block text-[clamp(3.5rem,17vw,8rem)] leading-[0.78] tracking-[-0.07em] sm:hidden">
+                WE
+              </span>
+              <span className="block text-[clamp(3.5rem,17vw,8rem)] leading-[0.78] tracking-[-0.07em] sm:hidden">
+                DESIGN
+              </span>
+              <span className="block text-[clamp(3.5rem,17vw,8rem)] leading-[0.78] tracking-[-0.07em] sm:hidden">
+                PRODUCTS
+              </span>
+              <span className="block text-[clamp(3.5rem,17vw,8rem)] leading-[0.78] tracking-[-0.07em] sm:hidden">
+                THAT <span className="text-brand">GROW.</span>
+              </span>
 
-              <span className="block">PRODUCTS</span>
+              <span className="hidden whitespace-nowrap text-[clamp(6rem,15vw,20rem)] leading-[0.78] sm:block lg:text-[clamp(7rem,14vw,20rem)]">
+                WE DESIGN
+              </span>
 
-              <span className="block">
+              <span className="hidden whitespace-nowrap text-[clamp(6rem,15vw,20rem)] leading-[0.78] sm:block lg:text-[clamp(7rem,14vw,20rem)]">
+                PRODUCTS
+              </span>
+
+              <span className="hidden whitespace-nowrap text-[clamp(6rem,15vw,20rem)] leading-[0.78] sm:block lg:text-[clamp(7rem,14vw,20rem)]">
                 THAT <span className="text-brand">GROW.</span>
               </span>
             </motion.h1>
 
             <motion.p
               variants={fadeUp}
-              className="font-sans mt-2 max-w-250 text-h4 leading-[1.3] tracking-tight text-white/95 sm:mt-4 sm:text-[clamp(1.25rem,2.1vw,2rem)] sm:leading-[1.18]"
+              className="font-sans mt-4 max-w-250 text-[clamp(1.05rem,4.7vw,1.5rem)] leading-[1.3] tracking-tight text-white/95 sm:mt-4 sm:text-[clamp(1.25rem,2.1vw,2rem)] sm:leading-[1.18]"
             >
               We blend cutting-edge web & software development with data-driven
               digital marketing to accelerate your business growth and market
@@ -60,7 +77,7 @@ export function Hero() {
 
             <motion.div
               variants={fadeUp}
-              className="mt-20 flex flex-wrap gap-2 sm:mt-2"
+              className="mt-8 flex flex-wrap gap-3 sm:mt-2 sm:gap-2"
             >
               <a
                 href="#services"
