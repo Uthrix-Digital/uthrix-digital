@@ -11,6 +11,13 @@ import {
 
 const services = [
   {
+    title: "Brand identity",
+    description:
+      "We define a distinctive visual identity that reflects your values and connects with the right audience.",
+    details:
+      "From strategy and positioning to logo, typography, color and visual direction, we create a brand that feels consistent and memorable.",
+  },
+  {
     title: "Social media and content",
     description:
       "We focus on a specific area or combine several activities. We tailor the scope to your goals.",
