@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from "react";
 import { motion, MotionConfig, type Variants } from "framer-motion";
-import { GrowthPathMap } from "@/components/shared/(GrowthPathMap)/GrowthPathMap";
+import { GrowthPathMap } from "@/app/ConnetMainDots/(GrowthPathMap)/GrowthPathMap";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
