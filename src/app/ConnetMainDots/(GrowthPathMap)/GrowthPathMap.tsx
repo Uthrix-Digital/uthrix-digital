@@ -141,20 +141,20 @@ export function GrowthPathMap() {
         aria-label="Your selected path"
         className="sticky bottom-4 z-30 rounded-3xl border border-white/10 bg-[#111113]/90 p-5 text-white shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:p-6"
       >
-        <ol className="mb-10 flex flex-wrap items-center gap-12 text-xl font-archivo-black sm:text-2xl lg:mb-14 lg:justify-center lg:text-3xl">
+        <ol className="mb-6 flex flex-wrap items-center gap-2 text-sm font-archivo-black sm:mb-10 sm:gap-12 sm:text-2xl lg:mb-14 lg:justify-center lg:text-3xl">
           {PHASES.map((phase, index) => {
             const active = phases.includes(phase.id);
             return (
               <li key={phase.id} className="flex items-center gap-2">
                 <span
-                  className={`flex items-center gap-2 rounded-full border px-3 py-1.5 transition-all duration-300 ${
+                  className={`flex items-center gap-1 rounded-full border px-2 py-1 transition-all duration-300 sm:gap-2 sm:px-3 sm:py-1.5 ${
                     active
                       ? "border-brand bg-vrand font-archivo-black text-white"
                       : "border-white text-white"
                   }`}
                 >
                   <span
-                    className={`size-6 rounded-full transition-colors ${
+                    className={`size-3 rounded-full transition-colors sm:size-6 ${
                       active ? "bg-[#ff1f28]" : "bg-white"
                     }`}
                   />
@@ -163,7 +163,7 @@ export function GrowthPathMap() {
                 {index < PHASES.length - 1 && (
                   <span
                     aria-hidden="true"
-                    className={`hidden h-px w-5 sm:block ${
+                    className={`hidden h-px w-3 sm:block sm:w-5 ${
                       active && phases.includes(PHASES[index + 1].id)
                         ? "bg-[#ff1f28]"
                         : "bg-white/15"

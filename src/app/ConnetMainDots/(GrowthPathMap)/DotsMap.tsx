@@ -67,7 +67,9 @@ function Connector({
           vectorEffect="non-scaling-stroke"
           className={selected ? "uthrix-dash-flow" : ""}
           style={
-            selected ? { filter: "drop-shadow(0 0 4px rgba(255,31,40,0.8))" } : undefined
+            selected
+              ? { filter: "drop-shadow(0 0 4px rgba(255,31,40,0.8))" }
+              : undefined
           }
         />
       </svg>
@@ -80,11 +82,7 @@ function Connector({
   );
 }
 
-export function DotsMap({
-  mask,
-  hubLines,
-  onNodeClick,
-}: DotsMapProps) {
+export function DotsMap({ mask, hubLines, onNodeClick }: DotsMapProps) {
   const hasSelection = mask !== 0;
 
   return (
@@ -93,11 +91,13 @@ export function DotsMap({
 
       <div
         aria-hidden="true"
-        className="pointer-events-none flex justify-center pb-6 sm:pb-8"
+        className="pointer-events-none flex flex-col items-center justify-center pb-8 sm:pb-2"
       >
-        <ArrowUpRight
-          className="size-[clamp(2.5rem,6vw,4.5rem)] rotate-[135deg] stroke-[1.5] text-white/70"
-        />
+        <span className="tracking-[0.5em] text-white sm:text-1xl">
+          SCROLL DOWN
+        </span>
+
+        <ArrowUpRight className="size-[clamp(2.5rem,6vw,3.5rem)] rotate-135 stroke-[2.5] text-white" />
       </div>
 
       {/* ── Journey: spine + zig-zag dots + goal ────────────────────── */}
@@ -137,7 +137,11 @@ export function DotsMap({
                       : "lg:col-start-2"
                   }`}
                 >
-                  <Connector side={side} selected={isSelected} dimmed={dimmed} />
+                  <Connector
+                    side={side}
+                    selected={isSelected}
+                    dimmed={dimmed}
+                  />
 
                   <button
                     type="button"
@@ -151,7 +155,6 @@ export function DotsMap({
                   >
                     <OrbitDotRed
                       variant="node"
-                      side={side}
                       selected={isSelected}
                       dimmed={dimmed}
                       content={{
@@ -183,7 +186,9 @@ export function DotsMap({
             />
             <span
               className={`absolute left-0 top-0 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${
-                hasSelection ? "bg-[#ff1f28] shadow-[0_0_12px_#ff1f28]" : "bg-[#555b68]"
+                hasSelection
+                  ? "bg-[#ff1f28] shadow-[0_0_12px_#ff1f28]"
+                  : "bg-[#555b68]"
               }`}
             />
           </span>
@@ -199,13 +204,17 @@ export function DotsMap({
           >
             <OrbitRing
               inset="0%"
-              ringClass={hasSelection ? "border-[#ff1f28]/60" : "border-white/10"}
+              ringClass={
+                hasSelection ? "border-[#ff1f28]/60" : "border-white/10"
+              }
               dotClass={hasSelection ? "bg-white" : "bg-[#ff1f28]"}
               dotSize="size-2.5"
             />
             <OrbitRing
               inset="8%"
-              ringClass={hasSelection ? "border-[#ff1f28]/60" : "border-white/10"}
+              ringClass={
+                hasSelection ? "border-[#ff1f28]/60" : "border-white/10"
+              }
               dotClass="bg-white/70"
               dotSize="size-1.5"
               dotPosition="bottom"

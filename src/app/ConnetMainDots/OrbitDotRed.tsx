@@ -24,7 +24,6 @@ export interface OrbitDotsProps extends Omit<
   variant?: "orbit" | "node";
   selected?: boolean;
   dimmed?: boolean;
-  side?: "left" | "right";
 }
 
 export const defaultOrbitDotsContent: OrbitDotsContent = {
@@ -103,7 +102,6 @@ export function OrbitDotRed({
   variant = "orbit",
   selected = false,
   dimmed = false,
-  side = "right",
   className = "",
   ...props
 }: OrbitDotsProps) {
@@ -130,13 +128,11 @@ export function OrbitDotRed({
         />
 
         <span
-          className={`absolute bottom-full left-1/2 z-10 mb-3 flex w-[min(88vw,20rem)] -translate-x-1/2 flex-col items-center text-center ${
-            side === "left"
-              ? "lg:right-full lg:left-auto lg:top-1/2 lg:bottom-auto lg:mb-0 lg:mr-8 lg:w-max lg:max-w-[min(28vw,24rem)] lg:translate-x-0 lg:-translate-y-1/2 lg:items-end lg:text-right"
-              : "lg:top-1/2 lg:left-full lg:bottom-auto lg:ml-8 lg:w-max lg:max-w-[min(28vw,24rem)] lg:-translate-y-1/2 lg:translate-x-0 lg:items-start lg:text-left"
-          } ${selected ? "text-white" : "text-[#f1f2f5]"}`}
+          className={`absolute left-1/2 top-full z-10 mt-4 flex w-[calc(100vw-2rem)] max-w-[20rem] -translate-x-1/2 flex-col items-center text-center lg:mt-5 lg:w-[min(38vw,24rem)] lg:max-w-full ${
+            selected ? "text-white" : "text-[#f1f2f5]"
+          }`}
         >
-          <span className="block w-full font-archivo-black text-[clamp(1.15rem,6vw,2rem)] font-semibold leading-[0.9] tracking-[-0.04em] lg:text-[clamp(1.75rem,3.8vw,4.05rem)]">
+          <span className="block w-full font-archivo-black text-[clamp(1.15rem,6vw,2rem)] font-semibold leading-[0.9] tracking-[-0.04em] lg:text-[clamp(1.75rem,3.8vw,3rem)]">
             {caption}
           </span>
         </span>
