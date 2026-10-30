@@ -24,7 +24,7 @@ export function GrowthPathDestination({
           <p className="mb-4 text-sm uppercase tracking-[0.2em] text-brand">
             Your selected path
           </p>
-          <h1 className="font-archivo-black text-5xl leading-[0.95] tracking-[-0.05em] sm:text-7xl">
+          <h1 className="font-archivo-black text-5xl leading-[0.95] tracking-tighter sm:text-8xl">
             {title}
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
