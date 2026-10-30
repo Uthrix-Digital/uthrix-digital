@@ -1,16 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { NODES } from "./data/nodes";
 import type { Phase } from "./types";
-import {
-  Popover,
-  PopoverContent,
-  PopoverDescription,
-  PopoverTitle,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import {
   OrbitDotRed,
   OrbitKeyframes,
@@ -102,7 +94,6 @@ export function DotsMap({
   activePhases,
   onNodeClick,
 }: DotsMapProps) {
-  const [openNodeBit, setOpenNodeBit] = useState<number | null>(null);
   const hasSelection = mask !== 0;
 
   return (
@@ -182,60 +173,31 @@ export function DotsMap({
                 >
                   <Connector side={side} selected={isSelected} dimmed={dimmed} />
 
-                  <Popover
-                    open={openNodeBit === node.bit && isSelected}
-                    onOpenChange={(open) => setOpenNodeBit(open ? node.bit : null)}
+                  <button
+                    type="button"
+                    aria-pressed={isSelected}
+                    aria-label={`${isSelected ? "Unselect" : "Select"} ${node.label}`}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onNodeClick(node.bit);
+                    }}
+                    className="relative block size-44 shrink-0 rounded-full border-0 bg-transparent p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff1f28] focus-visible:ring-offset-4 focus-visible:ring-offset-[#090a0d] lg:size-64"
                   >
-                    <PopoverTrigger
-                      type="button"
-                      aria-pressed={isSelected}
-                      aria-label={`${isSelected ? "Unselect" : "Select"} ${node.label}`}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onNodeClick(node.bit);
-                        setOpenNodeBit(isSelected ? null : node.bit);
+                    <OrbitDotRed
+                      variant="node"
+                      side={side}
+                      selected={isSelected}
+                      dimmed={dimmed}
+                      content={{
+                        dots: [{ className: "bg-[#ff1f28]" }],
+                        href: "/BrandIdentity",
+                        linkLabel: `Explore ${node.label}`,
+                        caption: node.label,
+                        number,
+                        phase: node.phase,
                       }}
-                      className="relative block size-44 shrink-0 rounded-full border-0 bg-transparent p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff1f28] focus-visible:ring-offset-4 focus-visible:ring-offset-[#090a0d] lg:size-64"
-                    >
-                      <OrbitDotRed
-                        variant="node"
-                        side={side}
-                        selected={isSelected}
-                        dimmed={dimmed}
-                        content={{
-                          dots: [{ className: "bg-[#ff1f28]" }],
-                          href: "/BrandIdentity",
-                          linkLabel: `Explore ${node.label}`,
-                          caption: node.label,
-                          number,
-                          phase: node.phase,
-                        }}
-                      />
-                    </PopoverTrigger>
-                    <PopoverContent
-                      side="top"
-                      sideOffset={16}
-                      align="center"
-                      className="bg-background text-foreground"
-                    >
-                      <div className="space-y-4">
-                        <div className="flex items-start justify-between gap-5">
-                          <PopoverTitle className="text-black!">{node.label}</PopoverTitle>
-                          <span className="shrink-0 pt-1 font-mono text-xs tracking-[0.18em] text-foreground/45">
-                            {number}
-                          </span>
-                        </div>
-                        <PopoverDescription className="text-base leading-relaxed text-foreground/70">
-                          {node.summary}
-                        </PopoverDescription>
-                        <div className="border-t border-foreground/15 pt-4">
-                          <p className="text-sm leading-relaxed text-foreground/50">
-                            {node.why}
-                          </p>
-                        </div>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                    />
+                  </button>
                 </div>
               </li>
             );
@@ -271,15 +233,12 @@ export function DotsMap({
           >
             <OrbitRing
               inset="0%"
-              duration={hasSelection ? "8s" : "22s"}
               ringClass={hasSelection ? "border-[#ff1f28]/60" : "border-white/10"}
               dotClass={hasSelection ? "bg-white" : "bg-[#ff1f28]"}
               dotSize="size-2.5"
             />
             <OrbitRing
               inset="8%"
-              duration={hasSelection ? "5s" : "15s"}
-              reverse
               ringClass={hasSelection ? "border-[#ff1f28]/60" : "border-white/10"}
               dotClass="bg-white/70"
               dotSize="size-1.5"

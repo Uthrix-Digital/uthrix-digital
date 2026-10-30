@@ -16,8 +16,10 @@ export interface OrbitDotsContent {
   phase?: string;
 }
 
-export interface OrbitDotsProps
-  extends Omit<ComponentPropsWithoutRef<"div">, "children" | "content"> {
+export interface OrbitDotsProps extends Omit<
+  ComponentPropsWithoutRef<"div">,
+  "children" | "content"
+> {
   content?: OrbitDotsContent;
   variant?: "orbit" | "node";
   selected?: boolean;
@@ -41,13 +43,12 @@ export const defaultOrbitDotsContent: OrbitDotsContent = {
 
 /**
  * Render ONCE near the dots (DotsMap does this).
- * Holds the orbit spin, connector dash-flow and spine pulse animations.
- * All of them switch off for visitors who prefer reduced motion.
+ * Holds the connector dash-flow and spine pulse animations.
+ * Both switch off for visitors who prefer reduced motion.
  */
 export function OrbitKeyframes() {
   return (
     <style>{`
-      @keyframes uthrix-orbit-spin { to { transform: rotate(360deg); } }
       @keyframes uthrix-dash-flow  { to { stroke-dashoffset: -24; } }
       @keyframes uthrix-spine-pulse {
         0%   { top: 0;    opacity: 0; }
@@ -55,30 +56,24 @@ export function OrbitKeyframes() {
         92%  { opacity: 1; }
         100% { top: 100%; opacity: 0; }
       }
-      .uthrix-orbit-spin  { animation: uthrix-orbit-spin 14s linear infinite; }
-      .uthrix-orbit-spin-rev { animation-direction: reverse; }
       .uthrix-dash-flow   { animation: uthrix-dash-flow 1.2s linear infinite; }
       .uthrix-spine-pulse { animation: uthrix-spine-pulse 4.5s ease-in-out infinite; }
       @media (prefers-reduced-motion: reduce) {
-        .uthrix-orbit-spin, .uthrix-dash-flow, .uthrix-spine-pulse { animation: none; }
+        .uthrix-dash-flow, .uthrix-spine-pulse { animation: none; }
       }
     `}</style>
   );
 }
 
-/** One ring + the satellite dot that travels around it. */
+/** One static ring with a positioned satellite dot. */
 export function OrbitRing({
   inset,
-  duration,
-  reverse = false,
   ringClass,
   dotClass,
   dotSize = "size-2",
   dotPosition = "top",
 }: {
   inset: string;
-  duration: string;
-  reverse?: boolean;
   ringClass: string;
   dotClass: string;
   dotSize?: string;
@@ -87,16 +82,15 @@ export function OrbitRing({
   return (
     <>
       <span
-        className={`absolute rounded-full border transition-colors duration-500 ${ringClass}`}
+        className={`absolute rounded-full border ${ringClass}`}
         style={{ inset }}
       />
-      <span
-        className={`uthrix-orbit-spin absolute ${reverse ? "uthrix-orbit-spin-rev" : ""}`}
-        style={{ inset, animationDuration: duration }}
-      >
+      <span className="absolute" style={{ inset }}>
         <span
-          className={`absolute left-1/2 -translate-x-1/2 rounded-full transition-colors duration-500 ${dotSize} ${dotClass} ${
-            dotPosition === "top" ? "top-0 -translate-y-1/2" : "bottom-0 translate-y-1/2"
+          className={`absolute left-1/2 -translate-x-1/2 rounded-full ${dotSize} ${dotClass} ${
+            dotPosition === "top"
+              ? "top-0 -translate-y-1/2"
+              : "bottom-0 translate-y-1/2"
           }`}
         />
       </span>
@@ -109,76 +103,55 @@ export function OrbitDotRed({
   variant = "orbit",
   selected = false,
   dimmed = false,
+  side = "right",
   className = "",
   ...props
 }: OrbitDotsProps) {
   const { dots, href, linkLabel, caption, number, phase } = content;
 
-  /* ───────────────────── NODE: a round orbit dot, label inside ─────────── */
+  /* ───────────────────── NODE: a round orbit dot with a label above it ── */
   if (variant === "node") {
-    const primaryDot = dots[0]?.className ?? "bg-[#ff1f28]";
     const ring = selected
       ? "border-[#ff1f28]/70"
       : "border-white/10 group-hover:border-[#ff1f28]/50";
 
     return (
       <span
-        className={`group relative block aspect-square w-full rounded-full transition-opacity duration-500 ${
+        className={`group relative block aspect-square w-full rounded-full ${
           dimmed ? "opacity-35 hover:opacity-90" : ""
         } ${className}`}
         {...props}
       >
         <OrbitRing
-          inset="0%"
-          duration={selected ? "9s" : "20s"}
-          ringClass={ring}
-          dotClass={selected ? "bg-white" : primaryDot}
-          dotSize="size-2.5"
-        />
-        <OrbitRing
-          inset="6%"
-          duration={selected ? "6s" : "14s"}
-          reverse
-          ringClass={ring}
-          dotClass={selected ? "bg-[#ff1f28]" : "bg-[#737b89]"}
-          dotPosition="bottom"
-        />
-        <OrbitRing
           inset="12%"
-          duration={selected ? "4s" : "10s"}
           ringClass={ring}
-          dotClass="bg-white/70"
+          dotClass="bg-white"
           dotSize="size-1.5"
         />
 
-        {/* Core: the label lives inside the dot, like the sketch */}
         <span
-          className={`absolute inset-[20%] flex flex-col items-center justify-center rounded-full px-2 text-center transition-all duration-500 group-hover:scale-105 ${
+          className={`absolute top-1/2 z-10 flex w-max -translate-y-1/2 flex-col ${
+            side === "left"
+              ? "right-full mr-6 items-end text-right"
+              : "left-full ml-6 items-start "
+          } ${selected ? "text-white" : "text-[#f1f2f5]"}`}
+        >
+          <span className="mt-1 block w-full text-left text-[0.85rem] font-semibold leading-tight tracking-[-0.02em] font-archivo-black sm:text-base lg:text-[4.05rem]">
+            {caption}
+          </span>
+        </span>
+
+        <span
+          className={`absolute inset-[20%] flex items-center justify-center rounded-full ${
             selected
               ? "bg-[#ff1f28] text-white shadow-[0_0_70px_rgba(255,31,40,0.55)]"
               : "border border-white/15 bg-[#0d0e12] text-[#f1f2f5] group-hover:border-[#ff1f28]"
           }`}
         >
-          <span
-            className={`flex items-center gap-1 font-mono text-[10px] sm:text-xs ${
-              selected ? "text-white/85" : "text-[#8b92a1]"
-            }`}
-          >
-            {selected ? <Check className="size-3.5 stroke-[3]" aria-hidden="true" /> : null}
-            {number}
-          </span>
-          <span className="mt-1 text-[0.85rem] font-semibold leading-tight tracking-[-0.02em] sm:text-base lg:text-[1.05rem]">
-            {caption}
-          </span>
-          {phase && (
-            <span
-              className={`mt-1 hidden text-xs capitalize lg:block ${
-                selected ? "text-white/75" : "text-[#8b92a1]"
-              }`}
-            >
-              {phase}
-            </span>
-          )}
+          <ArrowUpRight
+            aria-hidden="true"
+            className="size-[clamp(3rem,6vw,4.5rem)] stroke-[1.5]"
+          />
         </span>
       </span>
     );
@@ -190,10 +163,22 @@ export function OrbitDotRed({
       className={`relative mx-auto aspect-square w-full max-w-[min(80vw,38rem)] lg:max-w-2xl ${className}`}
       {...props}
     >
-      <div aria-hidden="true" className="absolute inset-[8%] rounded-full border border-white/10" />
-      <div aria-hidden="true" className="absolute inset-[18%] rounded-full border border-white/10" />
-      <div aria-hidden="true" className="absolute inset-[28%] rounded-full border border-white/10" />
-      <div aria-hidden="true" className="absolute inset-[38%] rounded-full border border-white/10" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-[8%] rounded-full border border-white/10"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-[18%] rounded-full border border-white/10"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-[28%] rounded-full border border-white/10"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-[38%] rounded-full border border-white/10"
+      />
 
       <div aria-hidden="true" className="absolute inset-0 rotate-[-18deg]">
         <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 bg-white/10" />
@@ -221,7 +206,7 @@ export function OrbitDotRed({
           className="size-[clamp(3rem,6vw,4.5rem)] stroke-[1.5]"
         />
       </Link>
-      <span className="font-archivo-black w-full text-[clamp(1.25rem,8vw,4rem)] font-black uppercase leading-[0.86] tracking-[-0.07em] sm:text-[clamp(1rem,4vw,8rem)] sm:leading-[0.82] sm:tracking-[-0.075em]">
+      <span className="font-archivo-black text-[4.05rem] leading-none">
         {caption}
       </span>
     </div>
