@@ -66,7 +66,7 @@ export function GrowthPathMap() {
           <p className="text-xl font-semibold tracking-[-0.03em] text-white sm:text-2xl">
             Choose your starting point
           </p>
-          <p className="mt-1 text-base text-white/55">
+          <p className="mt-1 text-base text-white">
             {mode === "single"
               ? "Pick the one area you want to start with."
               : "Pick every activity you want to combine."}
@@ -85,13 +85,14 @@ export function GrowthPathMap() {
             <TabsList variant="line" className="gap-3">
               <TabsTrigger
                 value="single"
-                className="h-10 px-2 text-base text-white/60 hover:text-white data-active:text-white"
+                className="h-12 px-2 text-base text-white! hover:text-white! data-active:text-white!"
               >
                 One Area
               </TabsTrigger>
+
               <TabsTrigger
                 value="combined"
-                className="h-10 px-2 text-base text-white/60 hover:text-white data-active:text-white"
+                className="h-12 px-2 text-base text-white! hover:text-white! data-active:text-white!"
               >
                 Combined activities
               </TabsTrigger>
