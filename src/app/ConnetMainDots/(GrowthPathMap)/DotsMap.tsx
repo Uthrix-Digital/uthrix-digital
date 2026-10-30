@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import { NODES } from "./data/nodes";
-import type { Phase } from "./types";
 import {
   OrbitDotRed,
   OrbitKeyframes,
@@ -12,19 +12,11 @@ import {
 interface DotsMapProps {
   mask: number;
   hubLines: string[];
-  activePhases: Phase[];
   onNodeClick: (bit: number) => void;
 }
 
 const RED = "#ff1f28";
 const IDLE_LINE = "#3a3f4b";
-
-const PHASES: readonly { id: Phase; label: string }[] = [
-  { id: "foundation", label: "Foundation" },
-  { id: "build", label: "Build" },
-  { id: "grow", label: "Grow" },
-  { id: "retain", label: "Retain" },
-];
 
 /**
  * Dashed line from a dot to the spine, as in the sketch:
@@ -91,7 +83,6 @@ function Connector({
 export function DotsMap({
   mask,
   hubLines,
-  activePhases,
   onNodeClick,
 }: DotsMapProps) {
   const hasSelection = mask !== 0;
@@ -100,46 +91,21 @@ export function DotsMap({
     <div className="relative w-full">
       <OrbitKeyframes />
 
-      {/* ── Phase strip ─────────────────────────────────────────────── */}
-<ol className="mb-10 flex flex-wrap items-center gap-12 text-xl font-archivo-black sm:text-2xl lg:mb-14 lg:text-3xl lg:justify-center">        {PHASES.map((phase, index) => {
-          const active = activePhases.includes(phase.id);
-          return (
-            <li key={phase.id} className="flex items-center gap-2">
-              <span
-                className={`flex items-center gap-2 rounded-full border px-3 py-1.5 transition-all duration-300 ${
-                  active
-                    ? "border-brand bg-vrand font-archivo-black text-white"
-                    : "border-white text-white"
-                }`}
-              >
-                <span
-                  className={`size-6 rounded-full transition-colors ${
-                    active ? "bg-[#ff1f28]" : "bg-white"
-                  }`}
-                />
-                {phase.label}
-              </span>
-              {index < PHASES.length - 1 && (
-                <span
-                  aria-hidden="true"
-                  className={`hidden h-px w-5 sm:block ${
-                    active && activePhases.includes(PHASES[index + 1].id)
-                      ? "bg-[#ff1f28]"
-                      : "bg-white/15"
-                  }`}
-                />
-              )}
-            </li>
-          );
-        })}
-      </ol>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none flex justify-center pb-6 sm:pb-8"
+      >
+        <ArrowUpRight
+          className="size-[clamp(2.5rem,6vw,4.5rem)] rotate-[135deg] stroke-[1.5] text-white/70"
+        />
+      </div>
 
       {/* ── Journey: spine + zig-zag dots + goal ────────────────────── */}
       <div className="relative pl-5 lg:pl-0">
         {/* Spine. Ends at the Your Goal dot (goal height: 9rem mobile / 12rem desktop) */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-[4.5rem] left-5 top-0 w-px -translate-x-1/2 transition-all duration-500 lg:bottom-48 lg:left-1/2"
+          className="pointer-events-none absolute bottom-18 left-5 top-0 w-px -translate-x-1/2 transition-all duration-500 lg:bottom-48 lg:left-1/2"
           style={{
             background: hasSelection ? RED : IDLE_LINE,
             boxShadow: hasSelection ? "0 0 16px rgba(255,31,40,0.7)" : "none",
@@ -160,7 +126,7 @@ export function DotsMap({
             return (
               <li
                 key={node.bit}
-                className={`relative mt-6 first:mt-0 lg:grid lg:grid-cols-2 ${
+                className={`relative mt-24 first:mt-16 lg:mt-6 lg:grid lg:grid-cols-2 ${
                   index === 0 ? "" : "lg:-mt-24"
                 }`}
               >
@@ -181,7 +147,7 @@ export function DotsMap({
                       event.stopPropagation();
                       onNodeClick(node.bit);
                     }}
-                    className="relative block size-44 shrink-0 rounded-full border-0 bg-transparent p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff1f28] focus-visible:ring-offset-4 focus-visible:ring-offset-[#090a0d] lg:size-64"
+                    className="relative block size-36 shrink-0 rounded-full border-0 bg-transparent p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff1f28] focus-visible:ring-offset-4 focus-visible:ring-offset-[#090a0d] sm:size-44 lg:size-64"
                   >
                     <OrbitDotRed
                       variant="node"

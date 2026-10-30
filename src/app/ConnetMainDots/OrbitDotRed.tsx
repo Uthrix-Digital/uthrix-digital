@@ -130,13 +130,13 @@ export function OrbitDotRed({
         />
 
         <span
-          className={`absolute top-1/2 z-10 flex w-max -translate-y-1/2 flex-col ${
+          className={`absolute bottom-full left-1/2 z-10 mb-3 flex w-[min(88vw,20rem)] -translate-x-1/2 flex-col items-center text-center ${
             side === "left"
-              ? "right-full mr-6 items-end text-right"
-              : "left-full ml-6 items-start "
+              ? "lg:right-full lg:left-auto lg:top-1/2 lg:bottom-auto lg:mb-0 lg:mr-8 lg:w-max lg:max-w-[min(28vw,24rem)] lg:translate-x-0 lg:-translate-y-1/2 lg:items-end lg:text-right"
+              : "lg:top-1/2 lg:left-full lg:bottom-auto lg:ml-8 lg:w-max lg:max-w-[min(28vw,24rem)] lg:-translate-y-1/2 lg:translate-x-0 lg:items-start lg:text-left"
           } ${selected ? "text-white" : "text-[#f1f2f5]"}`}
         >
-          <span className="mt-1 block w-full text-left text-[0.85rem] font-semibold leading-tight tracking-[-0.02em] font-archivo-black sm:text-base lg:text-[4.05rem]">
+          <span className="block w-full font-archivo-black text-[clamp(1.15rem,6vw,2rem)] font-semibold leading-[0.9] tracking-[-0.04em] lg:text-[clamp(1.75rem,3.8vw,4.05rem)]">
             {caption}
           </span>
         </span>
@@ -150,7 +150,7 @@ export function OrbitDotRed({
         >
           <ArrowUpRight
             aria-hidden="true"
-            className="size-[clamp(3rem,6vw,4.5rem)] stroke-[1.5]"
+            className="size-[clamp(2.5rem,6vw,4.5rem)] stroke-[1.5]"
           />
         </span>
       </span>

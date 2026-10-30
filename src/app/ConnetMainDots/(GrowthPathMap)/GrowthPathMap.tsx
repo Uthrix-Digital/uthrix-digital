@@ -5,9 +5,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DotsMap } from "./DotsMap";
 import { getNudges, resolveGoal } from "./data/resolver";
+import type { Phase } from "./types";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const WA_NUMBER = "94728282122";
+const PHASES: readonly { id: Phase; label: string }[] = [
+  { id: "foundation", label: "Foundation" },
+  { id: "build", label: "Build" },
+  { id: "grow", label: "Grow" },
+  { id: "retain", label: "Retain" },
+];
 
 function buildWaLink(headline: string, services: string[]): string {
   const text = `Hi! I'd like to start with the "${headline}" path.\n\nServices: ${services.join(", ")}`;
@@ -126,7 +133,6 @@ export function GrowthPathMap() {
       <DotsMap
         mask={mask}
         hubLines={hubLines}
-        activePhases={phases}
         onNodeClick={handleNodeClick}
       />
 
@@ -135,6 +141,40 @@ export function GrowthPathMap() {
         aria-label="Your selected path"
         className="sticky bottom-4 z-30 rounded-3xl border border-white/10 bg-[#111113]/90 p-5 text-white shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:p-6"
       >
+        <ol className="mb-10 flex flex-wrap items-center gap-12 text-xl font-archivo-black sm:text-2xl lg:mb-14 lg:justify-center lg:text-3xl">
+          {PHASES.map((phase, index) => {
+            const active = phases.includes(phase.id);
+            return (
+              <li key={phase.id} className="flex items-center gap-2">
+                <span
+                  className={`flex items-center gap-2 rounded-full border px-3 py-1.5 transition-all duration-300 ${
+                    active
+                      ? "border-brand bg-vrand font-archivo-black text-white"
+                      : "border-white text-white"
+                  }`}
+                >
+                  <span
+                    className={`size-6 rounded-full transition-colors ${
+                      active ? "bg-[#ff1f28]" : "bg-white"
+                    }`}
+                  />
+                  {phase.label}
+                </span>
+                {index < PHASES.length - 1 && (
+                  <span
+                    aria-hidden="true"
+                    className={`hidden h-px w-5 sm:block ${
+                      active && phases.includes(PHASES[index + 1].id)
+                        ? "bg-[#ff1f28]"
+                        : "bg-white/15"
+                    }`}
+                  />
+                )}
+              </li>
+            );
+          })}
+        </ol>
+
         <AnimatePresence>
           {nudges.length > 0 && (
             <motion.div
