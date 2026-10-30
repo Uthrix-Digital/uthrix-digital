@@ -16,6 +16,8 @@ export interface NodeDef {
   /** Brief "why" caption used in combined story */
   why: string;
   summary: string;
+  /** Canonical route for starting directly with this service. */
+  route: `/${string}`;
 }
 
 export interface ResolvedGoal {

@@ -159,7 +159,7 @@ export function DotsMap({ mask, hubLines, onNodeClick }: DotsMapProps) {
                       dimmed={dimmed}
                       content={{
                         dots: [{ className: "bg-[#ff1f28]" }],
-                        href: "/BrandIdentity",
+                        href: node.route,
                         linkLabel: `Explore ${node.label}`,
                         caption: node.label,
                         number,

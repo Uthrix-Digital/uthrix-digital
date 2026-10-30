@@ -33,6 +33,7 @@ export const NODES: readonly NodeDef[] = [
     why: "A registered name is something you can brand.",
     summary:
       "Generating a business idea is a simple process of finding a real problem that people face and figuring out an easy way to solve it.",
+    route: "/BusinessIdea",
   },
   {
     bit: 2,
@@ -45,6 +46,7 @@ export const NODES: readonly NodeDef[] = [
     why: "The brand sets the look every page uses.",
     summary:
       "Logo, colours, typography and voice guidelines every other service inherits.",
+    route: "/BrandIdentity",
   },
   {
     bit: 4,
@@ -57,6 +59,7 @@ export const NODES: readonly NodeDef[] = [
     why: "The site gives every post and ad somewhere to send people.",
     summary:
       "A fast, mobile-first site that turns visits into enquiries; the home base all traffic lands on.",
+    route: "/Website",
   },
   {
     bit: 8,
@@ -69,6 +72,7 @@ export const NODES: readonly NodeDef[] = [
     why: "Organic posts show which messages win before ad money is spent.",
     summary:
       "Profiles, content system and branded creatives, published consistently on the platforms your customers use.",
+    route: "/SocialContent",
   },
   {
     bit: 16,
@@ -81,6 +85,7 @@ export const NODES: readonly NodeDef[] = [
     why: "Ad data shows what people actually search for.",
     summary:
       "Paid campaigns that reach the right people now; ad budgets are paid separately to the platforms.",
+    route: "/MetaGoogleAds",
   },
   {
     bit: 32,
@@ -93,6 +98,7 @@ export const NODES: readonly NodeDef[] = [
     why: "Search visitors expect fast replies.",
     summary:
       "Local and on-page SEO that brings free, compounding traffic over time.",
+    route: "/Seo",
   },
   {
     bit: 64,
@@ -105,5 +111,6 @@ export const NODES: readonly NodeDef[] = [
     why: "Repeat customers and referrals restart the cycle.",
     summary:
       "WhatsApp replies, reminders and reporting that turn enquiries into customers and customers into repeat business.",
+    route: "/FollowUp",
   },
 ] as const;

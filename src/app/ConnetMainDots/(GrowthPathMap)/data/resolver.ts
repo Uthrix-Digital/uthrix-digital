@@ -128,6 +128,29 @@ export function resolveGoal(mask: number): ResolvedGoal | null {
   };
 }
 
+export function slugifyPath(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+/**
+ * Returns the canonical destination for the current selection.
+ * Single selections use the service route; combined selections retain the
+ * mask in the URL so the destination can render the same resolved path.
+ */
+export function getDestinationHref(mask: number): string | null {
+  const resolved = resolveGoal(mask);
+  if (!resolved) return null;
+
+  if (resolved.selectedNodes.length === 1) {
+    return resolved.selectedNodes[0].route;
+  }
+
+  return `/GrowthPath/${slugifyPath(resolved.hubTitle)}?selection=${mask}`;
+}
+
 /* ── Gentle nudges ───────────────────────────────────────────────────────── */
 export function getNudges(mask: number): Nudge[] {
   const out: Nudge[] = [];
@@ -170,4 +193,3 @@ if (typeof globalThis !== "undefined" && process.env.NODE_ENV === "development")
     console.log(`[GrowthPathMap] Resolver ready — T1:${t1} T2:${t2} T3:${t3} (total:${t1+t2+t3})`);
   }, 0);
 }
-

@@ -2,9 +2,10 @@
 
 import { useCallback, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DotsMap } from "./DotsMap";
-import { getNudges, resolveGoal } from "./data/resolver";
+import { getDestinationHref, getNudges, resolveGoal } from "./data/resolver";
 import type { Phase } from "./types";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -16,11 +17,6 @@ const PHASES: readonly { id: Phase; label: string }[] = [
   { id: "retain", label: "Retain" },
 ];
 
-function buildWaLink(headline: string, services: string[]): string {
-  const text = `Hi! I'd like to start with the "${headline}" path.\n\nServices: ${services.join(", ")}`;
-  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
-}
-
 export function GrowthPathMap() {
   const [mode, setMode] = useState<"single" | "combined">("single");
   const [mask, setMask] = useState(0);
@@ -30,6 +26,7 @@ export function GrowthPathMap() {
   const hubLines = resolved?.hubLines ?? ["Your", "goal"];
   const nudges = mask ? getNudges(mask) : [];
   const selectedCount = resolved?.selectedNodes.length ?? 0;
+  const destinationHref = resolved ? getDestinationHref(mask) : null;
 
   const handleNodeClick = useCallback(
     (bit: number) => {
@@ -228,18 +225,13 @@ export function GrowthPathMap() {
                 </div>
               </div>
 
-              <a
-                href={buildWaLink(
-                  resolved.hubTitle,
-                  resolved.selectedNodes.map((node) => node.label),
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href={destinationHref ?? "/ConnetMainDots"}
                 className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3 text-base font-semibold text-black transition-colors hover:bg-[#c1121f] hover:text-white"
               >
                 Start with this path
                 <span aria-hidden="true">→</span>
-              </a>
+              </Link>
             </motion.div>
           ) : (
             <motion.div
