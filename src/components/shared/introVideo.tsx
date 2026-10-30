@@ -1,18 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 export default function IntroVideo() {
-  // null = not decided yet (avoids flash and hydration mismatch)
-  const [show, setShow] = useState<boolean | null>(null);
+  const seen = useSyncExternalStore(
+    () => () => {},
+    () => sessionStorage.getItem("introSeen") !== null,
+    () => false,
+  );
+  const [dismissed, setDismissed] = useState(false);
   const [fading, setFading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-
-  // Decide on the client whether to show the intro (once per browser session)
-  useEffect(() => {
-    const seen = sessionStorage.getItem("introSeen");
-    setShow(!seen);
-  }, []);
+  const show = !seen && !dismissed;
 
   // Lock page scroll while the intro is visible
   useEffect(() => {
@@ -27,11 +26,11 @@ export default function IntroVideo() {
   const finish = () => {
     sessionStorage.setItem("introSeen", "1");
     setFading(true);
-    setTimeout(() => setShow(false), 600); // match the transition duration
+    setTimeout(() => setDismissed(true), 600); // match the transition duration
   };
 
-  // Don't render anything until we know, or once it's done
-  if (show === null || show === false) return null;
+  // Don't render anything once it's done
+  if (!show) return null;
 
   return (
     <div
