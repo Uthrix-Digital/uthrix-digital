@@ -1,6 +1,6 @@
 "use client";
 import { Suspense } from "react";
-import { motion, MotionConfig, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 

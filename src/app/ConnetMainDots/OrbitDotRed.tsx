@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Check } from "lucide-react";
+import { ArrowUpRight} from "lucide-react";
 import type { ComponentPropsWithoutRef } from "react";
 
 export interface OrbitDot {
@@ -105,7 +105,7 @@ export function OrbitDotRed({
   className = "",
   ...props
 }: OrbitDotsProps) {
-  const { dots, href, linkLabel, caption, number, phase } = content;
+  const { dots, href, linkLabel, caption} = content;
 
   /* ───────────────────── NODE: a round orbit dot with a label above it ── */
   if (variant === "node") {
