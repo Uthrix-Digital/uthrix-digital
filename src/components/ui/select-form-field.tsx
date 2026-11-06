@@ -167,6 +167,8 @@ export function SelectFormField({
       {/* ── Trigger row: select + status icon ── */}
       <div className="relative flex items-center">
         <Select
+          // Lets <SelectValue> render the option label instead of the raw value
+          items={options}
           value={value}
           onValueChange={onValueChange ?? undefined}
           defaultValue={defaultValue}

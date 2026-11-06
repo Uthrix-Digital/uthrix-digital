@@ -168,6 +168,11 @@ const FormField = React.forwardRef<
           className="type-label select-none text-foreground"
         >
           {label}
+          {props.required && (
+            <span aria-hidden="true" className="ml-1 text-field-error">
+              *
+            </span>
+          )}
         </label>
       )}
 
