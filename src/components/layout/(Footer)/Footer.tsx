@@ -51,14 +51,14 @@ export function Footer() {
           <div className="max-w-md">
             <Link href="/" aria-label="Uthrix Digital home" className="inline-block">
               <Image
-                src="/assets/images/logoWhite.svg"
+                src="/assets/Images/logoWhite.svg"
                 alt={siteConfig.companyName}
                 width={333}
                 height={84}
                 className="h-auto w-56 sm:w-72 lg:w-84 dark:hidden"
               />
               <Image
-                src="/assets/images/logoBlack.svg"
+                src="/assets/Images/logoBlack.svg"
                 alt={siteConfig.companyName}
                 width={333}
                 height={84}

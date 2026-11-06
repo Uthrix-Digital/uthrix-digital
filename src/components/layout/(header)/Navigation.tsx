@@ -140,7 +140,7 @@ export function Navigation() {
           >
             {/* Both logos are rendered; CSS picks one so it's right on first paint. */}
             <Image
-              src="/assets/images/logoBlack.svg"
+              src="/assets/Images/logoBlack.svg"
               alt="UthriX Digital"
               fill
               priority
@@ -148,7 +148,7 @@ export function Navigation() {
               className="object-contain object-left dark:hidden"
             />
             <Image
-              src="/assets/images/logoWhite.svg"
+              src="/assets/Images/logoWhite.svg"
               alt="UthriX Digital"
               fill
               priority
