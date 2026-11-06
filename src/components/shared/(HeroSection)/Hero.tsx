@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, MotionConfig, type Variants } from "framer-motion";
+import { InquiryForm } from "@/components/shared/InquiryForm";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -34,8 +35,11 @@ export function Hero() {
             variants={stagger}
             initial="hidden"
             animate="visible"
-            className="flex w-full flex-col"
+            className="grid w-full grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_clamp(26rem,30vw,34rem)] lg:items-start lg:gap-12"
           >
+            {/* Left column is a size container so the headline scales to the
+                space left beside the form instead of the viewport. */}
+            <div className="@container flex min-w-0 flex-col">
             <motion.h1
               variants={fadeUp}
               className="font-archivo-black w-full uppercase tracking-[-0.08em]"
@@ -53,16 +57,16 @@ export function Hero() {
                 THAT <span className="text-brand">GROW.</span>
               </span>
 
-              <span className="hidden whitespace-nowrap text-[clamp(6rem,10vw,20rem)] leading-[0.78] sm:block sm:-tracking-widest lg:text-[clamp(7rem,10vw,20rem)]">
+              <span className="hidden whitespace-nowrap text-[clamp(6rem,10vw,20rem)] leading-[0.78] sm:block sm:-tracking-widest lg:text-[15.5cqw]">
                 WE DESIGN
               </span>
 
-              <span className="hidden whitespace-nowrap text-[clamp(6rem,10vw,20rem)] leading-[0.78] sm:block sm:-tracking-widest lg:text-[clamp(7rem,10vw,20rem)]">
+              <span className="hidden whitespace-nowrap text-[clamp(6rem,10vw,20rem)] leading-[0.78] sm:block sm:-tracking-widest lg:text-[15.5cqw]">
                 {" "}
                 PRODUCTS
               </span>
 
-              <span className="hidden whitespace-nowrap text-[clamp(6rem,10vw,20rem)] leading-[0.78] sm:block sm:-tracking-widest lg:text-[clamp(7rem,10vw,20rem)]">
+              <span className="hidden whitespace-nowrap text-[clamp(6rem,10vw,20rem)] leading-[0.78] sm:block sm:-tracking-widest lg:text-[15.5cqw]">
                 {" "}
                 THAT <span className="text-brand">GROW.</span>
               </span>
@@ -93,6 +97,14 @@ export function Hero() {
               >
                 View Case Studies
               </a>
+            </motion.div>
+            </div>
+
+            <motion.div
+              variants={fadeUp}
+              className="w-full max-w-xl lg:-mt-14 lg:max-w-none"
+            >
+              <InquiryForm />
             </motion.div>
           </motion.div>
         </div>
