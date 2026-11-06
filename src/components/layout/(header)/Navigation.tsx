@@ -62,7 +62,36 @@ export function Navigation() {
     };
   }, [isAnyOpen, openMenu]);
 
+  // Hover intent (mouse only): a short delay before opening from rest, instant
+  // switching once a menu is open, and a grace period before closing so a
+  // slightly wandering cursor doesn't collapse the panel.
+  const hoverTimer = useRef<number | undefined>(undefined);
+
+  const clearHoverTimer = () => {
+    window.clearTimeout(hoverTimer.current);
+    hoverTimer.current = undefined;
+  };
+
+  useEffect(() => clearHoverTimer, []);
+
+  const openOnHover = (id: string) => {
+    clearHoverTimer();
+    if (openMenu !== null) {
+      setOpenMenu(id);
+      return;
+    }
+    hoverTimer.current = window.setTimeout(() => setOpenMenu(id), 90);
+  };
+
+  const closeOnLeave = () => {
+    clearHoverTimer();
+    hoverTimer.current = window.setTimeout(() => setOpenMenu(null), 200);
+  };
+
+  const isMouse = (event: React.PointerEvent) => event.pointerType === "mouse";
+
   const closeAll = () => {
+    clearHoverTimer();
     setOpenMenu(null);
     setIsMobileOpen(false);
   };
@@ -90,6 +119,12 @@ export function Navigation() {
 
       <header
         ref={headerRef}
+        onPointerEnter={(event) => {
+          if (isMouse(event)) clearHoverTimer();
+        }}
+        onPointerLeave={(event) => {
+          if (isMouse(event)) closeOnLeave();
+        }}
         className={`fixed inset-x-0 top-0 z-50 border-b text-white transition-[background-color,border-color,box-shadow] ${headerSurface}`}
       >
         <nav
@@ -115,10 +150,21 @@ export function Navigation() {
           <DesktopNavigation
             openMenu={openMenu}
             onToggle={(id) => setOpenMenu((current) => (current === id ? null : id))}
-            onClose={() => setOpenMenu(null)}
+            onOpen={(id) => {
+              clearHoverTimer();
+              setOpenMenu(id);
+            }}
+            onHover={openOnHover}
+            onClose={closeAll}
           />
 
-          <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 lg:ml-0">
+          <div
+            className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 lg:ml-0"
+            onPointerEnter={(event) => {
+              // Moving onto the CTA while a panel is open dismisses it.
+              if (isMouse(event) && openMenu !== null) closeOnLeave();
+            }}
+          >
             <Link
               href={navCta.href}
               onClick={closeAll}

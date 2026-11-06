@@ -9,14 +9,20 @@ import { SocialLinks } from "./SocialLinks";
 type DesktopNavigationProps = {
   openMenu: string | null;
   onToggle: (id: string) => void;
+  onOpen: (id: string) => void;
+  onHover: (id: string) => void;
   onClose: () => void;
 };
 
 export function DesktopNavigation({
   openMenu,
   onToggle,
+  onOpen,
+  onHover,
   onClose,
 }: DesktopNavigationProps) {
+  // Mouse clicks keep the hovered menu open; keyboard/touch still toggle.
+  const pointerTypeRef = useRef("");
   const panelRef = useRef<HTMLDivElement>(null);
   const contentRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -57,7 +63,21 @@ export function DesktopNavigation({
                 type="button"
                 aria-expanded={isOpen}
                 aria-controls={`mega-menu-${menu.id}`}
-                onClick={() => onToggle(menu.id)}
+                onPointerEnter={(event) => {
+                  pointerTypeRef.current = event.pointerType;
+                  if (event.pointerType === "mouse") onHover(menu.id);
+                }}
+                onPointerDown={(event) => {
+                  pointerTypeRef.current = event.pointerType;
+                }}
+                onClick={(event) => {
+                  if (pointerTypeRef.current === "mouse" && event.detail > 0) {
+                    onOpen(menu.id);
+                  } else {
+                    onToggle(menu.id);
+                  }
+                  pointerTypeRef.current = "";
+                }}
                 className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-sm px-2.5 py-2 font-sans text-[0.72rem] font-extrabold uppercase tracking-[0.14em] transition-colors duration-200 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
                   isOpen
                     ? "text-white"
