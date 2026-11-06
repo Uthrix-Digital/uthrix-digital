@@ -12,10 +12,12 @@
       768–1199 tablet (8 columns)
       ≥ 1200  desktop (12 columns)   ← `lg:` now means 1200px
    ═══════════════════════════════════════════════════════════════════════════ */
+/* stylelint-disable-next-line at-rule-no-unknown */
 @theme {
   --breakpoint-lg: 75rem;
 }
 
+/* stylelint-disable-next-line at-rule-no-unknown */
 @theme inline {
   /* ── Fonts ─────────────────────────────────────────────────────────── */
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
@@ -262,61 +264,61 @@
 
 /* One class per role: `type-h2`, `type-body`, … Same names as before, so
    existing markup picks up the new values automatically. */
-@utility type-display {
+.type-display {
   font-size: var(--type-display-size);
   line-height: var(--type-display-lh);
   letter-spacing: var(--type-display-ls);
   font-weight: 400;
 }
-@utility type-h1 {
+.type-h1 {
   font-size: var(--type-h1-size);
   line-height: var(--type-h1-lh);
   letter-spacing: var(--type-h1-ls);
   font-weight: 400;
 }
-@utility type-h2 {
+.type-h2 {
   font-size: var(--type-h2-size);
   line-height: var(--type-h2-lh);
   letter-spacing: var(--type-h2-ls);
   font-weight: 400;
 }
-@utility type-h3 {
+.type-h3 {
   font-size: var(--type-h3-size);
   line-height: var(--type-h3-lh);
   letter-spacing: var(--type-h3-ls);
   font-weight: 400;
 }
-@utility type-h4 {
+.type-h4 {
   font-size: var(--type-h4-size);
   line-height: var(--type-h4-lh);
   letter-spacing: var(--type-h4-ls);
   font-weight: 400;
 }
-@utility type-h5 {
+.type-h5 {
   font-size: var(--type-h5-size);
   line-height: var(--type-h5-lh);
   letter-spacing: var(--type-h5-ls);
   font-weight: 400;
 }
-@utility type-h6 {
+.type-h6 {
   font-size: var(--type-h6-size);
   line-height: var(--type-h6-lh);
   letter-spacing: var(--type-h6-ls);
   font-weight: 400;
 }
-@utility type-lead {
+.type-lead {
   font-size: var(--type-lead-size);
   line-height: var(--type-lead-lh);
   letter-spacing: var(--type-lead-ls);
   font-weight: 400;
 }
-@utility type-body {
+.type-body {
   font-size: var(--type-body-size);
   line-height: var(--type-body-lh);
   letter-spacing: var(--type-body-ls);
   font-weight: 400;
 }
-@utility type-body-sm {
+.type-body-sm {
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-lh);
   letter-spacing: var(--type-body-sm-ls);
@@ -324,25 +326,25 @@
 }
 
 /* Shared small type — identical on desktop and mobile */
-@utility type-button {
+.type-button {
   font-size: 1rem;
   line-height: 1.5rem;
   letter-spacing: 0em;
   font-weight: 500;
 }
-@utility type-label {
+.type-label {
   font-size: 0.875rem;
   line-height: 1.25rem;
   letter-spacing: 0em;
   font-weight: 500;
 }
-@utility type-caption {
+.type-caption {
   font-size: 0.75rem;
   line-height: 1.125rem;
   letter-spacing: 0em;
   font-weight: 400;
 }
-@utility type-eyebrow {
+.type-eyebrow {
   font-size: 0.75rem;
   line-height: 1rem;
   letter-spacing: 0.08em;
@@ -351,7 +353,7 @@
 }
 
 /* Reading measure: 45–75 characters */
-@utility measure {
+.measure {
   max-width: 68ch;
 }
 
@@ -385,20 +387,20 @@
 }
 
 /* Outer wrapper: fluid between 1200–1439, capped at 1312 content from 1440 */
-@utility layout-container {
+.layout-container {
   width: 100%;
   margin-inline: auto;
   padding-inline: var(--grid-margin);
   max-width: calc(var(--content-max) + 2 * var(--grid-margin));
 }
 /* Column grid. Children: `col-span-4 md:col-span-4 lg:col-span-6` */
-@utility layout-grid {
+.layout-grid {
   display: grid;
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gutter);
 }
 /* Vertical section padding: 64 → 96 → 128 */
-@utility section-y {
+.section-y {
   padding-block: var(--section-y);
 }
 
@@ -407,24 +409,70 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
   }
   html {
-    @apply font-sans;
+    font-family: var(--font-sans);
     -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply bg-background text-foreground type-body antialiased;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-size: var(--type-body-size);
+    line-height: var(--type-body-lh);
+    letter-spacing: var(--type-body-ls);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Semantic headings get their role by default; utilities still override. */
-  h1 { @apply type-h1 text-balance; }
-  h2 { @apply type-h2 text-balance; }
-  h3 { @apply type-h3 text-balance; }
-  h4 { @apply type-h4; }
-  h5 { @apply type-h5; }
-  h6 { @apply type-h6; }
-  small { @apply type-caption; }
+  h1 {
+    font-size: var(--type-h1-size);
+    line-height: var(--type-h1-lh);
+    letter-spacing: var(--type-h1-ls);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  h2 {
+    font-size: var(--type-h2-size);
+    line-height: var(--type-h2-lh);
+    letter-spacing: var(--type-h2-ls);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  h3 {
+    font-size: var(--type-h3-size);
+    line-height: var(--type-h3-lh);
+    letter-spacing: var(--type-h3-ls);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  h4 {
+    font-size: var(--type-h4-size);
+    line-height: var(--type-h4-lh);
+    letter-spacing: var(--type-h4-ls);
+    font-weight: 400;
+  }
+  h5 {
+    font-size: var(--type-h5-size);
+    line-height: var(--type-h5-lh);
+    letter-spacing: var(--type-h5-ls);
+    font-weight: 400;
+  }
+  h6 {
+    font-size: var(--type-h6-size);
+    line-height: var(--type-h6-lh);
+    letter-spacing: var(--type-h6-ls);
+    font-weight: 400;
+  }
+  small {
+    font-size: 0.75rem;
+    line-height: 1.125rem;
+    letter-spacing: 0em;
+    font-weight: 400;
+  }
 
   :focus-visible {
     outline: 2px solid var(--ring);
@@ -432,27 +480,17 @@
   }
 }
 
-@utility font-hkg {
+.font-hkg {
   font-family: var(--font-hkg);
   font-weight: 900;
   font-style: normal;
 }
 
-@utility font-archivo-black {
+.font-archivo-black {
   font-family: var(--font-archivo-black);
   font-weight: 400;
   font-style: normal;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
