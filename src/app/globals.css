@@ -531,6 +531,39 @@
   }
 }
 
+/* ---------- Grain texture ----------
+   A fixed, click-through film-grain layer over the whole site. The noise is
+   an inline SVG (fractal turbulence → alpha), tiled at 240px so it is
+   rasterised once. Dark mode uses light specks, light mode dark specks.
+   Tune strength with --grain-opacity. */
+:root,
+[data-theme="light"] {
+  --grain-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  2.2 0 0 0 -0.75'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-opacity: 0.11;
+}
+[data-theme="dark"] {
+  --grain-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  2.2 0 0 0 -0.75'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-opacity: 0.16;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 10000; /* above content, header and the intro overlay */
+  pointer-events: none;
+  background-image: var(--grain-image);
+  background-repeat: repeat;
+  background-size: 240px 240px;
+  opacity: var(--grain-opacity);
+}
+
+@media print {
+  body::after {
+    display: none;
+  }
+}
+
 /* Keep in-page anchors (e.g. /#contact) clear of the fixed header. */
 html {
   scroll-padding-top: 5rem;
