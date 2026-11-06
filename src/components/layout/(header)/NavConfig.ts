@@ -144,7 +144,7 @@ export const navMenus: NavMenu[] = [
 ];
 
 export const navCta = {
-  label: "Start a project",
-  shortLabel: "Let's talk",
-  href: "/#contact",
+  label: "Book a free 20-min call",
+  shortLabel: "Book a call",
+  href: "/BookACall",
 };

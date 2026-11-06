@@ -178,7 +178,7 @@ export function Navigation() {
             <Link
               href={navCta.href}
               onClick={closeAll}
-              className="group inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-brand px-4 font-sans text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-brand-foreground transition-colors hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground sm:px-5"
+              className="group inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-accent-foreground px-4 font-sans text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-background transition-colors hover:bg-brand hover:text-brand-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground sm:px-5"
             >
               <span className="sm:hidden">{navCta.shortLabel}</span>
               <span className="hidden sm:inline">{navCta.label}</span>
