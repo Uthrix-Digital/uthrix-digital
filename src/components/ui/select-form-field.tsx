@@ -89,23 +89,23 @@ export interface SelectFormFieldProps {
 const triggerVariant: Record<SelectFormFieldVariant, string> = {
   default: "",
   error: [
-    "border-[--color-field-error]",
-    "ring-3 ring-[--color-field-error]/15",
-    "focus-visible:border-[--color-field-error]",
-    "focus-visible:ring-[--color-field-error]/15",
+    "border-field-error",
+    "ring-3 ring-field-error/15",
+    "focus-visible:border-field-error",
+    "focus-visible:ring-field-error/15",
   ].join(" "),
   success: [
-    "border-[--color-field-success]",
-    "ring-3 ring-[--color-field-success]/15",
-    "focus-visible:border-[--color-field-success]",
-    "focus-visible:ring-[--color-field-success]/15",
+    "border-field-success",
+    "ring-3 ring-field-success/15",
+    "focus-visible:border-field-success",
+    "focus-visible:ring-field-success/15",
   ].join(" "),
 }
 
 const helperVariant: Record<SelectFormFieldVariant, string> = {
   default: "text-muted-foreground",
-  error: "text-[--color-field-error]",
-  success: "text-[--color-field-success]",
+  error: "text-field-error",
+  success: "text-field-success",
 }
 
 // ─── Status icon ──────────────────────────────────────────────────────────────
@@ -114,8 +114,8 @@ function StatusIcon({ variant }: { variant: "error" | "success" }) {
   const Icon = variant === "error" ? AlertCircle : CheckCircle2
   const colorClass =
     variant === "error"
-      ? "text-[--color-field-error]"
-      : "text-[--color-field-success]"
+      ? "text-field-error"
+      : "text-field-success"
 
   return (
     <Icon
@@ -157,7 +157,7 @@ export function SelectFormField({
         >
           {label}
           {required && (
-            <span aria-hidden="true" className="ml-1 text-[--color-field-error]">
+            <span aria-hidden="true" className="ml-1 text-field-error">
               *
             </span>
           )}

@@ -89,26 +89,26 @@ const VARIANT_STYLES = {
   control: {
     default: "",
     error: [
-      "border-[--color-field-error]",
-      "ring-3 ring-[--color-field-error]/15",
-      "focus-visible:border-[--color-field-error]",
-      "focus-visible:ring-[--color-field-error]/15",
+      "border-field-error",
+      "ring-3 ring-field-error/15",
+      "focus-visible:border-field-error",
+      "focus-visible:ring-field-error/15",
     ].join(" "),
     success: [
-      "border-[--color-field-success]",
-      "ring-3 ring-[--color-field-success]/15",
-      "focus-visible:border-[--color-field-success]",
-      "focus-visible:ring-[--color-field-success]/15",
+      "border-field-success",
+      "ring-3 ring-field-success/15",
+      "focus-visible:border-field-success",
+      "focus-visible:ring-field-success/15",
     ].join(" "),
   },
   helper: {
     default: "text-muted-foreground",
-    error: "text-[--color-field-error]",
-    success: "text-[--color-field-success]",
+    error: "text-field-error",
+    success: "text-field-success",
   },
   icon: {
-    error: "text-[--color-field-error]",
-    success: "text-[--color-field-success]",
+    error: "text-field-error",
+    success: "text-field-success",
   },
 } as const
 

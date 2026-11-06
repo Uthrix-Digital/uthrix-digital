@@ -23,8 +23,8 @@ export function AnimatedBackground() {
       <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
         <div className="absolute inset-0" style={{
           backgroundImage: `
-            linear-gradient(to right, #D1001F 1px, transparent 1px),
-            linear-gradient(to bottom, #D1001F 1px, transparent 1px)
+            linear-gradient(to right, var(--brand) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--brand) 1px, transparent 1px)
           `,
           backgroundSize: '4rem 4rem',
         }} />

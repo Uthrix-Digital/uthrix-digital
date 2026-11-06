@@ -63,7 +63,7 @@ export function ScrollToTopButton() {
                 stroke="currentColor"
                 strokeWidth="3"
                 fill="none"
-                className="text-gray-300 dark:text-gray-700"
+                className="text-foreground/15"
               />
               {/* Progress circle */}
               <motion.circle
@@ -93,7 +93,7 @@ export function ScrollToTopButton() {
                     ease: "easeInOut"
                   }}
                 >
-                  <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
+                  <ArrowUp className="w-5 h-5 text-primary-foreground" strokeWidth={2.5} />
                 </motion.div>
               </div>
             </div>
@@ -103,10 +103,10 @@ export function ScrollToTopButton() {
           <motion.div
             initial={{ opacity: 0, x: 10 }}
             whileHover={{ opacity: 1, x: 0 }}
-            className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-[#141414] dark:bg-white text-white dark:text-[#0a0a0a] text-sm font-medium rounded-lg whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+            className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-foreground text-background text-sm font-medium rounded-lg whitespace-nowrap pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200"
           >
             Back to top
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 rotate-45 w-2 h-2 bg-[#141414] dark:bg-white"></div>
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 rotate-45 w-2 h-2 bg-foreground"></div>
           </motion.div>
         </motion.button>
       )}

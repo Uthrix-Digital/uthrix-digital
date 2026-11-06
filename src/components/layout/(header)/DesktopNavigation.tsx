@@ -78,10 +78,10 @@ export function DesktopNavigation({
                   }
                   pointerTypeRef.current = "";
                 }}
-                className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-sm px-2.5 py-2 font-sans text-[0.72rem] font-extrabold uppercase tracking-[0.14em] transition-colors duration-200 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
+                className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-sm px-2.5 py-2 font-sans text-[0.72rem] font-extrabold uppercase tracking-[0.14em] transition-colors duration-200 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
                   isOpen
-                    ? "text-white"
-                    : "text-white/70 group-data-[has-open=true]/triggers:text-white/40"
+                    ? "text-foreground"
+                    : "text-foreground/70 group-data-[has-open=true]/triggers:text-foreground/50"
                 }`}
               >
                 {menu.label}
@@ -100,7 +100,7 @@ export function DesktopNavigation({
       <div
         ref={panelRef}
         data-open={openMenu !== null}
-        className="nav-panel absolute inset-x-0 top-full hidden overflow-hidden border-b border-transparent bg-[#0b0b0b] data-[open=true]:border-white/10 lg:block"
+        className="nav-panel absolute inset-x-0 top-full hidden overflow-hidden border-b border-transparent bg-surface-overlay data-[open=true]:border-border lg:block"
         style={{ height: 0 }}
       >
         {navMenus.map((menu) => (
@@ -165,7 +165,7 @@ function MegaMenuContent({
                   onClick={onNavigate}
                   onMouseEnter={() => setHovered(index)}
                   onFocus={() => setHovered(index)}
-                  className="group/link inline-flex items-center gap-[0.6rem] py-[0.2rem] font-archivo-black text-[clamp(1.6rem,2.4vw,2.4rem)] uppercase leading-[1.05] tracking-[-0.04em] text-white transition-colors duration-200 group-hover/links:text-white/30 hover:text-brand! focus-visible:text-brand! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
+                  className="group/link inline-flex items-center gap-[0.6rem] py-[0.2rem] font-archivo-black text-[clamp(1.6rem,2.4vw,2.4rem)] uppercase leading-[1.05] tracking-[-0.04em] text-foreground transition-colors duration-200 group-hover/links:text-foreground/30 hover:text-brand! focus-visible:text-brand! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
                 >
                   <span>{item.label}</span>
                   <ArrowRight
@@ -178,20 +178,20 @@ function MegaMenuContent({
           </ul>
         </div>
 
-        <div className="border-l border-white/10 pl-10">
+        <div className="border-l border-border pl-10">
           <p className="nav-panel-label">{menu.eyebrow}</p>
-          <p className="mt-5 max-w-sm font-archivo-black text-xl uppercase leading-[1.05] tracking-[-0.03em] text-white">
+          <p className="mt-5 max-w-sm font-archivo-black text-xl uppercase leading-[1.05] tracking-[-0.03em] text-foreground">
             {menu.title}
           </p>
           <p
             key={detail}
-            className="nav-panel-detail mt-4 max-w-sm font-sans text-sm leading-6 text-white/60"
+            className="nav-panel-detail mt-4 max-w-sm font-sans text-sm leading-6 text-muted-foreground"
           >
             {detail}
           </p>
 
           {menu.showSocials && (
-            <div className="mt-8 border-t border-white/10 pt-8">
+            <div className="mt-8 border-t border-border pt-8">
               <p className="nav-panel-label">Follow UthriX</p>
               <SocialLinks className="mt-5" />
             </div>

@@ -1,11 +1,9 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { useTheme } from '@/hooks/useTheme';
 
 const WhatsAppButton: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const { theme } = useTheme();
 
   // Your WhatsApp number (include country code without + or 00)
   const whatsappNumber = '94786733516'; // Replace with your actual number
@@ -46,11 +44,7 @@ const WhatsAppButton: React.FC = () => {
     >
       <button
         onClick={handleWhatsAppClick}
-        className={`w-full max-w-xs mx-auto font-medium py-3.5 px-6 rounded-xl backdrop-blur-md border flex items-center justify-center gap-3 active:scale-95 transition-all duration-200 ${
-          theme === 'dark'
-            ? 'bg-white/10 border-white/20 text-white shadow-lg shadow-black/20'
-            : 'bg-black/5 border-black/10 text-[#0a0a0a] shadow-lg shadow-black/5'
-        }`}
+        className="w-full max-w-xs mx-auto font-medium py-3.5 px-6 rounded-xl backdrop-blur-md border flex items-center justify-center gap-3 active:scale-95 transition-all duration-200 bg-foreground/5 border-foreground/10 text-foreground shadow-lg shadow-black/5 dark:bg-foreground/10 dark:border-foreground/20 dark:shadow-black/20"
         aria-label="Chat on WhatsApp"
       >
         {/* WhatsApp Icon */}

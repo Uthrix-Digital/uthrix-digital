@@ -67,10 +67,10 @@ export function GrowthPathMap() {
       {/* ── Controls ─────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="text-xl font-semibold tracking-[-0.03em] text-white sm:text-2xl">
+          <p className="text-xl font-semibold tracking-[-0.03em] text-foreground sm:text-2xl">
             Choose your starting point
           </p>
-          <p className="mt-1 text-base text-white">
+          <p className="mt-1 text-base text-foreground">
             {mode === "single"
               ? "Pick the one area you want to start with."
               : "Pick every activity you want to combine."}
@@ -89,14 +89,14 @@ export function GrowthPathMap() {
             <TabsList variant="line" className="gap-3">
               <TabsTrigger
                 value="single"
-                className="h-12 px-2 text-base text-white! hover:text-white! data-active:text-white!"
+                className="h-12 px-2 text-base text-foreground! hover:text-foreground! data-active:text-foreground!"
               >
                 One Area
               </TabsTrigger>
 
               <TabsTrigger
                 value="combined"
-                className="h-12 px-2 text-base text-white! hover:text-white! data-active:text-white!"
+                className="h-12 px-2 text-base text-foreground! hover:text-foreground! data-active:text-foreground!"
               >
                 Combined activities
               </TabsTrigger>
@@ -109,14 +109,14 @@ export function GrowthPathMap() {
                 initial={{ opacity: 0, x: -6 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -6 }}
-                className="flex items-center gap-2 text-sm text-white/60"
+                className="flex items-center gap-2 text-sm text-muted-foreground"
               >
                 <span>{selectedCount} selected</span>
-                <span className="text-white/30">·</span>
+                <span className="text-foreground/30">·</span>
                 <button
                   type="button"
                   onClick={() => setMask(0)}
-                  className="underline underline-offset-2 transition-colors hover:text-white"
+                  className="underline underline-offset-2 transition-colors hover:text-foreground"
                 >
                   Clear
                 </button>
@@ -136,7 +136,7 @@ export function GrowthPathMap() {
       {/* ── Sticky summary dock ──────────────────────────────────────── */}
       <aside
         aria-label="Your selected path"
-        className="sticky bottom-4 z-30 rounded-3xl border border-white/10 bg-[#111113]/90 p-5 text-white shadow-[0_24px_70px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:p-6"
+        className="sticky bottom-4 z-30 rounded-3xl border border-border bg-surface-raised/90 p-5 text-foreground shadow-dock backdrop-blur-xl sm:p-6"
       >
         <ol className="mb-6 flex flex-wrap items-center gap-2 text-sm font-archivo-black sm:mb-10 sm:gap-12 sm:text-2xl lg:mb-14 lg:justify-center lg:text-3xl">
           {PHASES.map((phase, index) => {
@@ -146,13 +146,13 @@ export function GrowthPathMap() {
                 <span
                   className={`flex items-center gap-1 rounded-full border px-2 py-1 transition-all duration-300 sm:gap-2 sm:px-3 sm:py-1.5 ${
                     active
-                      ? "border-brand bg-vrand font-archivo-black text-white"
-                      : "border-white text-white"
+                      ? "border-brand font-archivo-black text-foreground"
+                      : "border-foreground text-foreground"
                   }`}
                 >
                   <span
                     className={`size-3 rounded-full transition-colors sm:size-6 ${
-                      active ? "bg-[#ff1f28]" : "bg-white"
+                      active ? "bg-brand-bright" : "bg-foreground"
                     }`}
                   />
                   {phase.label}
@@ -162,8 +162,8 @@ export function GrowthPathMap() {
                     aria-hidden="true"
                     className={`hidden h-px w-3 sm:block sm:w-5 ${
                       active && phases.includes(PHASES[index + 1].id)
-                        ? "bg-[#ff1f28]"
-                        : "bg-white/15"
+                        ? "bg-brand-bright"
+                        : "bg-foreground/15"
                     }`}
                   />
                 )}
@@ -186,11 +186,11 @@ export function GrowthPathMap() {
                   type="button"
                   onClick={() => handleNudgeAdd(nudge.addBit)}
                   title={nudge.message}
-                  className="flex items-center gap-1.5 rounded-full border border-[#c1121f]/50 bg-[#c1121f]/10 px-4 py-2 text-sm text-red-200 transition-colors hover:border-[#c1121f] hover:bg-[#c1121f]/20 hover:text-white"
+                  className="flex items-center gap-1.5 rounded-full border border-brand/50 bg-brand/10 px-4 py-2 text-sm text-brand-text transition-colors hover:border-brand hover:bg-brand/20 hover:text-foreground"
                 >
-                  <span className="text-brand" aria-hidden="true">↗</span>
+                  <span className="text-brand-text" aria-hidden="true">↗</span>
                   {nudge.addLabel}
-                  <span className="hidden text-red-200/60 md:inline">
+                  <span className="hidden text-foreground/65 md:inline">
                     — {nudge.message}
                   </span>
                 </button>
@@ -217,7 +217,7 @@ export function GrowthPathMap() {
                   {resolved.selectedNodes.map((node) => (
                     <span
                       key={node.bit}
-                      className="rounded-full bg-white/10 px-3 py-1 text-sm text-white/75"
+                      className="rounded-full bg-foreground/10 px-3 py-1 text-sm text-foreground/80"
                     >
                       {node.label}
                     </span>
@@ -227,7 +227,7 @@ export function GrowthPathMap() {
 
               <Link
                 href={destinationHref ?? "/ConnetMainDots"}
-                className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3 text-base font-semibold text-black transition-colors hover:bg-[#c1121f] hover:text-white"
+                className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-foreground px-6 py-3 text-base font-semibold text-background transition-colors hover:bg-brand hover:text-brand-foreground"
               >
                 Start with this path
                 <span aria-hidden="true">→</span>
@@ -246,7 +246,7 @@ export function GrowthPathMap() {
                 <p className="text-lg font-semibold tracking-[-0.02em] sm:text-xl">
                   A few actions. A shared direction.
                 </p>
-                <p className="mt-1 text-base leading-relaxed text-white/65">
+                <p className="mt-1 text-base leading-relaxed text-foreground/70">
                   Content builds interest. The website helps lead to a
                   conversation. Each element has its own purpose.
                 </p>
@@ -255,7 +255,7 @@ export function GrowthPathMap() {
                 href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hi! I'd like to discuss the scope of a project.")}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex w-fit shrink-0 items-center justify-center rounded-full border border-white/25 px-6 py-3 text-base font-semibold text-white transition-colors hover:border-white hover:bg-white hover:text-black"
+                className="inline-flex w-fit shrink-0 items-center justify-center rounded-full border border-foreground/25 px-6 py-3 text-base font-semibold text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
               >
                 Let&apos;s discuss the scope.
               </a>

@@ -12,22 +12,22 @@ export function GrowthPathDestination({
   services,
 }: GrowthPathDestinationProps) {
   return (
-    <main className="min-h-screen bg-foreground px-6 py-32 text-white lg:px-12">
+    <main className="min-h-screen bg-background px-6 py-32 text-foreground lg:px-12">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-8">
         <Link
           href="/ConnetMainDots"
-          className="w-fit text-sm text-white/60 transition-colors hover:text-white"
+          className="w-fit text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           ← Back to growth paths
         </Link>
         <div className="max-w-3xl">
-          <p className="mb-4 text-sm uppercase tracking-[0.2em] text-brand">
+          <p className="mb-4 text-sm uppercase tracking-[0.2em] text-brand-text">
             Your selected path
           </p>
           <h1 className="font-archivo-black text-5xl leading-[0.95] tracking-tighter sm:text-8xl">
             {title}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-foreground/75">
             {description}
           </p>
         </div>
@@ -35,7 +35,7 @@ export function GrowthPathDestination({
           {services.map((service) => (
             <span
               key={service}
-              className="rounded-full bg-white/10 px-4 py-2 text-sm text-white/80"
+              className="rounded-full bg-foreground/10 px-4 py-2 text-sm text-foreground/80"
             >
               {service}
             </span>

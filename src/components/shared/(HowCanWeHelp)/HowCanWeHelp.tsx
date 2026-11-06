@@ -62,7 +62,7 @@ export function HowCanWeHelp() {
     <section
       id="services"
       aria-labelledby="how-can-we-help-title"
-      className="bg-[#111113] text-white"
+      className="bg-surface-raised text-foreground"
     >
       <div className="mx-auto w-full max-w-[100rem] px-[clamp(1.25rem,5vw,5rem)] py-[clamp(3rem,8vw,10rem)]">
         <div className="mb-[clamp(3.5rem,8vw,6.5rem)] grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(16rem,0.9fr)] lg:gap-16">
@@ -84,29 +84,29 @@ export function HowCanWeHelp() {
           {services.map((service, index) => (
             <AccordionItem key={service.title} value={service.title}>
               <AccordionHeader>
-                <AccordionTrigger className="flex w-full items-center gap-4 py-5 text-left transition-colors hover:text-white/70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:py-6 lg:grid lg:grid-cols-[1.5rem_minmax(0,1.2fr)_minmax(15rem,0.8fr)_2rem] lg:items-center lg:gap-7">
-                  <span className="shrink-0 font-mono text-[0.6rem] text-white/45 sm:text-xs">
+                <AccordionTrigger className="flex w-full items-center gap-4 py-5 text-left transition-colors hover:text-foreground/70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring sm:py-6 lg:grid lg:grid-cols-[1.5rem_minmax(0,1.2fr)_minmax(15rem,0.8fr)_2rem] lg:items-center lg:gap-7">
+                  <span className="shrink-0 font-mono text-[0.6rem] text-muted-foreground sm:text-xs">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="min-w-0 flex-1 text-[clamp(1.1rem,2.4vw,2.75rem)] font-semibold tracking-[-0.035em]">
                     {service.title}
                   </span>
-                  <span className="hidden text-[clamp(1.1rem,2.4vw,1.5rem)] leading-[1.35] text-white/55 lg:block">
+                  <span className="hidden text-[clamp(1.1rem,2.4vw,1.5rem)] leading-[1.35] text-muted-foreground lg:block">
                     {service.description}
                   </span>
-                  <span className="flex size-5 shrink-0 items-center justify-center rounded-full border border-white/35 text-white/75 transition-colors group-hover:border-white group-hover:text-white sm:size-6">
+                  <span className="flex size-5 shrink-0 items-center justify-center rounded-full border border-border-strong text-foreground/75 transition-colors group-hover:border-foreground group-hover:text-foreground sm:size-6">
                     <Plus className="size-3.5 transition-transform duration-300 group-data-panel-open:rotate-45 sm:size-4" />
                   </span>
                 </AccordionTrigger>
               </AccordionHeader>
               <AccordionPanel>
-                <div className="grid gap-3 pb-6 pl-9 pr-10 leading-relaxed text-white/70ashi sm:pl-10 lg:hidden">
+                <div className="grid gap-3 pb-6 pl-9 pr-10 leading-relaxed text-foreground/75 sm:pl-10 lg:hidden">
                   <p className="text-[0.95rem]">{service.description}</p>
-                  <p className="text-[0.8rem] text-brand/90">
+                  <p className="text-[0.8rem] text-brand-text">
                     {service.details}
                   </p>
                 </div>
-                <p className="hidden pb-6 pl-15 text-[clamp(1.1rem,2.4vw,1.25rem)] leading-relaxed text-brand lg:block">
+                <p className="hidden pb-6 pl-15 text-[clamp(1.1rem,2.4vw,1.25rem)] leading-relaxed text-brand-text lg:block">
                   {service.details}
                 </p>
               </AccordionPanel>

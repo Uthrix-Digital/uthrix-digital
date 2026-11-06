@@ -28,12 +28,12 @@ export interface OrbitDotsProps extends Omit<
 
 export const defaultOrbitDotsContent: OrbitDotsContent = {
   dots: [
-    { className: "left-[16%] top-[23%] size-2 bg-white/80" },
-    { className: "left-[38%] top-[12%] size-1.5 bg-black/35" },
-    { className: "right-[20%] top-[20%] size-2 bg-white/75" },
-    { className: "right-[12%] top-[42%] size-1.5 bg-black/35" },
-    { className: "left-[23%] bottom-[23%] size-1.5 bg-black/35" },
-    { className: "right-[22%] bottom-[18%] size-2 bg-white/70" },
+    { className: "left-[16%] top-[23%] size-2 bg-foreground/80" },
+    { className: "left-[38%] top-[12%] size-1.5 bg-foreground/35" },
+    { className: "right-[20%] top-[20%] size-2 bg-foreground/75" },
+    { className: "right-[12%] top-[42%] size-1.5 bg-foreground/35" },
+    { className: "left-[23%] bottom-[23%] size-1.5 bg-foreground/35" },
+    { className: "right-[22%] bottom-[18%] size-2 bg-foreground/70" },
   ],
   href: "/ConnetMainDots",
   linkLabel: "View our brand identity services",
@@ -110,8 +110,8 @@ export function OrbitDotRed({
   /* ───────────────────── NODE: a round orbit dot with a label above it ── */
   if (variant === "node") {
     const ring = selected
-      ? "border-[#ff1f28]/70"
-      : "border-white/10 group-hover:border-[#ff1f28]/50";
+      ? "border-brand-bright/70"
+      : "border-border group-hover:border-brand-bright/50";
 
     return (
       <span
@@ -123,13 +123,13 @@ export function OrbitDotRed({
         <OrbitRing
           inset="12%"
           ringClass={ring}
-          dotClass="bg-white"
+          dotClass="bg-foreground"
           dotSize="size-1.5"
         />
 
         <span
           className={`absolute left-1/2 top-full z-10 mt-4 flex w-[calc(100vw-2rem)] max-w-[20rem] -translate-x-1/2 flex-col items-center text-center lg:mt-5 lg:w-[min(38vw,24rem)] lg:max-w-full ${
-            selected ? "text-white" : "text-[#f1f2f5]"
+            selected ? "text-foreground" : "text-foreground/90"
           }`}
         >
           <span className="block w-full font-archivo-black text-[clamp(1.15rem,6vw,2rem)] font-semibold leading-[0.9] tracking-[-0.04em] lg:text-[clamp(1.75rem,3.8vw,3rem)]">
@@ -140,8 +140,8 @@ export function OrbitDotRed({
         <span
           className={`absolute inset-[20%] flex items-center justify-center rounded-full ${
             selected
-              ? "bg-[#ff1f28] text-white shadow-[0_0_70px_rgba(255,31,40,0.55)]"
-              : "border border-white/15 bg-[#0d0e12] text-[#f1f2f5] group-hover:border-[#ff1f28]"
+              ? "bg-brand-bright text-brand-foreground shadow-glow"
+              : "border border-foreground/15 bg-card text-card-foreground group-hover:border-brand-bright"
           }`}
         >
           <ArrowUpRight
@@ -161,26 +161,26 @@ export function OrbitDotRed({
     >
       <div
         aria-hidden="true"
-        className="absolute inset-[8%] rounded-full border border-white/10"
+        className="absolute inset-[8%] rounded-full border border-border"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-[18%] rounded-full border border-white/10"
+        className="absolute inset-[18%] rounded-full border border-border"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-[28%] rounded-full border border-white/10"
+        className="absolute inset-[28%] rounded-full border border-border"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-[38%] rounded-full border border-white/10"
+        className="absolute inset-[38%] rounded-full border border-border"
       />
 
       <div aria-hidden="true" className="absolute inset-0 rotate-[-18deg]">
-        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 bg-white/10" />
-        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-90 bg-white/10" />
-        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-45 bg-white/10" />
-        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-45 bg-white/10" />
+        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 bg-border" />
+        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-90 bg-border" />
+        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-45 bg-border" />
+        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-45 bg-border" />
       </div>
 
       <div aria-hidden="true">
@@ -195,7 +195,7 @@ export function OrbitDotRed({
       <Link
         href={href}
         aria-label={linkLabel}
-        className="absolute left-1/2 top-1/2 flex size-[clamp(8.5rem,20vw,12rem)] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-brand text-white transition-transform duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#ff302f]"
+        className="absolute left-1/2 top-1/2 flex size-[clamp(8.5rem,20vw,12rem)] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-brand text-brand-foreground transition-transform duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
       >
         <ArrowUpRight
           aria-hidden="true"

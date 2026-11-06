@@ -37,7 +37,7 @@ export function SocialLinks({ className = "" }: { className?: string }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`UthriX Digital on ${labels[key]}`}
-            className="inline-flex size-11 items-center justify-center rounded-full border border-white/15 text-white/80 transition-colors duration-200 hover:border-brand hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            className="inline-flex size-11 items-center justify-center rounded-full border border-foreground/15 text-foreground/80 transition-colors duration-200 hover:border-brand hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             <svg viewBox="0 0 24 24" fill="currentColor" className="size-4" aria-hidden="true">
               {icons[key]}

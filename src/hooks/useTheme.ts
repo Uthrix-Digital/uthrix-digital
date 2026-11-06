@@ -1,41 +1,22 @@
-import { useState, useEffect } from 'react';
+"use client";
 
-type Theme = 'light' | 'dark';
+import { useContext } from "react";
+import {
+  ThemeContext,
+  type ThemeContextValue,
+} from "@/components/shared/ThemeProvider";
 
-interface UseThemeReturn {
-  theme: Theme;
-  toggleTheme: () => void;
-  setTheme: (theme: Theme) => void;
+/**
+ * Read and change the site theme. Must be used inside <ThemeProvider>.
+ *
+ * For purely visual differences prefer the `dark:` variant or semantic colour
+ * tokens over branching on `resolvedTheme` — CSS is correct on first paint,
+ * whereas `resolvedTheme` is `undefined` until hydration.
+ */
+export function useTheme(): ThemeContextValue {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error("useTheme must be used within <ThemeProvider>.");
+  }
+  return context;
 }
-
-export const useTheme = (): UseThemeReturn => {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    // Check localStorage first
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('theme') as Theme | null;
-      if (stored === 'light' || stored === 'dark') return stored;
-
-      // Fall back to system preference
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-      }
-    }
-    return 'light';
-  });
-
-  useEffect(() => {
-    const root = document.documentElement;
-    root.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-  };
-
-  const toggleTheme = () => {
-    setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-  return { theme, toggleTheme, setTheme };
-};

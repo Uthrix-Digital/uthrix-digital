@@ -9,6 +9,7 @@ import { ArrowRight } from "lucide-react";
 import { navCta } from "./NavConfig";
 import { DesktopNavigation } from "./DesktopNavigation";
 import { MobileMenuButton, MobileNavigation } from "./MobileNavigation";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -101,9 +102,9 @@ export function Navigation() {
   }
 
   const headerSurface = isAnyOpen
-    ? "border-white/10 bg-[#0b0b0b] duration-200"
+    ? "border-border bg-surface-overlay duration-200"
     : isScrolled
-      ? "border-white/10 bg-[#0b0b0b]/75 shadow-[0_1px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl duration-500"
+      ? "border-border bg-surface-overlay/75 shadow-header backdrop-blur-xl duration-500"
       : "border-transparent bg-transparent duration-500";
 
   return (
@@ -112,7 +113,7 @@ export function Navigation() {
       <div
         aria-hidden="true"
         onClick={closeAll}
-        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px] transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 bg-scrim backdrop-blur-[2px] transition-opacity duration-300 ${
           isAnyOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       />
@@ -125,7 +126,7 @@ export function Navigation() {
         onPointerLeave={(event) => {
           if (isMouse(event)) closeOnLeave();
         }}
-        className={`fixed inset-x-0 top-0 z-50 border-b text-white transition-[background-color,border-color,box-shadow] ${headerSurface}`}
+        className={`fixed inset-x-0 top-0 z-50 border-b text-foreground transition-[background-color,border-color,box-shadow] ${headerSurface}`}
       >
         <nav
           aria-label="Main"
@@ -137,13 +138,22 @@ export function Navigation() {
             onClick={closeAll}
             className="relative block h-9 w-24 shrink-0 transition-opacity hover:opacity-80 sm:h-10 sm:w-28"
           >
+            {/* Both logos are rendered; CSS picks one so it's right on first paint. */}
+            <Image
+              src="/assets/images/logoBlack.svg"
+              alt="UthriX Digital"
+              fill
+              priority
+              sizes="112px"
+              className="object-contain object-left dark:hidden"
+            />
             <Image
               src="/assets/images/logoWhite.svg"
               alt="UthriX Digital"
               fill
               priority
               sizes="112px"
-              className="object-contain object-left"
+              className="hidden object-contain object-left dark:block"
             />
           </Link>
 
@@ -168,7 +178,7 @@ export function Navigation() {
             <Link
               href={navCta.href}
               onClick={closeAll}
-              className="group inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-brand px-4 font-sans text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#e00303] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:px-5"
+              className="group inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-brand px-4 font-sans text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-brand-foreground transition-colors hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground sm:px-5"
             >
               <span className="sm:hidden">{navCta.shortLabel}</span>
               <span className="hidden sm:inline">{navCta.label}</span>
@@ -177,6 +187,8 @@ export function Navigation() {
                 className="size-3.5 transition-transform group-hover:translate-x-0.5"
               />
             </Link>
+
+            <ThemeToggle />
 
             <MobileMenuButton
               isOpen={isMobileOpen}

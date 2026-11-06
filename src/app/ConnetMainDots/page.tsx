@@ -20,7 +20,7 @@ const fadeUp: Variants = {
 };
 export default function ConnectDots() {
   return (
-    <div className="relative min-h-screen bg-foreground text-white transition-colors duration-300">
+    <div className="relative min-h-screen bg-background text-foreground transition-colors duration-300">
       <div className="mx-auto flex w-full max-w-none px-4 pb-16 pt-32 sm:px-6 sm:pb-20 lg:px-12 lg:pt-38">
         <motion.div
           variants={stagger}
@@ -40,7 +40,7 @@ export default function ConnectDots() {
             <Suspense
                 fallback={
                   <div
-                    className="min-h-130 w-full animate-pulse rounded-2xl bg-black/3"
+                    className="min-h-130 w-full animate-pulse rounded-2xl bg-foreground/5"
                     aria-label="Loading growth path map"
                   />
                 }

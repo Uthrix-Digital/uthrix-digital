@@ -62,8 +62,8 @@ const buttonVariants = cva(
           "bg-foreground text-background",
           // ② hover — inversion: transparent bg, black border, black text
           "hover:bg-background hover:border-foreground hover:text-foreground",
-          // ③ pressed — deep charcoal (oklch ≈ #1a1a1a), resets border
-          "active:bg-[oklch(0.18_0_0)] active:text-background active:border-transparent",
+          // ③ pressed — foreground at 85 % (charcoal in light, soft white in dark)
+          "active:bg-foreground/85 active:text-background active:border-transparent",
           // ④ disabled — medium grey fill, white text (communicates state without opacity trick)
           "disabled:bg-muted-foreground disabled:text-background disabled:opacity-100",
         ],

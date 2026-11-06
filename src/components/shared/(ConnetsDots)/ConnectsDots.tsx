@@ -8,7 +8,7 @@ export function ConnectsDots() {
     <section
       id="contact"
       aria-labelledby="connects-dots-title"
-      className="relative isolate overflow-hidden bg-[#ff302f] text-[#111113]"
+      className="relative isolate overflow-hidden bg-brand-surface text-brand-surface-foreground"
     >
       <div className="mx-auto grid min-h-[min(100svh,58rem)] w-full max-w-[100rem] items-center gap-14 px-[clamp(1.25rem,5vw,5rem)] py-[clamp(4rem,9vw,8rem)] lg:grid-cols-[minmax(0,0.8fr)_minmax(24rem,1.2fr)] lg:gap-8">
         <div className="relative z-10 max-w-2xl">
@@ -24,7 +24,7 @@ export function ConnectsDots() {
             <br />
             connect
             <br />
-            dots<span className="text-white">.</span>
+            dots<span className="text-brand-foreground">.</span>
           </h2>
 
           <p className="mt-[clamp(2rem,4vw,3.5rem)] max-w-md text-[clamp(1.125rem,1.8vw,1.5rem)] leading-[1.45] tracking-tight">
@@ -34,7 +34,7 @@ export function ConnectsDots() {
 
           <Link
             href="mailto:contact@acme.com"
-            className="group mt-[clamp(2rem,5vw,4rem)] flex w-fit items-center gap-10 border-b border-[#111113]/60 pb-4 text-base font-semibold transition-colors hover:border-[#111113] sm:text-lg"
+            className="group mt-[clamp(2rem,5vw,4rem)] flex w-fit items-center gap-10 border-b border-brand-surface-foreground/60 pb-4 text-base font-semibold transition-colors hover:border-brand-surface-foreground sm:text-lg"
           >
             Let&apos;s talk about your company
             <ArrowUpRight
@@ -43,7 +43,7 @@ export function ConnectsDots() {
             />
           </Link>
 
-          <p className="mt-5 text-sm text-[#111113]/75">
+          <p className="mt-5 text-sm text-brand-surface-foreground/75">
             No strings attached. Just a chat first.
           </p>
         </div>

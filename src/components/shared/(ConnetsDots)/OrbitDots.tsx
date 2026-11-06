@@ -15,12 +15,12 @@ export interface OrbitDotsProps
 }
 
 const defaultDots: readonly OrbitDot[] = [
-  { className: "left-[16%] top-[23%] size-2 bg-white/80" },
-  { className: "left-[38%] top-[12%] size-1.5 bg-black/35" },
-  { className: "right-[20%] top-[20%] size-2 bg-white/75" },
-  { className: "right-[12%] top-[42%] size-1.5 bg-black/35" },
-  { className: "left-[23%] bottom-[23%] size-1.5 bg-black/35" },
-  { className: "right-[22%] bottom-[18%] size-2 bg-white/70" },
+  { className: "left-[16%] top-[23%] size-2 bg-brand-foreground/80" },
+  { className: "left-[38%] top-[12%] size-1.5 bg-brand-surface-foreground/35" },
+  { className: "right-[20%] top-[20%] size-2 bg-brand-foreground/75" },
+  { className: "right-[12%] top-[42%] size-1.5 bg-brand-surface-foreground/35" },
+  { className: "left-[23%] bottom-[23%] size-1.5 bg-brand-surface-foreground/35" },
+  { className: "right-[22%] bottom-[18%] size-2 bg-brand-foreground/70" },
 ];
 
 export function OrbitDots({
@@ -36,16 +36,16 @@ export function OrbitDots({
       className={`relative mx-auto aspect-square w-full max-w-[min(80vw,38rem)] lg:max-w-2xl ${className}`}
       {...props}
     >
-      <div aria-hidden="true" className="absolute inset-[8%] rounded-full border border-black/10" />
-      <div aria-hidden="true" className="absolute inset-[18%] rounded-full border border-black/10" />
-      <div aria-hidden="true" className="absolute inset-[28%] rounded-full border border-black/10" />
-      <div aria-hidden="true" className="absolute inset-[38%] rounded-full border border-black/10" />
+      <div aria-hidden="true" className="absolute inset-[8%] rounded-full border border-brand-surface-foreground/10" />
+      <div aria-hidden="true" className="absolute inset-[18%] rounded-full border border-brand-surface-foreground/10" />
+      <div aria-hidden="true" className="absolute inset-[28%] rounded-full border border-brand-surface-foreground/10" />
+      <div aria-hidden="true" className="absolute inset-[38%] rounded-full border border-brand-surface-foreground/10" />
 
       <div aria-hidden="true" className="absolute inset-0 rotate-[-18deg]">
-        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 bg-black/10" />
-        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-90 bg-black/10" />
-        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-45 bg-black/10" />
-        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-45 bg-black/10" />
+        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 bg-brand-surface-foreground/10" />
+        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-90 bg-brand-surface-foreground/10" />
+        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-45 bg-brand-surface-foreground/10" />
+        <div className="absolute left-1/2 top-1/2 h-[42%] w-px origin-top -translate-x-1/2 rotate-45 bg-brand-surface-foreground/10" />
       </div>
 
       <div aria-hidden="true">
@@ -60,7 +60,7 @@ export function OrbitDots({
       <Link
         href={href}
         aria-label={linkLabel}
-        className="absolute left-1/2 top-1/2 flex size-[clamp(8.5rem,20vw,12rem)] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#111113] text-white transition-transform duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#ff302f]"
+        className="absolute left-1/2 top-1/2 flex size-[clamp(8.5rem,20vw,12rem)] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-brand-surface-foreground text-brand-foreground transition-transform duration-300 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-foreground focus-visible:ring-offset-4 focus-visible:ring-offset-brand-surface"
       >
         <ArrowUpRight
           aria-hidden="true"

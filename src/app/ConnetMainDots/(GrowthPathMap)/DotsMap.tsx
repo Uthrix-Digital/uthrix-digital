@@ -15,8 +15,9 @@ interface DotsMapProps {
   onNodeClick: (bit: number) => void;
 }
 
-const RED = "#ff1f28";
-const IDLE_LINE = "#3a3f4b";
+// Theme tokens (see globals.css) so the lines follow light/dark mode.
+const RED = "var(--brand-bright)";
+const IDLE_LINE = "var(--track)";
 
 /**
  * Dashed line from a dot to the spine, as in the sketch:
@@ -60,22 +61,22 @@ function Connector({
           y1="50"
           x2="0"
           y2="85"
-          stroke={color}
           strokeWidth={selected ? 2 : 1.5}
           strokeDasharray="6 6"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
           className={selected ? "uthrix-dash-flow" : ""}
-          style={
-            selected
-              ? { filter: "drop-shadow(0 0 4px rgba(255,31,40,0.8))" }
-              : undefined
-          }
+          style={{
+            stroke: color,
+            filter: selected
+              ? "drop-shadow(0 0 4px rgba(255,31,40,0.8))"
+              : undefined,
+          }}
         />
       </svg>
       <span
         className={`absolute top-[85%] size-2.5 -translate-y-1/2 rounded-full transition-colors duration-500 ${junction} ${
-          selected ? "bg-[#ff1f28] shadow-[0_0_12px_#ff1f28]" : "bg-[#555b68]"
+          selected ? "bg-brand-bright shadow-glow-sm" : "bg-track-dot"
         }`}
       />
     </span>
@@ -93,11 +94,11 @@ export function DotsMap({ mask, hubLines, onNodeClick }: DotsMapProps) {
         aria-hidden="true"
         className="pointer-events-none flex flex-col items-center justify-center pb-8 sm:pb-2"
       >
-        <span className="tracking-[0.5em] text-white sm:text-1xl">
+        <span className="tracking-[0.5em] text-foreground sm:text-1xl">
           SCROLL DOWN
         </span>
 
-        <ArrowUpRight className="size-[clamp(2.5rem,6vw,3.5rem)] rotate-135 stroke-[2.5] text-white" />
+        <ArrowUpRight className="size-[clamp(2.5rem,6vw,3.5rem)] rotate-135 stroke-[2.5] text-foreground" />
       </div>
 
       {/* ── Journey: spine + zig-zag dots + goal ────────────────────── */}
@@ -112,7 +113,7 @@ export function DotsMap({ mask, hubLines, onNodeClick }: DotsMapProps) {
           }}
         >
           {hasSelection && (
-            <span className="uthrix-spine-pulse absolute left-1/2 size-2 -translate-x-1/2 rounded-full bg-white shadow-[0_0_12px_#fff]" />
+            <span className="uthrix-spine-pulse absolute left-1/2 size-2 -translate-x-1/2 rounded-full bg-foreground shadow-[0_0_12px_var(--foreground)]" />
           )}
         </div>
 
@@ -151,14 +152,14 @@ export function DotsMap({ mask, hubLines, onNodeClick }: DotsMapProps) {
                       event.stopPropagation();
                       onNodeClick(node.bit);
                     }}
-                    className="relative block size-36 shrink-0 rounded-full border-0 bg-transparent p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff1f28] focus-visible:ring-offset-4 focus-visible:ring-offset-[#090a0d] sm:size-44 lg:size-64"
+                    className="relative block size-36 shrink-0 rounded-full border-0 bg-transparent p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-bright focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:size-44 lg:size-64"
                   >
                     <OrbitDotRed
                       variant="node"
                       selected={isSelected}
                       dimmed={dimmed}
                       content={{
-                        dots: [{ className: "bg-[#ff1f28]" }],
+                        dots: [{ className: "bg-brand-bright" }],
                         href: node.route,
                         linkLabel: `Explore ${node.label}`,
                         caption: node.label,
@@ -187,8 +188,8 @@ export function DotsMap({ mask, hubLines, onNodeClick }: DotsMapProps) {
             <span
               className={`absolute left-0 top-0 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${
                 hasSelection
-                  ? "bg-[#ff1f28] shadow-[0_0_12px_#ff1f28]"
-                  : "bg-[#555b68]"
+                  ? "bg-brand-bright shadow-glow-sm"
+                  : "bg-track-dot"
               }`}
             />
           </span>
@@ -205,29 +206,29 @@ export function DotsMap({ mask, hubLines, onNodeClick }: DotsMapProps) {
             <OrbitRing
               inset="0%"
               ringClass={
-                hasSelection ? "border-[#ff1f28]/60" : "border-white/10"
+                hasSelection ? "border-brand-bright/60" : "border-border"
               }
-              dotClass={hasSelection ? "bg-white" : "bg-[#ff1f28]"}
+              dotClass={hasSelection ? "bg-foreground" : "bg-brand-bright"}
               dotSize="size-2.5"
             />
             <OrbitRing
               inset="8%"
               ringClass={
-                hasSelection ? "border-[#ff1f28]/60" : "border-white/10"
+                hasSelection ? "border-brand-bright/60" : "border-border"
               }
-              dotClass="bg-white/70"
+              dotClass="bg-foreground/70"
               dotSize="size-1.5"
               dotPosition="bottom"
             />
             <span
               className={`absolute inset-[16%] flex flex-col items-center justify-center rounded-full px-2 text-center transition-all duration-500 ${
                 hasSelection
-                  ? "bg-[#ff1f28] text-white shadow-[0_0_70px_rgba(255,31,40,0.55)]"
-                  : "border border-white/15 bg-[#0d0e12] text-[#f1f2f5]"
+                  ? "bg-brand text-brand-foreground shadow-glow"
+                  : "border border-foreground/15 bg-card text-card-foreground"
               }`}
             >
               {hasSelection && (
-                <span className="text-xs text-white/80">Your goal</span>
+                <span className="text-xs text-brand-foreground/90">Your goal</span>
               )}
               {hubLines.map((line, i) => (
                 <span
