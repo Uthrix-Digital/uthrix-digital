@@ -362,6 +362,86 @@
 
 
 
+/* ---------- Navigation mega menu ---------- */
+.nav-panel {
+  --ease-nav: cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    height 0.36s var(--ease-nav),
+    border-color 0.36s var(--ease-nav);
+}
+
+/* Every menu's content stays mounted so panels cross-fade when switching. */
+.nav-panel-content {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-0.5rem);
+  transition:
+    opacity 0.16s ease,
+    transform 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.16s;
+}
+.nav-panel-content[data-active="true"] {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.24s ease 60ms,
+    transform 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s;
+}
+.nav-panel-content[data-active="true"] .nav-panel-item {
+  animation: nav-link-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i) * 45ms + 40ms);
+}
+
+.nav-panel-label {
+  font-family: var(--font-robotomono), ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.46);
+}
+
+.nav-panel-detail {
+  animation: nav-detail-in 0.3s ease both;
+}
+
+.nav-mobile-menu:not([hidden]) {
+  animation: nav-menu-enter 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes nav-menu-enter {
+  from { opacity: 0; transform: translateY(-0.4rem); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes nav-link-in {
+  from { opacity: 0; transform: translateY(0.6rem); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes nav-detail-in {
+  from { opacity: 0; transform: translateY(0.25rem); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-panel,
+  .nav-panel-content,
+  .nav-panel-content[data-active="true"] {
+    transition: none;
+  }
+  .nav-mobile-menu:not([hidden]),
+  .nav-panel-content[data-active="true"] .nav-panel-item,
+  .nav-panel-detail {
+    animation: none;
+  }
+}
+
+/* Keep in-page anchors (e.g. /#contact) clear of the fixed header. */
+html {
+  scroll-padding-top: 5rem;
+}
+
 /* ---------- Intro ---------- */
 #intro-overlay {
   position: fixed;

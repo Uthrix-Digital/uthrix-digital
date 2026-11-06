@@ -51,8 +51,6 @@ export const metadata: Metadata = {
   description: siteConfig.description,
 };
 
-const introScript = `try{var d=document.documentElement;d.dataset.intro=sessionStorage.getItem("introSeen")==="1"?"seen":"playing";setTimeout(function(){d.dataset.intro="seen"},4500)}catch(e){}`;
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -61,7 +59,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   className={`${manrope.variable} ${hkg.variable} ${robotomono.variable} ${archivoBlack.variable} ${rogta.variable} h-full antialiased`}
 >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: introScript }} />
+        
       </head>
       <body className="min-h-full flex flex-col">
         <Intro />

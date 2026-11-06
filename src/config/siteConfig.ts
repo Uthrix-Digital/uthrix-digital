@@ -5,4 +5,11 @@ export const siteConfig = {
   whatsappNumber: "+9494728282122",
   whatsappLink: "https://wa.me/94728282122",
   email: "info@uthrix.com",
+  // TODO: replace the "#" placeholders with the real profile URLs.
+  socials: {
+    linkedin: "https://www.linkedin.com/company/uthrix/home/?viewAsMember=true",
+    facebook: "https://web.facebook.com/profile.php?id=61581276571721",
+    instagram: "#",
+    tiktok: "#",
+  },
 };

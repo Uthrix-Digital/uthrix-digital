@@ -2,183 +2,148 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  motion,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
-import { navLinks } from "./NavConfig";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useMotionValueEvent, useScroll } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { navCta } from "./NavConfig";
 import { DesktopNavigation } from "./DesktopNavigation";
-import { MobileNavigation } from "./MobileNavigation";
+import { MobileMenuButton, MobileNavigation } from "./MobileNavigation";
 
 export function Navigation() {
   const pathname = usePathname();
-  const router = useRouter();
+  const headerRef = useRef<HTMLElement>(null);
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
-  const [isSticky, setIsSticky] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const pendingScrollRef = useRef<string | null>(null);
+  // Close every menu when the route changes (render-phase reset, no effect).
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (pathname !== lastPathname) {
+    setLastPathname(pathname);
+    setOpenMenu(null);
+    setIsMobileOpen(false);
+  }
+
   const { scrollY } = useScroll();
-
-  useEffect(() => {
-    return scrollY.on("change", (value) => {
-      setIsSticky(value > 12);
-    });
-  }, [scrollY]);
-
-  const smoothProgress = useSpring(useTransform(scrollY, [0, 180], [0, 1]), {
-    stiffness: 140,
-    damping: 22,
-    mass: 0.9,
+  useMotionValueEvent(scrollY, "change", (value) => {
+    setIsScrolled(value > 12);
   });
 
-  const navOpacity = useTransform(smoothProgress, [0, 1], [0.94, 1]);
+  const isAnyOpen = openMenu !== null || isMobileOpen;
 
-  const scrollToElement = useCallback(
-    (sectionId: string) => {
-      const element = document.getElementById(sectionId);
-
-      if (!element) {
-        return;
-      }
-
-      const navbarHeight = isSticky ? 72 : 96;
-      const elementPosition =
-        element.getBoundingClientRect().top + window.scrollY - navbarHeight;
-
-      window.scrollTo({
-        top: elementPosition,
-        behavior: "smooth",
-      });
-    },
-    [isSticky],
-  );
-
-  const logoScale = useTransform(smoothProgress, [0, 1], [1, 0.9]);
-
+  // Escape and outside-click close the open menu.
   useEffect(() => {
-    if (pathname !== "/" || !pendingScrollRef.current) {
-      return;
-    }
+    if (!isAnyOpen) return;
 
-    const target = pendingScrollRef.current;
-    pendingScrollRef.current = null;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      const trigger = openMenu
+        ? document.getElementById(`nav-trigger-${openMenu}`)
+        : document.getElementById("mobile-menu-button");
+      setOpenMenu(null);
+      setIsMobileOpen(false);
+      trigger?.focus();
+    };
 
-    const frame = window.requestAnimationFrame(() => {
-      scrollToElement(target);
-    });
-
-    return () => window.cancelAnimationFrame(frame);
-  }, [pathname, scrollToElement]);
-
-  useEffect(() => {
-    const handleScrollSpy = () => {
-      const scrollPosition = window.scrollY + 150;
-
-      for (const link of navLinks) {
-        const section = document.getElementById(link.path);
-
-        if (!section) {
-          continue;
-        }
-
-        const sectionTop = section.offsetTop;
-        const sectionBottom = sectionTop + section.offsetHeight;
-
-        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-          setActiveSection(link.path);
-          break;
-        }
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) {
+        setOpenMenu(null);
+        setIsMobileOpen(false);
       }
     };
 
-    handleScrollSpy();
-    window.addEventListener("scroll", handleScrollSpy, { passive: true });
-
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("pointerdown", handlePointerDown);
     return () => {
-      window.removeEventListener("scroll", handleScrollSpy);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("pointerdown", handlePointerDown);
     };
-  }, []);
+  }, [isAnyOpen, openMenu]);
 
-  const scrollToSection = (sectionId: string) => {
-    setActiveSection(sectionId);
-    setIsMenuOpen(false);
-
-    if (pathname !== "/") {
-      pendingScrollRef.current = sectionId;
-      router.push("/");
-      return;
-    }
-
-    scrollToElement(sectionId);
-  };
-
-  const navigateTo = (path: string) => {
-    if (path.startsWith("/")) {
-      setIsMenuOpen(false);
-      router.push(path);
-      return;
-    }
-
-    scrollToSection(path);
+  const closeAll = () => {
+    setOpenMenu(null);
+    setIsMobileOpen(false);
   };
 
   if (pathname === "/careers") {
     return null;
   }
 
-  return (
-    <motion.header
-      initial={false}
-      style={{
-        opacity: navOpacity,
-      }}
-      className={`fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300 ${
-        isSticky
-          ? "border-b border-white/10 bg-[#0b0b0b]/90 backdrop-blur-xl"
-          : "bg-transparent"
-      }`}
-    >
-      <nav className="mx-auto flex h-[clamp(4.5rem,8vw,6.5rem)] w-full max-w-[100rem] items-center justify-between gap-6 px-[clamp(1.25rem,4vw,4rem)]">
-        <Link
-          href="/"
-          aria-label="Uthrix Digital home"
-          className="font-hkg text-[clamp(1.25rem,2vw,1.8rem)] font-black tracking-[-0.06em] text-white transition-opacity hover:opacity-75"
-          onClick={() => setIsMenuOpen(false)}
-        >
-          <motion.div
-                      style={{ scale: logoScale }}
-                      className="relative h-10 w-25 shrink-0 transition-transform duration-300 ease-out hover:scale-105 hover:-rotate-1 hover:drop-shadow-[0_8px_24px_rgba(0,0,0,0.2)] sm:h-12 sm:w-29"
-                    >
-                      <Image
-                        src="/assets/images/logoWhite.svg"
-                        alt="Uthrix Digital logo"
-                        fill
-                        priority
-                        sizes="(max-width: 540px) 100px, 156px"
-                        className="object-contain object-left"
-                      />
-                    </motion.div>
-        </Link>
+  const headerSurface = isAnyOpen
+    ? "border-white/10 bg-[#0b0b0b] duration-200"
+    : isScrolled
+      ? "border-white/10 bg-[#0b0b0b]/75 shadow-[0_1px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl duration-500"
+      : "border-transparent bg-transparent duration-500";
 
-        <MobileNavigation
-          isOpen={isMenuOpen}
-          activeSection={activeSection}
-          onToggle={() => setIsMenuOpen((open) => !open)}
-          onNavigate={navigateTo}
-          onContact={() => scrollToSection("contact")}
-        />
-        <DesktopNavigation
-          activeSection={activeSection}
-          onNavigate={navigateTo}
-          onContact={() => scrollToSection("contact")}
-        />
-      </nav>
-    </motion.header>
+  return (
+    <>
+      {/* Dim the page behind an open menu. */}
+      <div
+        aria-hidden="true"
+        onClick={closeAll}
+        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px] transition-opacity duration-300 ${
+          isAnyOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      />
+
+      <header
+        ref={headerRef}
+        className={`fixed inset-x-0 top-0 z-50 border-b text-white transition-[background-color,border-color,box-shadow] ${headerSurface}`}
+      >
+        <nav
+          aria-label="Main"
+          className="mx-auto flex w-full max-w-[100rem] items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-[clamp(1.5rem,4vw,4rem)]"
+        >
+          <Link
+            href="/"
+            aria-label="UthriX Digital home"
+            onClick={closeAll}
+            className="relative block h-9 w-24 shrink-0 transition-opacity hover:opacity-80 sm:h-10 sm:w-28"
+          >
+            <Image
+              src="/assets/images/logoWhite.svg"
+              alt="UthriX Digital"
+              fill
+              priority
+              sizes="112px"
+              className="object-contain object-left"
+            />
+          </Link>
+
+          <DesktopNavigation
+            openMenu={openMenu}
+            onToggle={(id) => setOpenMenu((current) => (current === id ? null : id))}
+            onClose={() => setOpenMenu(null)}
+          />
+
+          <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 lg:ml-0">
+            <Link
+              href={navCta.href}
+              onClick={closeAll}
+              className="group inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-brand px-4 font-sans text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#e00303] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:px-5"
+            >
+              <span className="sm:hidden">{navCta.shortLabel}</span>
+              <span className="hidden sm:inline">{navCta.label}</span>
+              <ArrowRight
+                aria-hidden="true"
+                className="size-3.5 transition-transform group-hover:translate-x-0.5"
+              />
+            </Link>
+
+            <MobileMenuButton
+              isOpen={isMobileOpen}
+              onToggle={() => {
+                setOpenMenu(null);
+                setIsMobileOpen((open) => !open);
+              }}
+            />
+          </div>
+        </nav>
+
+        <MobileNavigation isOpen={isMobileOpen} onNavigate={closeAll} />
+      </header>
+    </>
   );
 }

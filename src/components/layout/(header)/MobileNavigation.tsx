@@ -1,79 +1,111 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { navLinks } from "./NavConfig";
+import Link from "next/link";
+import { useState } from "react";
+import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
+import { navMenus } from "./NavConfig";
+import { SocialLinks } from "./SocialLinks";
+
+type MobileMenuButtonProps = {
+  isOpen: boolean;
+  onToggle: () => void;
+};
+
+export function MobileMenuButton({ isOpen, onToggle }: MobileMenuButtonProps) {
+  return (
+    <button
+      id="mobile-menu-button"
+      type="button"
+      onClick={onToggle}
+      aria-label={isOpen ? "Close menu" : "Open menu"}
+      aria-expanded={isOpen}
+      aria-controls="mobile-navigation"
+      className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-brand hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand lg:hidden"
+    >
+      {isOpen ? (
+        <X aria-hidden="true" className="size-4" />
+      ) : (
+        <Menu aria-hidden="true" className="size-4" />
+      )}
+    </button>
+  );
+}
 
 type MobileNavigationProps = {
   isOpen: boolean;
-  activeSection: string;
-  onToggle: () => void;
-  onNavigate: (path: string) => void;
-  onContact: () => void;
+  onNavigate: () => void;
 };
 
-export function MobileNavigation({
-  isOpen,
-  activeSection,
-  onToggle,
-  onNavigate,
-  onContact,
-}: MobileNavigationProps) {
+export function MobileNavigation({ isOpen, onNavigate }: MobileNavigationProps) {
+  const [expanded, setExpanded] = useState<string | null>(null);
+
   return (
-    <>
-      <button
-        type="button"
-        onClick={onToggle}
-        className="rounded-full border border-white/20 p-2 text-white transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white lg:hidden"
-        aria-label={isOpen ? "Close menu" : "Open menu"}
-        aria-expanded={isOpen}
-      >
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
-      </button>
+    <div
+      id="mobile-navigation"
+      hidden={!isOpen}
+      className="nav-mobile-menu border-t border-white/10 bg-[#0b0b0b] shadow-[0_1.5rem_3.5rem_rgba(0,0,0,0.4)] lg:hidden"
+    >
+      <div className="mx-auto max-h-[calc(100dvh-4.25rem)] max-w-[100rem] overflow-y-auto overscroll-contain px-4 pb-6 sm:px-6">
+        <ul>
+          {navMenus.map((menu) => {
+            const isExpanded = expanded === menu.id;
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute inset-x-4 top-full mt-2 rounded-2xl border border-white/10 bg-[#151515]/95 p-4 text-white shadow-2xl backdrop-blur-xl lg:hidden"
-          >
-            <ul className="flex flex-col gap-1">
-              {navLinks.map((link) => (
-                <li key={link.path}>
-                  <button
-                    type="button"
-                    onClick={() => onNavigate(link.path)}
-                    aria-current={
-                      activeSection === link.path ? "location" : undefined
-                    }
-                    className={`block w-full rounded-xl px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.16em] transition-colors duration-150 ease-in-out ${
-                      activeSection === link.path
-                        ? "bg-white/10 text-white"
-                        : "text-white/70 hover:bg-white/5 hover:text-white"
-                    }`}
-                  >
-                    {link.name}
-                  </button>
-                </li>
-              ))}
-
-              <li className="mt-3">
+            return (
+              <li key={menu.id} className="border-b border-white/10">
                 <button
                   type="button"
-                  onClick={onContact}
-                  className="mt-2 w-full rounded-full bg-[#d00000] px-4 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:bg-[#e00000]"
-                  aria-label="Start a project — go to contact section"
+                  aria-expanded={isExpanded}
+                  aria-controls={`mobile-menu-${menu.id}`}
+                  onClick={() => setExpanded(isExpanded ? null : menu.id)}
+                  className="flex w-full items-center justify-between gap-4 py-4 text-left font-sans text-xs font-extrabold uppercase tracking-[0.15em] text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
                 >
-                  Start a project
+                  {menu.label}
+                  <ChevronDown
+                    aria-hidden="true"
+                    className={`size-4 shrink-0 text-brand transition-transform duration-300 ${
+                      isExpanded ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
+
+                <div
+                  id={`mobile-menu-${menu.id}`}
+                  inert={!isExpanded}
+                  className={`grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(.22,1,.36,1)] ${
+                    isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="grid gap-1 pb-3 pl-2">
+                      {menu.items.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={onNavigate}
+                          className="group flex items-center justify-between gap-3 rounded-md px-3 py-3 transition-colors hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                        >
+                          <span className="min-w-0 font-sans text-sm font-extrabold uppercase tracking-[0.08em] text-white/85 transition-colors group-hover:text-brand">
+                            {item.label}
+                          </span>
+                          <ArrowRight
+                            aria-hidden="true"
+                            className="size-4 shrink-0 text-brand transition-transform group-hover:translate-x-1"
+                          />
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </li>
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+            );
+          })}
+        </ul>
+
+        <div className="pt-6">
+          <p className="nav-panel-label">Follow UthriX</p>
+          <SocialLinks className="mt-4" />
+        </div>
+      </div>
+    </div>
   );
 }
