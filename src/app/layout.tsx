@@ -84,7 +84,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </div>
             <main>{children}</main>
             <ScrollToTopButton />
-            <Footer />
+            <div className="relative z-0">
+              <Footer />
+            </div>
           </div>
         </ThemeProvider>
       </body>
