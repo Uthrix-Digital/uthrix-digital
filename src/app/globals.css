@@ -6,20 +6,6 @@
    first paint by the inline script in the root layout (see src/lib/theme.ts). */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* Theme switch: the circular reveal is driven from JS (swapTheme in
-   ThemeProvider); here we only switch off the browser's default cross-fade (and keep old/new stacked). */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-::view-transition-old(root) {
-  z-index: 0;
-}
-::view-transition-new(root) {
-  z-index: 1;
-}
-
 /* ═══════════════════════════════════════════════════════════════════════════
    0. Breakpoints — match "Layout foundations"
       < 768   mobile  (4 columns)

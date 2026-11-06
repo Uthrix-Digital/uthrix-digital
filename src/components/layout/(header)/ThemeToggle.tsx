@@ -6,8 +6,8 @@ import { useTheme } from "@/hooks/useTheme";
 /**
  * Two-state light/dark switch. Both icons are always rendered and CSS (the
  * `dark:` variant) decides which is visible, so the right one shows on first
- * paint and the swap animates smoothly. Clicking grows a circular reveal of
- * the new theme from the button (see swapTheme in ThemeProvider).
+ * paint and the swap animates smoothly. Clicking plays the same curtain as
+ * page navigation (src/lib/curtain.ts), swapping the theme while it covers.
  */
 export function ThemeToggle() {
   const { toggleTheme } = useTheme();
@@ -17,13 +17,7 @@ export function ThemeToggle() {
       type="button"
       data-theme-toggle
       aria-label="Toggle light and dark mode"
-      onClick={(event) => {
-        const rect = event.currentTarget.getBoundingClientRect();
-        toggleTheme({
-          x: rect.left + rect.width / 2,
-          y: rect.top + rect.height / 2,
-        });
-      }}
+      onClick={() => toggleTheme()}
       className="relative inline-flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-foreground/20 text-foreground transition-colors hover:border-brand hover:text-brand-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
     >
       <Sun

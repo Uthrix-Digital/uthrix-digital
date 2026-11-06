@@ -16,21 +16,16 @@ import {
   type ResolvedTheme,
   type ThemePreference,
 } from "@/lib/theme";
-
-/** Viewport point the theme-change reveal grows from (the toggle button). */
-export interface RevealOrigin {
-  x: number;
-  y: number;
-}
+import { runCurtain } from "@/lib/curtain";
 
 export interface ThemeContextValue {
   /** Saved choice. Stays "system" until the visitor first uses the toggle. */
   theme: ThemePreference;
   /** What is actually shown. `undefined` during SSR / before hydration. */
   resolvedTheme: ResolvedTheme | undefined;
-  setTheme: (theme: ThemePreference, origin?: RevealOrigin) => void;
-  /** Flip light <-> dark. Pass an origin to get the circular reveal. */
-  toggleTheme: (origin?: RevealOrigin) => void;
+  setTheme: (theme: ThemePreference) => void;
+  /** Flip light <-> dark behind the page-transition curtain. */
+  toggleTheme: () => void;
 }
 
 export const ThemeContext = createContext<ThemeContextValue | null>(null);
@@ -106,62 +101,6 @@ function applyTheme(theme: ResolvedTheme) {
   root.style.colorScheme = theme;
 }
 
-function prefersReducedMotion() {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
-/**
- * Swap themes. With an origin (and View Transitions + motion allowed) the new
- * theme is revealed as a circle growing from that point; otherwise it swaps
- * instantly.
- */
-function swapTheme(target: ResolvedTheme, origin?: RevealOrigin) {
-  const root = document.documentElement;
-  const canReveal =
-    origin &&
-    typeof document.startViewTransition === "function" &&
-    !prefersReducedMotion() &&
-    currentTheme() !== target;
-
-  const release = pauseTransitions();
-
-  if (!canReveal) {
-    applyTheme(target);
-    window.setTimeout(release, 1);
-    return;
-  }
-
-  const transition = document.startViewTransition(() => {
-    applyTheme(target);
-  });
-
-  transition.ready
-    .then(() => {
-      const radius = Math.hypot(
-        Math.max(origin.x, window.innerWidth - origin.x),
-        Math.max(origin.y, window.innerHeight - origin.y),
-      );
-      root.animate(
-        {
-          clipPath: [
-            `circle(0px at ${origin.x}px ${origin.y}px)`,
-            `circle(${radius}px at ${origin.x}px ${origin.y}px)`,
-          ],
-        },
-        {
-          duration: 750,
-          easing: "cubic-bezier(0.65, 0, 0.35, 1)",
-          pseudoElement: "::view-transition-new(root)",
-        },
-      );
-    })
-    .catch(() => {
-      // Transition was skipped (e.g. tab hidden): the swap already happened.
-    });
-
-  transition.finished.finally(release);
-}
-
 /* ── Provider ──────────────────────────────────────────────────────────── */
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
@@ -188,25 +127,28 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   }, [resolvedTheme]);
 
-  const setTheme = useCallback(
-    (next: ThemePreference, origin?: RevealOrigin) => {
+  const setTheme = useCallback((next: ThemePreference) => {
+    const target = next === "system" ? readSystemTheme() : next;
+
+    // The same curtain as page navigation covers the screen first; the theme
+    // (and the saved preference, which React reads) only change once it is
+    // fully covering, so nothing flashes before the wipe.
+    void runCurtain(() => {
       try {
         window.localStorage.setItem(THEME_STORAGE_KEY, next);
       } catch {
         // Storage unavailable: the choice still applies for this page view.
       }
-      swapTheme(next === "system" ? readSystemTheme() : next, origin);
+      const release = pauseTransitions();
+      applyTheme(target);
       emit();
-    },
-    [],
-  );
+      window.setTimeout(release, 50);
+    });
+  }, []);
 
-  const toggleTheme = useCallback(
-    (origin?: RevealOrigin) => {
-      setTheme(currentTheme() === "dark" ? "light" : "dark", origin);
-    },
-    [setTheme],
-  );
+  const toggleTheme = useCallback(() => {
+    setTheme(currentTheme() === "dark" ? "light" : "dark");
+  }, [setTheme]);
 
   const value = useMemo<ThemeContextValue>(
     () => ({ theme, resolvedTheme, setTheme, toggleTheme }),
