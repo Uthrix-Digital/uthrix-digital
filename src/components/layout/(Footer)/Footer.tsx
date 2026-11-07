@@ -53,14 +53,14 @@ export function Footer() {
               <Image
                 src="/assets/Images/logoWhite.svg"
                 alt={siteConfig.companyName}
-                width={333}
+                width={336}
                 height={84}
                 className="h-auto w-56 sm:w-72 lg:w-84 dark:hidden"
               />
               <Image
                 src="/assets/Images/logoBlack.svg"
                 alt={siteConfig.companyName}
-                width={333}
+                width={336}
                 height={84}
                 className="hidden h-auto w-56 sm:w-72 lg:w-84 dark:block"
               />

@@ -143,7 +143,8 @@ export function Navigation() {
               src="/assets/Images/logoBlack.svg"
               alt="UthriX Digital"
               fill
-              priority
+              loading="eager"
+              fetchPriority="high"
               sizes="112px"
               className="object-contain object-left dark:hidden"
             />
@@ -151,7 +152,8 @@ export function Navigation() {
               src="/assets/Images/logoWhite.svg"
               alt="UthriX Digital"
               fill
-              priority
+              loading="eager"
+              fetchPriority="high"
               sizes="112px"
               className="hidden object-contain object-left dark:block"
             />
