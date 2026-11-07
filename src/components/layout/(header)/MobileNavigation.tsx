@@ -20,7 +20,7 @@ export function MobileMenuButton({ isOpen, onToggle }: MobileMenuButtonProps) {
       aria-label={isOpen ? "Close menu" : "Open menu"}
       aria-expanded={isOpen}
       aria-controls="mobile-navigation"
-      className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-foreground/20 text-foreground transition-colors hover:border-brand hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand lg:hidden"
+      className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border sm:size-10 border-foreground/20 text-foreground transition-colors hover:border-brand hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand lg:hidden"
     >
       {isOpen ? (
         <X aria-hidden="true" className="size-4" />

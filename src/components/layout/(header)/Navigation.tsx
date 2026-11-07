@@ -130,13 +130,13 @@ export function Navigation() {
       >
         <nav
           aria-label="Main"
-          className="mx-auto flex w-full max-w-[100rem] items-center justify-between gap-3 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-[clamp(1.5rem,4vw,4rem)]"
+          className="mx-auto flex w-full max-w-[100rem] items-center justify-between gap-2 px-4 py-3 sm:gap-4 sm:px-6 sm:py-4 lg:px-[clamp(1.5rem,4vw,4rem)]"
         >
           <Link
             href="/"
             aria-label="UthriX Digital home"
             onClick={closeAll}
-            className="relative block h-9 w-24 shrink-0 transition-opacity hover:opacity-80 sm:h-10 sm:w-28"
+            className="relative block h-8 w-20 shrink-0 transition-opacity hover:opacity-80 min-[360px]:h-9 min-[360px]:w-24 sm:h-10 sm:w-28"
           >
             {/* Both logos are rendered; CSS picks one so it's right on first paint. */}
             <Image
@@ -171,7 +171,7 @@ export function Navigation() {
           />
 
           <div
-            className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 lg:ml-0"
+            className="ml-auto flex shrink-0 items-center gap-1.5 min-[360px]:gap-2 sm:gap-3 lg:ml-0"
             onPointerEnter={(event) => {
               // Moving onto the CTA while a panel is open dismisses it.
               if (isMouse(event) && openMenu !== null) closeOnLeave();
@@ -180,13 +180,13 @@ export function Navigation() {
             <Link
               href={navCta.href}
               onClick={closeAll}
-              className="group inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-accent-foreground px-4 font-sans text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-background transition-colors hover:bg-brand hover:text-brand-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground sm:px-5"
+              className="group inline-flex h-10 shrink-0 items-center justify-center gap-1.5 rounded-full bg-accent-foreground px-3.5 font-sans text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-background transition-colors hover:bg-brand hover:text-brand-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground sm:px-5"
             >
               <span className="sm:hidden">{navCta.shortLabel}</span>
               <span className="hidden sm:inline">{navCta.label}</span>
               <ArrowRight
                 aria-hidden="true"
-                className="size-3.5 transition-transform group-hover:translate-x-0.5"
+                className="hidden size-3.5 transition-transform group-hover:translate-x-0.5 min-[360px]:block"
               />
             </Link>
 

@@ -128,7 +128,7 @@ export function OrbitDotRed({
         />
 
         <span
-          className={`absolute left-1/2 top-full z-10 mt-4 flex w-[calc(100vw-2rem)] max-w-[20rem] -translate-x-1/2 flex-col items-center text-center lg:mt-5 lg:w-[min(38vw,24rem)] lg:max-w-full ${
+          className={`absolute left-1/2 top-full z-10 mt-4 flex w-max max-w-[min(18rem,calc(100vw-3rem))] -translate-x-1/2 flex-col items-center text-center lg:mt-5 lg:w-[min(38vw,24rem)] lg:max-w-full ${
             selected ? "text-foreground" : "text-foreground/90"
           }`}
         >

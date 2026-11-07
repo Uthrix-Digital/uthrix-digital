@@ -18,7 +18,7 @@ export function ThemeToggle() {
       data-theme-toggle
       aria-label="Toggle light and dark mode"
       onClick={() => toggleTheme()}
-      className="relative inline-flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-foreground/20 text-foreground transition-colors hover:border-brand hover:text-brand-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+      className="relative inline-flex size-9 shrink-0 sm:size-10 items-center justify-center overflow-hidden rounded-full border border-foreground/20 text-foreground transition-colors hover:border-brand hover:text-brand-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
     >
       <Sun
         aria-hidden="true"
