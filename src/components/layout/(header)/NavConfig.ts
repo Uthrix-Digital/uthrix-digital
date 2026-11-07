@@ -1,3 +1,14 @@
+import { NODES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/nodes";
+import { CURATED_BUNDLES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/resolver";
+
+/** Curated combinations promoted in the "How we grow you" menu. */
+const FEATURED_BUNDLES = [
+  "Look pro online",
+  "Fast leads",
+  "Found everywhere",
+  "Zero to growing",
+];
+
 export type NavItem = {
   label: string;
   href: string;
@@ -54,68 +65,41 @@ export const navMenus: NavMenu[] = [
     id: "services",
     label: "What we do",
     eyebrow: "What we do",
-    title: "Everything your brand needs to grow.",
+    title: "Seven dots. One growth path.",
     description:
-      "Pick one area or combine several. We tailor the scope to your goals and build it around measurable results.",
-    items: [
-      {
-        label: "Brand identity",
-        href: "/BrandIdentity",
-        description:
-          "A distinctive visual identity that reflects your values and connects with the right audience.",
-      },
-      {
-        label: "Social & content",
-        href: "/SocialContent",
-        description:
-          "A clear content direction, from planning and production to publishing and ongoing improvement.",
-      },
-      {
-        label: "Websites",
-        href: "/Website",
-        description:
-          "Websites and landing pages that are responsive, accessible and built to perform.",
-      },
-      {
-        label: "Meta + Google Ads",
-        href: "/MetaGoogleAds",
-        description:
-          "Campaigns, messaging, testing and optimization that keep improving over time.",
-      },
-      {
-        label: "SEO",
-        href: "/Seo",
-        description:
-          "Content and optimization that help your offer get found by the people searching for it.",
-      },
-    ],
+      "From a clear strategy to repeat customers. Pick one area or combine several; each service feeds the next.",
+    items: NODES.map((node) => ({
+      label: node.label,
+      href: node.route,
+      description: node.summary,
+    })),
   },
   {
     id: "growth",
     label: "How we grow you",
-    eyebrow: "Growth",
-    title: "Start from where you are.",
+    eyebrow: "Growth paths",
+    title: "Connect the dots that fit your goal.",
     description:
-      "An idea, a business that has stalled, or a team buried in manual work. Each starting point has its own path.",
+      "Start with a ready-made combination or plan your own path around a single business goal.",
     items: [
-      {
-        label: "Business idea",
-        href: "/BusinessIdea",
-        description:
-          "Clarify the offer, the priorities and the action plan before you spend on anything else.",
-      },
-      {
-        label: "Follow-up & automation",
-        href: "/FollowUp",
-        description:
-          "Structured follow-up, reminders and automations that keep leads and your team moving.",
-      },
       {
         label: "Plan your growth path",
         href: "/ConnetMainDots",
         description:
           "Connect the services you need into one growth path built around a single business goal.",
       },
+      ...FEATURED_BUNDLES.flatMap((title) => {
+        const bundle = CURATED_BUNDLES.find((b) => b.title === title);
+        return bundle
+          ? [
+              {
+                label: bundle.title,
+                href: bundle.href,
+                description: bundle.nodes.map((n) => n.label).join(" + "),
+              },
+            ]
+          : [];
+      }),
     ],
   },
   {

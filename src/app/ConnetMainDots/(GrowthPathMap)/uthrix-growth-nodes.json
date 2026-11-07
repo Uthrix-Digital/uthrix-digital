@@ -23,14 +23,14 @@
   ],
   "nodes": [
     {
-      "id": "idea",
-      "label": "Business Idea",
+      "id": "strategy",
+      "label": "Business strategy",
       "phase": "foundation",
       "order": 1,
       "angle": -125,
-      "summary": "Generating a business idea is a simple process of finding a real problem that people face and figuring out an easy way to solve it.",
+      "summary": "You tell us about your business and goals; we review where you stand and suggest the clearest next moves.",
       "feedsInto": "brand",
-      "why": "A registered name is something you can brand."
+      "why": "A clear strategy tells the brand what it needs to say."
     },
     {
       "id": "brand",

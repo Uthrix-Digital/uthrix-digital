@@ -24,16 +24,16 @@ export const RING_RADII = {
 export const NODES: readonly NodeDef[] = [
   {
     bit: 1,
-    id: "idea",
-    label: "Business Idea",
-    svgLabel: ["Business Idea"],
+    id: "strategy",
+    label: "Business Strategy",
+    svgLabel: ["Business", "Strategy"],
     angle: 215,          // JSON −125 → 90−(−125) = 215°  (lower-left)
     ringR: RING_RADII.foundation,
     phase: "foundation",
-    why: "A registered name is something you can brand.",
+    why: "A clear strategy tells the brand what it needs to say.",
     summary:
-      "Generating a business idea is a simple process of finding a real problem that people face and figuring out an easy way to solve it.",
-    route: "/BusinessIdea",
+      "You tell us about your business and goals; we review where you stand and suggest the clearest next moves.",
+    route: "/BusinessStrategy",
   },
   {
     bit: 2,

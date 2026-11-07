@@ -22,7 +22,7 @@ function wrapTitle(title: string, max = 11): string[] {
 
 /* ── Tier 1 — single-node titles (7) ────────────────────────────────────── */
 const T1: Record<number, { hub: string; headline: string }> = {
-   1: { hub: "Start legally",  headline: "Launch your business the right way" },
+   1: { hub: "Plan smart",     headline: "Know your next moves before you spend" },
    2: { hub: "Stand out",      headline: "Look credible and memorable from day one" },
    4: { hub: "Get online",     headline: "A site that turns visitors into enquiries" },
    8: { hub: "Be seen",        headline: "Stay visible and trusted on social media" },
@@ -149,6 +149,32 @@ export function getDestinationHref(mask: number): string | null {
   }
 
   return `/GrowthPath/${slugifyPath(resolved.hubTitle)}?selection=${mask}`;
+}
+
+/* ── Curated bundles (combined paths) ────────────────────────────────────── */
+export interface CuratedBundle {
+  mask: number;
+  title: string;
+  href: string;
+  nodes: NodeDef[];
+}
+
+/** The Tier 2 curated bundles, smallest first, with their destination links. */
+export const CURATED_BUNDLES: readonly CuratedBundle[] = Object.entries(T2)
+  .map(([key, title]) => {
+    const mask = Number(key);
+    return {
+      mask,
+      title,
+      href: `/GrowthPath/${slugifyPath(title)}?selection=${mask}`,
+      nodes: NODES.filter((n) => (mask & n.bit) !== 0) as NodeDef[],
+    };
+  })
+  .sort((a, b) => a.nodes.length - b.nodes.length || a.mask - b.mask);
+
+/** Curated bundles that include the given service bit. */
+export function bundlesWith(bit: number): CuratedBundle[] {
+  return CURATED_BUNDLES.filter((b) => (b.mask & bit) !== 0);
 }
 
 /* ── Gentle nudges ───────────────────────────────────────────────────────── */

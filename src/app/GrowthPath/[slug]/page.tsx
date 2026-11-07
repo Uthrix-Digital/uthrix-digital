@@ -31,8 +31,9 @@ export default async function GrowthPathPage({
   return (
     <GrowthPathDestination
       title={resolved.panelHeadline}
-      description="A connected growth path that brings the selected activities together around one clear business goal."
-      services={resolved.selectedNodes.map((node) => node.label)}
+      hubTitle={resolved.hubTitle}
+      mask={selection}
+      nodes={resolved.selectedNodes}
     />
   );
 }
