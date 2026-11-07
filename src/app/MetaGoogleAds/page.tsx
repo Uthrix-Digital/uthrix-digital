@@ -1,11 +1,11 @@
-import { GrowthPathDestination } from "@/components/shared/GrowthPathDestination";
+import type { Metadata } from "next";
+import {
+  ServicePage,
+  getServiceMetadata,
+} from "@/components/shared/(ServicePage)/ServicePage";
 
-export default function MetaGoogleAds() {
-  return (
-    <GrowthPathDestination
-      title="Meta + Google Ads"
-      description="Reach the right people now with campaigns built around measurable demand and clear next steps."
-      services={["Meta + Google Ads"]}
-    />
-  );
+export const metadata: Metadata = getServiceMetadata("ads");
+
+export default function MetaGoogleAdsPage() {
+  return <ServicePage id="ads" />;
 }

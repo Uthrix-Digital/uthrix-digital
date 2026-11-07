@@ -1,11 +1,11 @@
-import { GrowthPathDestination } from "@/components/shared/GrowthPathDestination";
+import type { Metadata } from "next";
+import {
+  ServicePage,
+  getServiceMetadata,
+} from "@/components/shared/(ServicePage)/ServicePage";
 
-export default function BrandIdentity() {
-  return (
-    <GrowthPathDestination
-      title="Brand Identity"
-      description="Create a clear, memorable identity with the visual system your business can use consistently everywhere."
-      services={["Brand Identity"]}
-    />
-  );
+export const metadata: Metadata = getServiceMetadata("brand");
+
+export default function BrandIdentityPage() {
+  return <ServicePage id="brand" />;
 }

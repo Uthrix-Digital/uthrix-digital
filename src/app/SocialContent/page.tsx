@@ -1,11 +1,11 @@
-import { GrowthPathDestination } from "@/components/shared/GrowthPathDestination";
+import type { Metadata } from "next";
+import {
+  ServicePage,
+  getServiceMetadata,
+} from "@/components/shared/(ServicePage)/ServicePage";
 
-export default function SocialContent() {
-  return (
-    <GrowthPathDestination
-      title="Social & Content"
-      description="Create a consistent content system that keeps your business visible and trusted."
-      services={["Social & Content"]}
-    />
-  );
+export const metadata: Metadata = getServiceMetadata("social");
+
+export default function SocialContentPage() {
+  return <ServicePage id="social" />;
 }
