@@ -1,6 +1,13 @@
 "use client";
 
-import { motion, MotionConfig, type Variants } from "framer-motion";
+import { useEffect, useState, type ReactNode } from "react";
+import {
+  AnimatePresence,
+  motion,
+  MotionConfig,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
 import { InquiryForm } from "@/components/shared/InquiryForm";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -18,6 +25,101 @@ const fadeUp: Variants = {
     transition: { duration: 0.65, ease: EASE },
   },
 };
+
+// Each frame pairs what we deliver with who it's for.
+const PAIRS = [
+  { outcome: "Direct bookings", business: "boutique hotel" },
+  { outcome: "Purchases", business: "online store" },
+  { outcome: "Travel Enquiries", business: "tour company" },
+  { outcome: "Showroom visits", business: "furniture store" },
+  { outcome: "First customers", business: "new business" },
+] as const;
+
+const ROTATE_MS = 3200;
+// The business word follows the outcome word a beat later.
+const BUSINESS_DELAY = 0.18;
+
+const lineClassBlack =
+  "block whitespace-nowrap text-[10cqw] sm:text-[15cqw] leading-[0.78] tracking-[-0.07em] sm:-tracking-widest";
+
+const lineClassRed =
+  "block whitespace-nowrap text-brand text-[10cqw] sm:text-[10.4cqw] leading-[0.78] tracking-[-0.07em] sm:-tracking-widest";
+function SlotWord({
+  id,
+  delay,
+  children,
+}: {
+  id: number;
+  delay: number;
+  children: ReactNode;
+}) {
+  return (
+    // Grid stacking lets the outgoing and incoming words overlap while sliding.
+    <span className="-my-[0.08em] grid overflow-hidden py-[0.08em]">
+      {/* presenceAffectsLayout={false}: with the default (true), framer-motion
+          calls Math.random() during render, which cacheComponents rejects as
+          an unstable prerender value. Nothing here uses layout animations. */}
+      <AnimatePresence initial={false} presenceAffectsLayout={false}>
+        <motion.span
+          key={id}
+          className="[grid-area:1/1]"
+          initial={{ y: "110%", opacity: 0 }}
+          animate={{
+            y: "0%",
+            opacity: 1,
+            transition: { duration: 0.6, ease: EASE, delay },
+          }}
+          exit={{
+            y: "-110%",
+            opacity: 0,
+            transition: { duration: 0.45, ease: EASE, delay },
+          }}
+        >
+          {children}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
+function RotatingHeadline() {
+  const [index, setIndex] = useState(0);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (reduceMotion) return;
+    // Skip ticks while the tab is hidden: animations pause there, so exiting
+    // words would otherwise pile up and all fly out at once on return.
+    const id = setInterval(() => {
+      if (document.hidden) return;
+      setIndex((i) => (i + 1) % PAIRS.length);
+    }, ROTATE_MS);
+    return () => clearInterval(id);
+  }, [reduceMotion]);
+
+  const pair = PAIRS[index];
+
+  return (
+    <>
+      <span className="sr-only">More customers for your business.</span>
+      <span aria-hidden="true">
+        <span className={lineClassBlack}>More</span>
+        <span className={lineClassRed}>
+          <SlotWord id={index} delay={0}>
+            {pair.outcome}
+          </SlotWord>
+        </span>
+        <span className={lineClassBlack}>For your</span>
+        <span className={lineClassRed}>
+          <SlotWord id={index} delay={BUSINESS_DELAY}>
+            {pair.business}
+            <span className="text-brand">.</span>
+          </SlotWord>
+        </span>
+      </span>
+    </>
+  );
+}
 
 const focusRing =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background";
@@ -40,64 +142,39 @@ export function Hero() {
             {/* Left column is a size container so the headline scales to the
                 space left beside the form instead of the viewport. */}
             <div className="@container flex min-w-0 flex-col">
-            <motion.h1
-              variants={fadeUp}
-              className="font-archivo-black w-full uppercase tracking-[-0.08em]"
-            >
-              <span className="block text-[clamp(3.5rem,17vw,8rem)] leading-[0.78] tracking-[-0.07em] sm:hidden">
-                WE
-              </span>
-              <span className="block text-[clamp(3.5rem,17vw,8rem)] leading-[0.78] tracking-[-0.07em] sm:hidden">
-                DESIGN
-              </span>
-              <span className="block text-[clamp(3.5rem,17vw,8rem)] leading-[0.78] tracking-[-0.07em] sm:hidden">
-                PRODUCTS
-              </span>
-              <span className="block text-[clamp(3.5rem,17vw,8rem)] leading-[0.78] tracking-[-0.07em] sm:hidden">
-                THAT <span className="text-brand">GROW.</span>
-              </span>
-
-              <span className="hidden whitespace-nowrap text-[clamp(6rem,10vw,20rem)] leading-[0.78] sm:block sm:-tracking-widest lg:text-[15.5cqw]">
-                WE DESIGN
-              </span>
-
-              <span className="hidden whitespace-nowrap text-[clamp(6rem,10vw,20rem)] leading-[0.78] sm:block sm:-tracking-widest lg:text-[15.5cqw]">
-                {" "}
-                PRODUCTS
-              </span>
-
-              <span className="hidden whitespace-nowrap text-[clamp(6rem,10vw,20rem)] leading-[0.78] sm:block sm:-tracking-widest lg:text-[15.5cqw]">
-                {" "}
-                THAT <span className="text-brand">GROW.</span>
-              </span>
-            </motion.h1>
-
-            <motion.p
-              variants={fadeUp}
-              className="font-sans mt-4 max-w-250 text-[clamp(1.05rem,4.7vw,1.5rem)] leading-[1.3] tracking-tight text-foreground/95 sm:mt-4 sm:text-[clamp(1.25rem,2.1vw,2rem)] sm:leading-[1.18]"
-            >
-              We blend cutting-edge web & software development with data-driven
-              digital marketing to accelerate your business growth and market
-              dominance.
-            </motion.p>
-
-            <motion.div
-              variants={fadeUp}
-              className="mt-8 flex flex-wrap gap-3 sm:mt-2 sm:gap-2"
-            >
-              <a
-                href="#services"
-                className={`inline-flex h-15 items-center justify-center rounded-full bg-brand px-8 text-base font-medium text-brand-foreground transition-transform hover:scale-[1.03] hover:bg-brand-hover ${focusRing}`}
+              <motion.h1
+                variants={fadeUp}
+                className="font-archivo-black w-full uppercase"
               >
-                See how we help
-              </a>
-              <a
-                href="#portfolio"
-                className={`inline-flex h-15 items-center justify-center rounded-full bg-foreground px-8 text-base font-medium text-background transition-colors hover:bg-foreground/85 ${focusRing}`}
+                <RotatingHeadline />
+              </motion.h1>
+
+              <motion.p
+                variants={fadeUp}
+                className="font-sans mt-4 max-w-250 text-[clamp(1.05rem,4.7vw,1.5rem)] leading-[1.3] tracking-tight text-foreground/95 sm:mt-4 sm:text-[clamp(1.25rem,2.1vw,2rem)] sm:leading-[1.18]"
               >
-                View Case Studies
-              </a>
-            </motion.div>
+                We build your website, run your Meta and Google ads, and follow
+                up every lead. One small team, one plan, and one monthly report
+                that shows what your money brought in.
+              </motion.p>
+
+              <motion.div
+                variants={fadeUp}
+                className="mt-8 flex flex-wrap gap-3 sm:mt-2 sm:gap-2"
+              >
+                <a
+                  href="#services"
+                  className={`inline-flex h-15 items-center justify-center rounded-full bg-brand px-8 text-base font-medium text-brand-foreground transition-transform hover:scale-[1.03] hover:bg-brand-hover ${focusRing}`}
+                >
+                  See how we help
+                </a>
+                <a
+                  href="#portfolio"
+                  className={`inline-flex h-15 items-center justify-center rounded-full bg-foreground px-8 text-base font-medium text-background transition-colors hover:bg-foreground/85 ${focusRing}`}
+                >
+                  View Case Studies
+                </a>
+              </motion.div>
             </div>
 
             <motion.div
