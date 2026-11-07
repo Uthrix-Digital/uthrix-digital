@@ -165,13 +165,20 @@ function MegaMenuContent({
                   onClick={onNavigate}
                   onMouseEnter={() => setHovered(index)}
                   onFocus={() => setHovered(index)}
-                  className="group/link inline-flex items-center gap-[0.6rem] py-[0.2rem] font-archivo-black text-[clamp(1.6rem,2.4vw,2.4rem)] uppercase leading-[1.05] tracking-[-0.04em] text-foreground transition-colors duration-200 group-hover/links:text-foreground/30 hover:text-brand! focus-visible:text-brand! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
+                  className="group/link flex flex-col py-[0.2rem] text-foreground transition-colors duration-200 group-hover/links:text-foreground/30 hover:text-brand! focus-visible:text-brand! focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
                 >
-                  <span>{item.label}</span>
-                  <ArrowRight
-                    aria-hidden="true"
-                    className="size-[0.7em] -translate-x-[0.4em] opacity-0 transition-[opacity,transform] duration-300 group-hover/link:translate-x-0 group-hover/link:opacity-100 group-focus-visible/link:translate-x-0 group-focus-visible/link:opacity-100"
-                  />
+                  <span className="inline-flex items-center gap-[0.6rem] font-archivo-black text-[clamp(1.6rem,2.4vw,2.4rem)] uppercase leading-[1.05] tracking-[-0.04em]">
+                    {item.label}
+                    <ArrowRight
+                      aria-hidden="true"
+                      className="size-[0.7em] -translate-x-[0.4em] opacity-0 transition-[opacity,transform] duration-300 group-hover/link:translate-x-0 group-hover/link:opacity-100 group-focus-visible/link:translate-x-0 group-focus-visible/link:opacity-100"
+                    />
+                  </span>
+                  {item.sub && (
+                    <span className="mt-1 font-sans text-xs font-medium normal-case tracking-normal opacity-70">
+                      {item.sub}
+                    </span>
+                  )}
                 </Link>
               </li>
             ))}
@@ -189,6 +196,34 @@ function MegaMenuContent({
           >
             {detail}
           </p>
+
+          {menu.secondary && (
+            <div className="mt-8 border-t border-border pt-8">
+              <p className="nav-panel-label">{menu.secondary.label}</p>
+              <ul className="mt-4 grid gap-1">
+                {menu.secondary.items.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={onNavigate}
+                      className="group/stage flex items-baseline justify-between gap-4 rounded-md py-2 transition-colors hover:text-brand focus-visible:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                    >
+                      <span className="inline-flex items-center gap-2 font-sans text-sm font-extrabold uppercase tracking-[0.08em]">
+                        {item.label}
+                        <ArrowRight
+                          aria-hidden="true"
+                          className="size-3.5 -translate-x-1 opacity-0 transition-[opacity,transform] duration-300 group-hover/stage:translate-x-0 group-hover/stage:opacity-100 group-focus-visible/stage:translate-x-0 group-focus-visible/stage:opacity-100"
+                        />
+                      </span>
+                      <span className="hidden max-w-[16rem] text-right font-sans text-xs text-muted-foreground xl:block">
+                        {item.description}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {menu.showSocials && (
             <div className="mt-8 border-t border-border pt-8">

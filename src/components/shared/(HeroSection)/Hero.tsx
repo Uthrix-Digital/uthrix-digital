@@ -8,7 +8,9 @@ import {
   useReducedMotion,
   type Variants,
 } from "framer-motion";
+import Link from "next/link";
 import { InquiryForm } from "@/components/shared/InquiryForm";
+import { audienceHref } from "@/config/audiences";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -32,7 +34,16 @@ const PAIRS = [
   { outcome: "Purchases", business: "online store" },
   { outcome: "Travel Enquiries", business: "tour company" },
   { outcome: "Showroom visits", business: "furniture store" },
-  { outcome: "First customers", business: "new business" },
+  { outcome: "Qualified leads", business: "service business" },
+] as const;
+
+// "Show me for" shortcuts into the "Who we help" pages.
+const AUDIENCE_PILLS = [
+  { label: "Hotels & villas", href: audienceHref("hospitality") },
+  { label: "Tour companies", href: audienceHref("hospitality") },
+  { label: "Online stores", href: audienceHref("product-sellers") },
+  { label: "Furniture & showrooms", href: audienceHref("product-sellers") },
+  { label: "Service businesses", href: audienceHref("service-businesses") },
 ] as const;
 
 const ROTATE_MS = 3200;
@@ -175,6 +186,26 @@ export function Hero() {
                   View Case Studies
                 </a>
               </motion.div>
+
+              <motion.nav
+                variants={fadeUp}
+                aria-label="Show me for"
+                className="mt-8 sm:mt-6"
+              >
+                <p className="nav-panel-label">Show me for</p>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {AUDIENCE_PILLS.map((pill) => (
+                    <li key={pill.label}>
+                      <Link
+                        href={pill.href}
+                        className={`inline-flex items-center rounded-full border border-foreground/25 px-4 py-2 text-sm font-semibold transition-colors hover:border-foreground hover:bg-foreground hover:text-background ${focusRing}`}
+                      >
+                        {pill.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </motion.nav>
             </div>
 
             <motion.div

@@ -6,6 +6,7 @@ import { AlertCircle, ArrowRight, Loader2, Plus, X } from "lucide-react"
 import { FormField } from "@/components/ui/form-field"
 import { SelectFormField } from "@/components/ui/select-form-field"
 import { Button } from "@/components/ui/button"
+import { BUSINESS_TYPE_OPTIONS, STAGE_OPTIONS } from "@/config/audiences"
 import {
   HEAR_ABOUT_US_OPTIONS,
   bookingConfig,
@@ -22,6 +23,8 @@ export const EMPTY_DETAILS: BookingDetails = {
   phone: "",
   website: "",
   hearAboutUs: "",
+  businessType: "",
+  stage: "",
   message: "",
   guests: [],
 }
@@ -202,6 +205,24 @@ export function BookingDetailsForm({
         variant={variant("hearAboutUs")}
         helperText={errors.hearAboutUs}
         className="@[34rem]:col-span-2"
+      />
+      <SelectFormField
+        label="Business type"
+        placeholder="Select your business"
+        options={BUSINESS_TYPE_OPTIONS}
+        value={values.businessType}
+        onValueChange={(v) => setField("businessType", v ?? "")}
+        variant={variant("businessType")}
+        helperText={errors.businessType}
+      />
+      <SelectFormField
+        label="Where are you today?"
+        placeholder="Select your stage"
+        options={STAGE_OPTIONS}
+        value={values.stage}
+        onValueChange={(v) => setField("stage", v ?? "")}
+        variant={variant("stage")}
+        helperText={errors.stage}
       />
       <FormField
         as="textarea"

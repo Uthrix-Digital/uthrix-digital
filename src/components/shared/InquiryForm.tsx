@@ -11,6 +11,8 @@
  *   Email *                      — email input
  *   Phone Number *               — tel input
  *   How Did You Hear About Us? * — select
+ *   Business type                — select (optional, can be pre-filled)
+ *   Where are you today?         — select (optional, can be pre-filled)
  *   What are you looking for?    — text input
  *   Message                      — textarea
  *
@@ -30,6 +32,7 @@ import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react"
 import { FormField } from "@/components/ui/form-field"
 import { SelectFormField } from "@/components/ui/select-form-field"
 import { Button } from "@/components/ui/button"
+import { BUSINESS_TYPE_OPTIONS, STAGE_OPTIONS } from "@/config/audiences"
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
 
@@ -56,6 +59,8 @@ export const inquiryFormSchema = z.object({
     .regex(/^\+?[\d\s()-]{7,20}$/, "Please enter a valid phone number."),
   lookingFor: z.string().trim(),
   hearAboutUs: z.string().min(1, "Please select an option."),
+  businessType: z.string(),
+  stage: z.string(),
   message: z.string().trim(),
 })
 
@@ -70,6 +75,8 @@ const EMPTY: InquiryFormData = {
   phone: "",
   lookingFor: "",
   hearAboutUs: "",
+  businessType: "",
+  stage: "",
   message: "",
 }
 
@@ -78,12 +85,28 @@ export interface InquiryFormProps {
   onSubmit?: (data: InquiryFormData) => Promise<void> | void
   /** Additional classes on the outer card. */
   className?: string
+  /** Pre-select values, e.g. the business type of the page the form sits on. */
+  defaultValues?: Partial<Pick<InquiryFormData, "businessType" | "stage">>
 }
 
 // ─── InquiryForm ──────────────────────────────────────────────────────────────
 
-export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
-  const [values, setValues] = React.useState<InquiryFormData>(EMPTY)
+export function InquiryForm({
+  onSubmit,
+  className,
+  defaultValues,
+}: InquiryFormProps) {
+  const initialBusinessType = defaultValues?.businessType ?? ""
+  const initialStage = defaultValues?.stage ?? ""
+  const initial = React.useMemo<InquiryFormData>(
+    () => ({
+      ...EMPTY,
+      businessType: initialBusinessType,
+      stage: initialStage,
+    }),
+    [initialBusinessType, initialStage]
+  )
+  const [values, setValues] = React.useState<InquiryFormData>(initial)
   const [errors, setErrors] = React.useState<FieldErrors>({})
   const [status, setStatus] = React.useState<"idle" | "submitting" | "success">(
     "idle"
@@ -126,7 +149,7 @@ export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
       setStatus("success")
       setTimeout(() => {
         setStatus("idle")
-        setValues(EMPTY)
+        setValues(initial)
         setErrors({})
       }, 3000)
     } catch {
@@ -220,6 +243,22 @@ export function InquiryForm({ onSubmit, className }: InquiryFormProps) {
           onValueChange={(val) => setField("hearAboutUs", val ?? "")}
           variant={variant("hearAboutUs")}
           helperText={errors.hearAboutUs}
+        />
+
+        <SelectFormField
+          label="Business type"
+          placeholder="Select your business"
+          options={BUSINESS_TYPE_OPTIONS}
+          value={values.businessType}
+          onValueChange={(val) => setField("businessType", val ?? "")}
+        />
+
+        <SelectFormField
+          label="Where are you today?"
+          placeholder="Select your stage"
+          options={STAGE_OPTIONS}
+          value={values.stage}
+          onValueChange={(val) => setField("stage", val ?? "")}
         />
 
         <FormField

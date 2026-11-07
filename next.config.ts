@@ -11,6 +11,27 @@ const nextConfig: NextConfig = {
         destination: "/BusinessStrategy",
         permanent: true,
       },
+      // Old "Who we help" pages, now split by business type and stage.
+      {
+        source: "/for/startups",
+        destination: "/for/stage/starting",
+        permanent: true,
+      },
+      {
+        source: "/for/business-owners",
+        destination: "/for/stage/stuck",
+        permanent: true,
+      },
+      {
+        source: "/for/fix-my-system",
+        destination: "/for/stage/growing",
+        permanent: true,
+      },
+      {
+        source: "/for/partners",
+        destination: "/partners",
+        permanent: true,
+      },
     ];
   },
   turbopack: {

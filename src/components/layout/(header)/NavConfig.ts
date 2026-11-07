@@ -1,5 +1,13 @@
 import { NODES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/nodes";
 import { CURATED_BUNDLES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/resolver";
+import {
+  AUDIENCES,
+  AUDIENCE_ORDER,
+  STAGES,
+  STAGE_ORDER,
+  audienceHref,
+  stageHref,
+} from "@/config/audiences";
 
 /** Curated combinations promoted in the "How we grow you" menu. */
 const FEATURED_BUNDLES = [
@@ -14,6 +22,14 @@ export type NavItem = {
   href: string;
   /** Shown in the mega-menu detail column while this link is hovered. */
   description: string;
+  /** Small line under the link, e.g. the sub-types it covers. */
+  sub?: string;
+};
+
+export type NavSecondary = {
+  /** Small mono label above the list. */
+  label: string;
+  items: NavItem[];
 };
 
 export type NavMenu = {
@@ -24,6 +40,8 @@ export type NavMenu = {
   title: string;
   description: string;
   items: NavItem[];
+  /** A second, smaller list in the detail column (e.g. the stage selector). */
+  secondary?: NavSecondary;
   /** Render the social links under the detail column. */
   showSocials?: boolean;
 };
@@ -35,31 +53,21 @@ export const navMenus: NavMenu[] = [
     eyebrow: "Who we help",
     title: "Start from where you are.",
     description:
-      "A business owner, a founder, a team with a system to fix, or an agency with more work than developers. Each has its own offer.",
-    items: [
-      {
-        label: "For startups",
-        href: "for/startups",
-        description:
-          "You have the idea and people waiting for it, but no technical team to build it.",
-      },
-      {
-        label: "For business owners",
-        href: "for/business-owners",
-        description:
-          "Orders, stock and bookings live in spreadsheets, notebooks and WhatsApp, and things slip through.",
-      },
-      {
-        label: "For systems that need fixing",
-        href: "for/fix-my-system",
-        description: "Your developer left, the system keeps breaking, and nobody knows how it works.",
-      },
-      {
-        label: "For agencies and IT firms",
-        href: "for/partners",
-        description: "You've won the client work, but your team doesn't have the time or the skills to build it.",
-      },
-    ],
+      "Pick your kind of business to see the plan built for it, or start from where you are today and we'll ask about your business next.",
+    items: AUDIENCE_ORDER.map((id) => ({
+      label: AUDIENCES[id].label,
+      href: audienceHref(id),
+      description: AUDIENCES[id].summary,
+      sub: AUDIENCES[id].subTypes.join(" · "),
+    })),
+    secondary: {
+      label: "Where are you today?",
+      items: STAGE_ORDER.map((id) => ({
+        label: STAGES[id].label,
+        href: stageHref(id),
+        description: STAGES[id].summary,
+      })),
+    },
   },
   {
     id: "services",
@@ -116,6 +124,12 @@ export const navMenus: NavMenu[] = [
         href: "/AboutUs",
         description:
           "Who we are, what guides our work and the team that will build with you.",
+      },
+      {
+        label: "Partners",
+        href: "/partners",
+        description:
+          "For agencies and IT firms with more client work than developers.",
       },
       {
         label: "Contact",

@@ -84,8 +84,15 @@ export function MobileNavigation({ isOpen, onNavigate }: MobileNavigationProps) 
                           onClick={onNavigate}
                           className="group flex items-center justify-between gap-3 rounded-md px-3 py-3 transition-colors hover:bg-foreground/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
                         >
-                          <span className="min-w-0 font-sans text-sm font-extrabold uppercase tracking-[0.08em] text-foreground/85 transition-colors group-hover:text-brand-text">
-                            {item.label}
+                          <span className="min-w-0">
+                            <span className="block font-sans text-sm font-extrabold uppercase tracking-[0.08em] text-foreground/85 transition-colors group-hover:text-brand-text">
+                              {item.label}
+                            </span>
+                            {item.sub && (
+                              <span className="mt-0.5 block font-sans text-xs text-muted-foreground">
+                                {item.sub}
+                              </span>
+                            )}
                           </span>
                           <ArrowRight
                             aria-hidden="true"
@@ -93,6 +100,37 @@ export function MobileNavigation({ isOpen, onNavigate }: MobileNavigationProps) 
                           />
                         </Link>
                       ))}
+
+                      {menu.secondary && (
+                        <div className="mt-2 border-t border-border pt-3">
+                          <p className="nav-panel-label px-3">
+                            {menu.secondary.label}
+                          </p>
+                          <div className="mt-1 grid gap-1">
+                            {menu.secondary.items.map((item) => (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={onNavigate}
+                                className="group flex items-center justify-between gap-3 rounded-md px-3 py-3 transition-colors hover:bg-foreground/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                              >
+                                <span className="min-w-0">
+                                  <span className="block font-sans text-sm font-extrabold uppercase tracking-[0.08em] text-foreground/85 transition-colors group-hover:text-brand-text">
+                                    {item.label}
+                                  </span>
+                                  <span className="mt-0.5 block font-sans text-xs text-muted-foreground">
+                                    {item.description}
+                                  </span>
+                                </span>
+                                <ArrowRight
+                                  aria-hidden="true"
+                                  className="size-4 shrink-0 text-brand transition-transform group-hover:translate-x-1"
+                                />
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

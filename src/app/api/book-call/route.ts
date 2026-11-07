@@ -54,6 +54,8 @@ export async function POST(request: Request) {
     timeZone: booking.timeZone,
     name: booking.name,
     email: booking.email,
+    businessType: booking.businessType || null,
+    stage: booking.stage || null,
     guests: booking.guests.length,
   })
 

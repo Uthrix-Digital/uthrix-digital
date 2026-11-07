@@ -261,6 +261,9 @@ export const bookingDetailsSchema = z.object({
       "Please enter a valid website, e.g. yourcompany.com"
     ),
   hearAboutUs: z.string().min(1, "Please select an option."),
+  // Optional: lets us arrive at the call already knowing their problem.
+  businessType: z.string().max(60),
+  stage: z.string().max(60),
   message: z.string().trim().max(2000),
   guests: z
     .array(z.string().trim().email("Please enter a valid guest email."))

@@ -12,6 +12,13 @@ const companyLinks = [
   { label: "Get a Quote", href: "#contact" },
 ];
 
+const audienceLinks = [
+  { label: "Hospitality & travel", href: "/for/hospitality" },
+  { label: "Product sellers", href: "/for/product-sellers" },
+  { label: "Service businesses", href: "/for/service-businesses" },
+  { label: "Partners", href: "/partners" },
+];
+
 const capabilityLinks = [
   { label: "Social Media Marketing", href: "#services" },
   { label: "Website Development", href: "#services" },
@@ -47,7 +54,7 @@ export function Footer() {
   return (
     <footer className="relative z-10 bg-foreground text-background">
       <div className="layout-container">
-        <div className="grid gap-12 py-16 sm:grid-cols-2 sm:py-20 lg:grid-cols-[minmax(0,1.35fr)_minmax(150px,0.7fr)_minmax(260px,1fr)_minmax(150px,0.7fr)] lg:gap-10 lg:py-28">
+        <div className="grid gap-12 py-16 sm:grid-cols-2 sm:py-20 lg:grid-cols-[minmax(0,1.35fr)_minmax(150px,0.7fr)_minmax(150px,0.8fr)_minmax(240px,1fr)_minmax(150px,0.7fr)] lg:gap-10 lg:py-28">
           <div className="max-w-md">
             <Link href="/" aria-label="Uthrix Digital home" className="inline-block">
               <Image
@@ -78,6 +85,17 @@ export function Footer() {
             <h2 className="text-base font-medium leading-6">Company</h2>
             <ul className="mt-3 space-y-2 text-base leading-6 text-background/85">
               {companyLinks.map((link) => (
+                <FooterLink key={link.label} href={link.href}>
+                  {link.label}
+                </FooterLink>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-label="Who we help">
+            <h2 className="text-base font-medium leading-6">Who we help</h2>
+            <ul className="mt-3 space-y-2 text-base leading-6 text-background/85">
+              {audienceLinks.map((link) => (
                 <FooterLink key={link.label} href={link.href}>
                   {link.label}
                 </FooterLink>
