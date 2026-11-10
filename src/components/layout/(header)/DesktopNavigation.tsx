@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { navMenus, type NavMenu } from "./NavConfig";
+import { NavFeatureCards } from "./NavFeatureCards";
 import { SocialLinks } from "./SocialLinks";
 
 type DesktopNavigationProps = {
@@ -223,6 +224,10 @@ function MegaMenuContent({
                 ))}
               </ul>
             </div>
+          )}
+
+          {menu.featured && (
+            <NavFeatureCards feature={menu.featured} onNavigate={onNavigate} />
           )}
 
           {menu.showSocials && (

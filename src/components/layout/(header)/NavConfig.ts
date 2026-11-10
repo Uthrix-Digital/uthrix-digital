@@ -8,6 +8,14 @@ import {
   audienceHref,
   stageHref,
 } from "@/config/audiences";
+import {
+  CASE_STUDIES_PATH,
+  CASE_STUDY_CATEGORIES,
+  CASE_STUDY_CATEGORY_ORDER,
+  caseStudyCategoryHref,
+  caseStudyHref,
+  getFeaturedCaseStudies,
+} from "@/config/caseStudies";
 
 /** Curated combinations promoted in the "How we grow you" menu. */
 const FEATURED_BUNDLES = [
@@ -32,6 +40,21 @@ export type NavSecondary = {
   items: NavItem[];
 };
 
+export type NavFeatureCard = {
+  title: string;
+  /** Small line under the title, e.g. the client. */
+  caption: string;
+  href: string;
+  image: { src: string; alt: string };
+};
+
+export type NavFeature = {
+  /** Small mono label above the cards. */
+  label: string;
+  viewAll: { label: string; href: string };
+  cards: NavFeatureCard[];
+};
+
 export type NavMenu = {
   id: string;
   label: string;
@@ -42,6 +65,8 @@ export type NavMenu = {
   items: NavItem[];
   /** A second, smaller list in the detail column (e.g. the stage selector). */
   secondary?: NavSecondary;
+  /** Thumbnail cards in the detail column (e.g. featured case studies). */
+  featured?: NavFeature;
   /** Render the social links under the detail column. */
   showSocials?: boolean;
 };
@@ -109,6 +134,37 @@ export const navMenus: NavMenu[] = [
           : [];
       }),
     ],
+  },
+  {
+    id: "work",
+    label: "Case studies",
+    eyebrow: "Our work",
+    title: "Real work. Measured results.",
+    description:
+      "See the problem, what we built and the numbers that changed. Browse everything or jump to one discipline.",
+    items: [
+      {
+        label: "All case studies",
+        href: CASE_STUDIES_PATH,
+        description:
+          "Every project in one place: marketing, software, web and mobile.",
+      },
+      ...CASE_STUDY_CATEGORY_ORDER.map((id) => ({
+        label: CASE_STUDY_CATEGORIES[id].label,
+        href: caseStudyCategoryHref(id),
+        description: CASE_STUDY_CATEGORIES[id].summary,
+      })),
+    ],
+    featured: {
+      label: "Featured case studies",
+      viewAll: { label: "View all case studies", href: CASE_STUDIES_PATH },
+      cards: getFeaturedCaseStudies(3).map((study) => ({
+        title: study.title,
+        caption: study.client,
+        href: caseStudyHref(study.slug),
+        image: study.cover,
+      })),
+    },
   },
   {
     id: "company",

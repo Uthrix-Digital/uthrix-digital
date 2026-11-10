@@ -7,6 +7,7 @@ const COPYRIGHT_YEAR = 2026;
 const companyLinks = [
   { label: "About Us", href: "#about" },
   { label: "Services", href: "#services" },
+  { label: "Case Studies", href: "/case-studies" },
   { label: "Careers", href: "/careers" },
   { label: "Blog", href: "/blog" },
   { label: "Get a Quote", href: "#contact" },
