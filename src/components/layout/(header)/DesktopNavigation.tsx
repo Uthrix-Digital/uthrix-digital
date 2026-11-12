@@ -226,7 +226,7 @@ function MegaMenuContent({
             </div>
           )}
 
-          {menu.featured && (
+          {menu.featured && menu.featured.cards.length > 0 && (
             <NavFeatureCards feature={menu.featured} onNavigate={onNavigate} />
           )}
 

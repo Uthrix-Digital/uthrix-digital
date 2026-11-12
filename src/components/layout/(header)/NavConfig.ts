@@ -12,6 +12,7 @@ import {
   CASE_STUDIES_PATH,
   CASE_STUDY_CATEGORIES,
   CASE_STUDY_CATEGORY_ORDER,
+  CASE_STUDY_GROUPS,
   caseStudyCategoryHref,
   caseStudyHref,
   getFeaturedCaseStudies,
@@ -141,18 +142,21 @@ export const navMenus: NavMenu[] = [
     eyebrow: "Our work",
     title: "Real work. Measured results.",
     description:
-      "See the problem, what we built and the numbers that changed. Browse everything or jump to one discipline.",
+      "See the problem, what we built and the numbers that changed. Browse everything or jump to marketing or development.",
     items: [
       {
         label: "All case studies",
         href: CASE_STUDIES_PATH,
         description:
-          "Every project in one place: marketing, software, web and mobile.",
+          "Every project in one place, across marketing and development.",
       },
       ...CASE_STUDY_CATEGORY_ORDER.map((id) => ({
         label: CASE_STUDY_CATEGORIES[id].label,
         href: caseStudyCategoryHref(id),
         description: CASE_STUDY_CATEGORIES[id].summary,
+        sub: CASE_STUDY_CATEGORIES[id].groups
+          .map((group) => CASE_STUDY_GROUPS[group].label)
+          .join(" · "),
       })),
     ],
     featured: {

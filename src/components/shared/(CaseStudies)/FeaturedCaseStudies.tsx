@@ -4,9 +4,13 @@ import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
 import { CASE_STUDIES_PATH, getFeaturedCaseStudies } from "@/config/caseStudies";
 import { CaseStudyCard } from "./CaseStudyCard";
 
-/** Home page teaser: the featured case studies and a link to the rest. */
+/**
+ * Home page teaser: the featured case studies and a link to the rest.
+ * Renders nothing until a case study is published.
+ */
 export function FeaturedCaseStudies() {
   const studies = getFeaturedCaseStudies(3);
+  if (studies.length === 0) return null;
 
   return (
     <section

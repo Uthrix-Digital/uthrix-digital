@@ -8,9 +8,10 @@ import { ServiceCta } from "@/components/shared/(ServicePage)/ServiceCta";
 import {
   CASE_STUDIES,
   CASE_STUDIES_PATH,
-  CASE_STUDY_CATEGORIES,
   caseStudyCategoryHref,
+  caseStudyGroupHref,
   getCaseStudy,
+  getCaseStudyTaxonomy,
   getNextCaseStudy,
 } from "@/config/caseStudies";
 import { CaseStudyNext } from "./_components/CaseStudyNext";
@@ -32,8 +33,15 @@ const STORY_TEXT =
   "max-w-3xl text-[clamp(1.25rem,2.2vw,1.9rem)] font-semibold leading-[1.25] tracking-[-0.03em]";
 const EYEBROW = "nav-panel-label";
 
+/** Never a real slug: it resolves to the 404 page. */
+const PLACEHOLDER_SLUG = "coming-soon";
+
 export function generateStaticParams() {
-  return CASE_STUDIES.map(({ slug }) => ({ slug }));
+  // Cache Components rejects an empty list, so prerender one placeholder
+  // until the first case study is published.
+  return CASE_STUDIES.length > 0
+    ? CASE_STUDIES.map(({ slug }) => ({ slug }))
+    : [{ slug: PLACEHOLDER_SLUG }];
 }
 
 export async function generateMetadata({
@@ -59,13 +67,14 @@ export default async function CaseStudyRoute({ params }: CaseStudyRouteProps) {
   const study = getCaseStudy(slug);
   if (!study) notFound();
 
-  const category = CASE_STUDY_CATEGORIES[study.category];
+  const { category, group } = getCaseStudyTaxonomy(study);
   const next = getNextCaseStudy(study.slug);
 
   const facts = [
     { label: "Client", value: study.client },
     { label: "Industry", value: study.industry },
     { label: "Discipline", value: category.label },
+    { label: "Service", value: group.label },
   ];
 
   return (
@@ -83,10 +92,17 @@ export default async function CaseStudyRoute({ params }: CaseStudyRouteProps) {
             </Link>
             <span aria-hidden="true">·</span>
             <Link
-              href={caseStudyCategoryHref(study.category)}
-              className="text-brand-text underline-offset-4 hover:underline"
+              href={caseStudyCategoryHref(category.id)}
+              className="transition-colors hover:text-foreground"
             >
               {category.label}
+            </Link>
+            <span aria-hidden="true">·</span>
+            <Link
+              href={caseStudyGroupHref(group.id)}
+              className="text-brand-text underline-offset-4 hover:underline"
+            >
+              {group.label}
             </Link>
           </p>
           <h1 className="font-archivo-black mt-6 max-w-[18ch] text-[clamp(2.5rem,7vw,6.5rem)] uppercase leading-[0.88] tracking-[-0.07em]">
@@ -99,7 +115,7 @@ export default async function CaseStudyRoute({ params }: CaseStudyRouteProps) {
             <p className={STORY_TEXT}>{study.summary}</p>
           </Reveal>
           <Reveal immediate delay={0.2}>
-            <dl className="grid grid-cols-2 gap-x-6 border-t border-border sm:grid-cols-3">
+            <dl className="grid grid-cols-2 gap-x-6 border-t border-border">
               {facts.map((fact) => (
                 <div key={fact.label} className="pt-5">
                   <dt className={EYEBROW}>{fact.label}</dt>

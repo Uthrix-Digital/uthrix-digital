@@ -2,26 +2,21 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
 import { ServiceCta } from "@/components/shared/(ServicePage)/ServiceCta";
-import {
-  CASE_STUDIES,
-  CASE_STUDY_CATEGORIES,
-  CASE_STUDY_CATEGORY_ORDER,
-} from "@/config/caseStudies";
+import { CASE_STUDIES, CASE_STUDY_GROUPS } from "@/config/caseStudies";
 import { CaseStudyExplorer } from "./_components/CaseStudyExplorer";
 
 export const metadata: Metadata = {
   title: "Case Studies | UthriX Digital",
   description:
-    "Marketing, software, web and mobile projects from UthriX Digital: the problem, what we built and the results it produced.",
+    "Marketing and development projects from UthriX Digital: the problem, what we built and the results it produced.",
 };
 
 export default function CaseStudiesPage() {
-  const categories = CASE_STUDY_CATEGORY_ORDER.map((id) => CASE_STUDY_CATEGORIES[id]);
   const industries = new Set(CASE_STUDIES.map((study) => study.industry)).size;
 
   const stats = [
     { value: CASE_STUDIES.length, label: "Case studies" },
-    { value: categories.length, label: "Disciplines" },
+    { value: Object.keys(CASE_STUDY_GROUPS).length, label: "Services" },
     { value: industries, label: "Industries" },
   ];
 
@@ -49,20 +44,22 @@ export default function CaseStudiesPage() {
                 number that moved. Here is what we built and what changed.
               </p>
             </Reveal>
-            <Reveal immediate delay={0.2}>
-              <dl className="grid grid-cols-3 border-t border-border">
-                {stats.map((stat) => (
-                  <div key={stat.label} className="flex flex-col-reverse gap-2 pt-5">
-                    <dt className="font-mono text-[0.68rem] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                      {stat.label}
-                    </dt>
-                    <dd className="font-archivo-black text-[clamp(2.5rem,5vw,4.5rem)] leading-none tracking-[-0.06em]">
-                      {String(stat.value).padStart(2, "0")}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </Reveal>
+            {CASE_STUDIES.length > 0 && (
+              <Reveal immediate delay={0.2}>
+                <dl className="grid grid-cols-3 border-t border-border">
+                  {stats.map((stat) => (
+                    <div key={stat.label} className="flex flex-col-reverse gap-2 pt-5">
+                      <dt className="font-mono text-[0.68rem] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                        {stat.label}
+                      </dt>
+                      <dd className="font-archivo-black text-[clamp(2.5rem,5vw,4.5rem)] leading-none tracking-[-0.06em]">
+                        {String(stat.value).padStart(2, "0")}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </Reveal>
+            )}
           </div>
         </div>
       </section>
@@ -82,7 +79,7 @@ export default function CaseStudiesPage() {
               />
             }
           >
-            <CaseStudyExplorer studies={CASE_STUDIES} categories={categories} />
+            <CaseStudyExplorer studies={CASE_STUDIES} />
           </Suspense>
         </div>
       </section>

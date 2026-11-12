@@ -53,8 +53,12 @@ const BUSINESS_DELAY = 0.18;
 const lineClassBlack =
   "block whitespace-nowrap text-[10cqw] sm:text-[15cqw] leading-[0.78] tracking-[-0.07em] sm:-tracking-widest";
 
-const lineClassRed =
+const lineClassGray =
+  "block whitespace-nowrap text-chart-4 text-[10cqw] sm:text-[10.4cqw] leading-[0.78] tracking-[-0.07em] sm:-tracking-widest";
+
+  const lineClassRed =
   "block whitespace-nowrap text-brand text-[10cqw] sm:text-[10.4cqw] leading-[0.78] tracking-[-0.07em] sm:-tracking-widest";
+
 function SlotWord({
   id,
   delay,
@@ -121,10 +125,9 @@ function RotatingHeadline() {
           </SlotWord>
         </span>
         <span className={lineClassBlack}>For your</span>
-        <span className={lineClassRed}>
+        <span className={lineClassGray}>
           <SlotWord id={index} delay={BUSINESS_DELAY}>
             {pair.business}
-            <span className="text-brand">.</span>
           </SlotWord>
         </span>
       </span>

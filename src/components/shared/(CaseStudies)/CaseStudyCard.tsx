@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import {
-  CASE_STUDY_CATEGORIES,
   caseStudyHref,
+  getCaseStudyTaxonomy,
   type CaseStudy,
 } from "@/config/caseStudies";
 
@@ -27,7 +27,7 @@ export function CaseStudyCard({
   className = "",
 }: CaseStudyCardProps) {
   const isWide = layout === "wide";
-  const category = CASE_STUDY_CATEGORIES[study.category];
+  const { group } = getCaseStudyTaxonomy(study);
 
   return (
     <Link
@@ -54,7 +54,7 @@ export function CaseStudyCard({
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
         <span className="absolute left-4 top-4 rounded-full bg-background/90 px-3 py-1 font-mono text-[0.68rem] font-medium uppercase tracking-[0.14em] text-foreground backdrop-blur-sm">
-          {category.label}
+          {group.label}
         </span>
       </div>
 
