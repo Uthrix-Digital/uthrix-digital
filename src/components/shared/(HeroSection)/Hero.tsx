@@ -56,7 +56,7 @@ const lineClassBlack =
 const lineClassGray =
   "block whitespace-nowrap text-chart-4 text-[10cqw] sm:text-[10.4cqw] leading-[0.78] tracking-[-0.07em] sm:-tracking-widest";
 
-  const lineClassRed =
+const lineClassRed =
   "block whitespace-nowrap text-brand text-[10cqw] sm:text-[10.4cqw] leading-[0.78] tracking-[-0.07em] sm:-tracking-widest";
 
 function SlotWord({
@@ -182,12 +182,12 @@ export function Hero() {
                 >
                   See how we help
                 </a>
-                <a
-                  href="#portfolio"
+                <Link
+                  href="/case-studies"
                   className={`inline-flex h-15 items-center justify-center rounded-full bg-foreground px-8 text-base font-medium text-background transition-colors hover:bg-foreground/85 ${focusRing}`}
                 >
                   View Case Studies
-                </a>
+                </Link>
               </motion.div>
 
               <motion.nav
