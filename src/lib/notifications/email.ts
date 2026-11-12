@@ -12,6 +12,8 @@ export type EmailAttachment = {
   /** Base64-encoded file content. */
   content: string
   contentType?: string
+  /** Set to embed the file inline; reference it in HTML as `cid:<contentId>`. */
+  contentId?: string
 }
 
 export type EmailMessage = {
@@ -53,6 +55,7 @@ export async function sendEmail(message: EmailMessage): Promise<EmailResult> {
           filename: a.filename,
           content: a.content,
           content_type: a.contentType,
+          content_id: a.contentId,
         })),
       }),
       signal: AbortSignal.timeout(10_000),
