@@ -18,53 +18,33 @@
  *
  * Behaviour
  * ─────────
- * • Validated on submit with a Zod schema; invalid fields show inline errors.
- * • On success the button confirms, then the form resets after 3 s.
- * • Wire the `onSubmit` prop to a server action / API route for real delivery.
+ * • Validated on submit with the shared Zod schema (src/lib/inquiry.ts);
+ *   invalid fields show inline errors.
+ * • Posts to /api/inquiry, which emails the inquiry to the business inbox.
+ *   Pass `onSubmit` to replace that delivery (throw to signal failure).
+ * • On success the form is replaced by a confirmation with a
+ *   "Continue on WhatsApp" link that pre-fills the same details.
+ * • On failure an inline error appears with a WhatsApp fallback.
  */
 
 "use client"
 
 import * as React from "react"
-import { z } from "zod"
 import { cn } from "cn"
-import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react"
+import { ArrowRight, CheckCircle2, Loader2, MessageCircle } from "lucide-react"
 import { FormField } from "@/components/ui/form-field"
 import { SelectFormField } from "@/components/ui/select-form-field"
 import { Button } from "@/components/ui/button"
 import { BUSINESS_TYPE_OPTIONS, STAGE_OPTIONS } from "@/config/audiences"
+import { siteConfig } from "@/config/siteConfig"
+import { HEAR_ABOUT_US_OPTIONS } from "@/lib/booking"
+import {
+  inquiryFormSchema,
+  inquiryWhatsAppLink,
+  type InquiryFormData,
+} from "@/lib/inquiry"
 
-// ─── Schema ───────────────────────────────────────────────────────────────────
-
-const HEAR_ABOUT_US_OPTIONS = [
-  { value: "google", label: "Google Search" },
-  { value: "social", label: "Social Media" },
-  { value: "referral", label: "Referral / Word of Mouth" },
-  { value: "linkedin", label: "LinkedIn" },
-  { value: "event", label: "Event or Conference" },
-  { value: "other", label: "Other" },
-]
-
-export const inquiryFormSchema = z.object({
-  name: z.string().trim().min(1, "Full name is required."),
-  email: z
-    .string()
-    .trim()
-    .min(1, "Email address is required.")
-    .email("Please enter a valid email address."),
-  phone: z
-    .string()
-    .trim()
-    .min(1, "Phone number is required.")
-    .regex(/^\+?[\d\s()-]{7,20}$/, "Please enter a valid phone number."),
-  lookingFor: z.string().trim(),
-  hearAboutUs: z.string().min(1, "Please select an option."),
-  businessType: z.string(),
-  stage: z.string(),
-  message: z.string().trim(),
-})
-
-export type InquiryFormData = z.infer<typeof inquiryFormSchema>
+export type { InquiryFormData }
 
 type FieldKey = keyof InquiryFormData
 type FieldErrors = Partial<Record<FieldKey, string>>
@@ -81,12 +61,50 @@ const EMPTY: InquiryFormData = {
 }
 
 export interface InquiryFormProps {
-  /** Called with validated form data on successful submission. */
+  /**
+   * Custom delivery. Defaults to POST /api/inquiry. Throw to show the
+   * failure state.
+   */
   onSubmit?: (data: InquiryFormData) => Promise<void> | void
   /** Additional classes on the outer card. */
   className?: string
   /** Pre-select values, e.g. the business type of the page the form sits on. */
   defaultValues?: Partial<Pick<InquiryFormData, "businessType" | "stage">>
+}
+
+// ─── Delivery ─────────────────────────────────────────────────────────────────
+
+const GENERIC_ERROR =
+  "We couldn't send your inquiry right now. Please try again."
+
+class InquirySubmitError extends Error {
+  constructor(
+    message: string,
+    readonly fieldErrors: FieldErrors = {}
+  ) {
+    super(message)
+  }
+}
+
+/** Default delivery: POST /api/inquiry → email to the business inbox. */
+async function postInquiry(data: InquiryFormData, honeypot: string) {
+  const response = await fetch("/api/inquiry", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...data, website: honeypot }),
+  })
+  if (response.ok) return
+
+  const payload = (await response.json().catch(() => null)) as {
+    error?: string
+    fieldErrors?: Partial<Record<FieldKey, string[]>>
+  } | null
+
+  const fieldErrors: FieldErrors = {}
+  for (const [key, messages] of Object.entries(payload?.fieldErrors ?? {})) {
+    if (messages?.[0]) fieldErrors[key as FieldKey] = messages[0]
+  }
+  throw new InquirySubmitError(payload?.error ?? GENERIC_ERROR, fieldErrors)
 }
 
 // ─── InquiryForm ──────────────────────────────────────────────────────────────
@@ -111,6 +129,11 @@ export function InquiryForm({
   const [status, setStatus] = React.useState<"idle" | "submitting" | "success">(
     "idle"
   )
+  const [submitError, setSubmitError] = React.useState("")
+  // Honeypot — hidden from people, auto-filled by bots; checked by the API.
+  const [honeypot, setHoneypot] = React.useState("")
+  // What was just sent — feeds the WhatsApp follow-up link.
+  const [sent, setSent] = React.useState<InquiryFormData | null>(null)
   const headingId = React.useId()
 
   function setField(field: FieldKey, value: string) {
@@ -144,21 +167,31 @@ export function InquiryForm({
     }
 
     setStatus("submitting")
+    setSubmitError("")
     try {
-      await onSubmit?.(result.data)
+      if (onSubmit) await onSubmit(result.data)
+      else await postInquiry(result.data, honeypot)
+      setSent(result.data)
       setStatus("success")
-      setTimeout(() => {
-        setStatus("idle")
-        setValues(initial)
-        setErrors({})
-      }, 3000)
-    } catch {
+    } catch (error) {
+      if (error instanceof InquirySubmitError) setErrors(error.fieldErrors)
+      setSubmitError(
+        error instanceof InquirySubmitError ? error.message : GENERIC_ERROR
+      )
       setStatus("idle")
     }
   }
 
+  function handleReset() {
+    setValues(initial)
+    setErrors({})
+    setSubmitError("")
+    setSent(null)
+    setStatus("idle")
+  }
+
   const variant = (field: FieldKey) => (errors[field] ? "error" : "default")
-  const busy = status !== "idle"
+  const busy = status === "submitting"
 
   return (
     <section
@@ -189,7 +222,44 @@ export function InquiryForm({
         Tell us where you want to grow — we&apos;ll come back with a plan.
       </p>
 
-      {/* ── Form ── */}
+      {status === "success" && sent ? (
+        /* ── Confirmation ── */
+        <div
+          role="status"
+          className="mt-5 flex flex-col gap-4 rounded-control border border-border bg-background p-5"
+        >
+          <div className="flex items-start gap-3">
+            <CheckCircle2
+              aria-hidden="true"
+              className="mt-0.5 size-5 shrink-0 text-field-success"
+            />
+            <div>
+              <p className="type-label text-foreground">
+                Thanks, {sent.name.split(" ")[0]} — your inquiry is in.
+              </p>
+              <p className="mt-1 text-sm leading-5 text-muted-foreground">
+                We&apos;ll reply to {sent.email}. Want a faster answer? Send
+                us the same details on WhatsApp.
+              </p>
+            </div>
+          </div>
+
+          <a
+            href={inquiryWhatsAppLink(sent)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-8 text-base font-medium text-background transition-colors hover:bg-foreground/85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          >
+            <MessageCircle aria-hidden="true" className="size-4" />
+            Continue on WhatsApp
+          </a>
+
+          <Button type="button" variant="ghost" size="sm" onClick={handleReset}>
+            Send another inquiry
+          </Button>
+        </div>
+      ) : (
+      /* ── Form ── */
       <form
         onSubmit={handleSubmit}
         noValidate
@@ -281,7 +351,42 @@ export function InquiryForm({
           className="@[20rem]:col-span-2"
         />
 
+        {/* Honeypot — off-screen, skipped by keyboard and screen readers */}
+        <div
+          aria-hidden="true"
+          className="absolute -left-[9999px] size-px overflow-hidden"
+        >
+          <label>
+            Website
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+            />
+          </label>
+        </div>
+
         <div className="flex flex-col gap-2 @[20rem]:col-span-2">
+          {submitError && (
+            <p
+              role="alert"
+              className="rounded-control border border-field-error/40 bg-field-error/10 px-4 py-2.5 text-sm leading-5 text-field-error"
+            >
+              {submitError}{" "}
+              <a
+                href={siteConfig.whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline underline-offset-2"
+              >
+                Message us on WhatsApp
+              </a>
+            </p>
+          )}
+
           <Button
             type="submit"
             disabled={busy}
@@ -291,11 +396,6 @@ export function InquiryForm({
               <>
                 <Loader2 className="animate-spin" aria-hidden="true" />
                 Sending…
-              </>
-            ) : status === "success" ? (
-              <>
-                <CheckCircle2 aria-hidden="true" />
-                Message sent!
               </>
             ) : (
               <>
@@ -308,16 +408,12 @@ export function InquiryForm({
             )}
           </Button>
 
-          <p
-            aria-live="polite"
-            className="type-caption text-center text-muted-foreground"
-          >
-            {status === "success"
-              ? "Thanks — we'll be in touch shortly."
-              : "Fields marked * are required. No spam, ever."}
+          <p className="type-caption text-center text-muted-foreground">
+            Fields marked * are required. No spam, ever.
           </p>
         </div>
       </form>
+      )}
     </section>
   )
 }
