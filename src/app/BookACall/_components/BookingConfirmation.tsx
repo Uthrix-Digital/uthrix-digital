@@ -58,8 +58,9 @@ export function BookingConfirmation({
         You&apos;re booked, <span className="text-brand-text">{firstName}.</span>
       </h2>
       <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">
-        A calendar invite with the {bookingConfig.location} link is on its way to{" "}
-        <span className="font-medium text-foreground">{email}</span>.
+        A confirmation with a calendar invite is on its way to{" "}
+        <span className="font-medium text-foreground">{email}</span>. We&apos;ll send
+        the {bookingConfig.location} link before the call.
       </p>
 
       <dl className="mt-8 grid w-full max-w-md gap-3 rounded-card border border-border bg-background p-5 text-left text-sm">

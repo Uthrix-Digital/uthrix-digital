@@ -144,14 +144,14 @@ export default function BookingFlow() {
     requestAnimationFrame(scrollCardIntoView)
   }
 
-  async function submit(values: BookingDetails) {
+  async function submit(values: BookingDetails, trap: string) {
     if (!slotIso) return
     setSubmitError(null)
     try {
       const res = await fetch("/api/book-call", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, slot: slotIso, timeZone }),
+        body: JSON.stringify({ ...values, slot: slotIso, timeZone, bk_check: trap }),
       })
       const data = (await res.json().catch(() => null)) as
         | { ok: boolean; error?: string }
