@@ -275,6 +275,8 @@ export const bookingRequestSchema = bookingDetailsSchema.extend({
     .string()
     .min(1)
     .refine(isValidTimeZone, "Unknown time zone."),
+  /** Honeypot — hidden from people, so any value means a bot filled it. */
+  bk_check: z.string().max(200).optional(),
 })
 
 export type BookingRequest = z.infer<typeof bookingRequestSchema>
