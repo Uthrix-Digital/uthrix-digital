@@ -19,6 +19,12 @@ import {
   type BookingRequest,
 } from "@/lib/booking"
 import { sendEmail, type EmailAttachment, type EmailMessage } from "./email"
+import {
+  EMAIL_LOGO_CID,
+  EMAIL_LOGO_HEIGHT,
+  EMAIL_LOGO_PNG_BASE64,
+  EMAIL_LOGO_WIDTH,
+} from "./logo"
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -130,7 +136,7 @@ function shell(opts: { eyebrow: string; heading: string; body: string; preheader
 <tr><td align="center">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid #e4e4e7;border-radius:16px;overflow:hidden;">
 <tr><td style="background:#0a0a0a;padding:20px 32px;">
-  <span style="font-size:18px;font-weight:800;letter-spacing:-0.02em;color:#ffffff;">UTHRI<span style="color:#ff5c5c;">X</span> DIGITAL</span>
+  <img src="cid:${EMAIL_LOGO_CID}" width="${EMAIL_LOGO_WIDTH}" height="${EMAIL_LOGO_HEIGHT}" alt="${esc(siteConfig.companyName)}" style="display:block;border:0;outline:none;height:${EMAIL_LOGO_HEIGHT}px;width:${EMAIL_LOGO_WIDTH}px;color:#ffffff;font-size:18px;font-weight:800;">
 </td></tr>
 <tr><td style="padding:32px;">
   <p style="margin:0 0 8px;font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#71717a;">
@@ -233,7 +239,7 @@ export function buildTeamEmail(id: string, booking: BookingRequest): EmailMessag
     subject: `New call booking — ${name}, ${host.date}, ${formatTime(slot, bookingConfig.hostTimeZone)}`,
     html,
     text,
-    attachments: [buildIcs(id, booking, slot)],
+    attachments: [buildIcs(id, booking, slot), logoAttachment()],
   }
 }
 
@@ -284,7 +290,7 @@ ${timeCard(w)}
     subject: `Your call with ${siteConfig.companyName} — ${w.date}, ${formatTime(slot, booking.timeZone)}`,
     html,
     text,
-    attachments: [buildIcs(id, booking, slot)],
+    attachments: [buildIcs(id, booking, slot), logoAttachment()],
   }
 }
 
@@ -296,4 +302,14 @@ export function sendTeamNotification(id: string, booking: BookingRequest) {
 
 export function sendClientConfirmation(id: string, booking: BookingRequest) {
   return sendEmail(buildClientEmail(id, booking))
+}
+
+/** The logo, embedded inline so it shows without loading remote images. */
+function logoAttachment(): EmailAttachment {
+  return {
+    filename: "uthrix-logo.png",
+    content: EMAIL_LOGO_PNG_BASE64,
+    contentType: "image/png",
+    contentId: EMAIL_LOGO_CID,
+  }
 }
