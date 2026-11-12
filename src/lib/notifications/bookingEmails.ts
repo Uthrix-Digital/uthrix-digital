@@ -18,6 +18,7 @@ import {
   formatTime,
   type BookingRequest,
 } from "@/lib/booking"
+import { BUSINESS_TYPE_OPTIONS, STAGE_OPTIONS } from "@/config/audiences"
 import { sendEmail, type EmailAttachment, type EmailMessage } from "./email"
 import {
   EMAIL_LOGO_CID,
@@ -180,6 +181,11 @@ export function buildTeamEmail(id: string, booking: BookingRequest): EmailMessag
   const client = when(slot, booking.timeZone)
   const sameZone = booking.timeZone === bookingConfig.hostTimeZone
   const name = oneLine(booking.name)
+  const businessType =
+    BUSINESS_TYPE_OPTIONS.find((o) => o.value === booking.businessType)?.label ??
+    booking.businessType
+  const stage =
+    STAGE_OPTIONS.find((o) => o.value === booking.stage)?.label ?? booking.stage
   const heard =
     HEAR_ABOUT_US_OPTIONS.find((o) => o.value === booking.hearAboutUs)?.label ??
     booking.hearAboutUs
@@ -191,6 +197,8 @@ export function buildTeamEmail(id: string, booking: BookingRequest): EmailMessag
     booking.website
       ? row("Website", `<a href="${esc(websiteUrl(booking.website))}" style="color:${BRAND};">${esc(booking.website)}</a>`)
       : "",
+    businessType ? row("Business type", esc(businessType)) : "",
+    stage ? row("Stage", esc(stage)) : "",
     row("Heard about us", esc(heard)),
     sameZone ? "" : row("Client's local time", `${esc(client.time)}<br><span style="color:#71717a;font-size:12px;">${esc(client.date)} · ${esc(client.zone)}</span>`),
     booking.guests.length
@@ -223,6 +231,8 @@ export function buildTeamEmail(id: string, booking: BookingRequest): EmailMessag
     `Email:   ${booking.email}`,
     `Phone:   ${booking.phone}`,
     booking.website ? `Website: ${booking.website}` : "",
+    businessType ? `Business type: ${businessType}` : "",
+    stage ? `Stage: ${stage}` : "",
     `Heard about us: ${heard}`,
     booking.guests.length ? `Guests:  ${booking.guests.join(", ")}` : "",
     booking.message ? `\nWants to discuss:\n${booking.message}` : "",

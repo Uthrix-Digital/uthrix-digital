@@ -47,11 +47,12 @@ export async function insertBooking(
   try {
     await sql()`
       insert into bookings
-        (id, slot, time_zone, name, email, phone, website, hear_about_us, message, guests)
+        (id, slot, time_zone, name, email, phone, website, hear_about_us, message, guests,
+         business_type, stage)
       values
         (${id}, ${booking.slot}, ${booking.timeZone}, ${booking.name}, ${booking.email},
          ${booking.phone}, ${booking.website}, ${booking.hearAboutUs}, ${booking.message},
-         ${booking.guests})
+         ${booking.guests}, ${booking.businessType}, ${booking.stage})
     `
     return "created"
   } catch (error) {

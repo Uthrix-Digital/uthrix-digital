@@ -53,6 +53,10 @@ await sql`
   )
 `
 
+// Columns added after the first release — safe on an existing table.
+await sql`alter table bookings add column if not exists business_type text not null default ''`
+await sql`alter table bookings add column if not exists stage text not null default ''`
+
 // One confirmed booking per slot. Cancelled rows don't block the slot.
 await sql`
   create unique index if not exists bookings_slot_confirmed_key
