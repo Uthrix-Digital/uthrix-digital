@@ -48,8 +48,15 @@ const sections: LegalSection[] = [
     id: "cookies",
     title: "Cookies and local storage",
     paragraphs: [
-      "This website does not currently use advertising or analytics cookies. We store a small amount of information in your browser, such as your light or dark theme preference, so the site works the way you left it. This stays on your device and is not used to identify you.",
-      "If we add analytics or advertising tools in future, we will update this policy before they are switched on.",
+      "We store a small amount of information in your browser so the site works the way you left it: your light or dark theme preference and your cookie choice. This is strictly necessary, stays on your device and is not used to identify you.",
+      "With your permission, we also use the Meta Pixel, an advertising tool from Meta Platforms. It is only loaded after you choose “Accept” on the cookie banner. If you choose “Reject”, it is never loaded and the site works the same.",
+      "You can change or withdraw your choice at any time using the “Cookie settings” link at the bottom of every page. Withdrawing stops the Meta Pixel and removes its cookies from this site.",
+      "When it is switched on, the Meta Pixel does the following:",
+    ],
+    items: [
+      "Sets the _fbp cookie, and the _fbc cookie if you arrived from one of our ads on Facebook or Instagram. Each lasts up to 90 days.",
+      "Tells Meta which pages you visit on this site, together with technical details such as your IP address, browser and device.",
+      "Lets us measure how our adverts perform and show our adverts to people who have visited this site. Meta may link this activity to your Facebook or Instagram account.",
     ],
   },
   {
@@ -62,6 +69,7 @@ const sections: LegalSection[] = [
       "Website hosting and database providers, which store enquiries and bookings.",
       "Email delivery providers, which send confirmation and notification emails.",
       "Messaging services such as WhatsApp, if you choose to contact us there.",
+      "Meta Platforms, through the Meta Pixel, only if you accept advertising cookies.",
       "Authorities or advisers, where the law requires it or to protect our legal rights.",
     ],
   },
