@@ -3,9 +3,10 @@
 import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { siteConfig } from "@/config/siteConfig";
 import { useConsent } from "@/hooks/useConsent";
 
-const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+const PIXEL_ID = siteConfig.metaPixelId;
 
 /**
  * Loads the Meta Pixel only after the visitor accepts marketing cookies.
