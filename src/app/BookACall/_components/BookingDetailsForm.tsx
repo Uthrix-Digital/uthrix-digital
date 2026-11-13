@@ -32,7 +32,8 @@ export const EMPTY_DETAILS: BookingDetails = {
 type BookingDetailsFormProps = {
   values: BookingDetails
   onChange: (values: BookingDetails) => void
-  onSubmit: (values: BookingDetails) => Promise<void>
+  /** `trap` is the honeypot value — empty for real visitors. */
+  onSubmit: (values: BookingDetails, trap: string) => Promise<void>
   /** Error from the server (e.g. slot taken), shown above the submit button. */
   submitError: string | null
 }
@@ -127,7 +128,10 @@ export function BookingDetailsForm({
 
     setSubmitting(true)
     try {
-      await onSubmit(result.data)
+      const trap =
+        formRef.current?.querySelector<HTMLInputElement>("input[name=bk_check]")
+          ?.value ?? ""
+      await onSubmit(result.data, trap)
     } finally {
       setSubmitting(false)
     }
@@ -235,6 +239,14 @@ export function BookingDetailsForm({
         helperText={errors.message}
         className="@[34rem]:col-span-2"
       />
+
+      {/* Honeypot — off-screen and unfocusable; only bots fill it in. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] size-px overflow-hidden">
+        <label>
+          Leave this field empty
+          <input type="text" name="bk_check" tabIndex={-1} autoComplete="one-time-code" data-1p-ignore data-lpignore="true" data-form-type="other" defaultValue="" />
+        </label>
+      </div>
 
       {/* ── Guests ── */}
       <div className="flex flex-col gap-2.5 @[34rem]:col-span-2">

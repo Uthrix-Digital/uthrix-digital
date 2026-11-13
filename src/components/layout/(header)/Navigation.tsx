@@ -97,10 +97,6 @@ export function Navigation() {
     setIsMobileOpen(false);
   };
 
-  if (pathname === "/careers") {
-    return null;
-  }
-
   const headerSurface = isAnyOpen
     ? "border-border bg-surface-overlay duration-200"
     : isScrolled

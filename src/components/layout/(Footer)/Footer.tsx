@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/config/siteConfig";
+import { CookieSettingsButton } from "@/components/shared/(CookieConsent)/CookieSettingsButton";
 
 const COPYRIGHT_YEAR = 2026;
 
 const companyLinks = [
   { label: "About Us", href: "#about" },
   { label: "Services", href: "#services" },
+  { label: "Case Studies", href: "/case-studies" },
   { label: "Careers", href: "/careers" },
   { label: "Blog", href: "/blog" },
   { label: "Get a Quote", href: "#contact" },
@@ -133,13 +135,14 @@ export function Footer() {
 
         <div className="flex flex-col gap-5 border-t border-background/70 py-6 text-base leading-6 text-background/80 sm:flex-row sm:items-center sm:justify-between">
           <p>© {COPYRIGHT_YEAR} Uthrix Digital</p>
-          <div className="flex gap-7">
+          <div className="flex flex-wrap gap-x-7 gap-y-2">
             <Link href="/privacy" className="transition-colors hover:text-background">
               Privacy policy
             </Link>
             <Link href="/terms" className="transition-colors hover:text-background">
               Terms of use
             </Link>
+            <CookieSettingsButton className="cursor-pointer transition-colors hover:text-background focus-visible:text-background" />
           </div>
         </div>
       </div>

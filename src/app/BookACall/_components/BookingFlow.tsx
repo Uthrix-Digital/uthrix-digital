@@ -75,6 +75,18 @@ function dayHeading(key: string) {
   }).format(keyToLocalDate(key))
 }
 
+/** Booked start times (ISO), or null if the list couldn't be loaded. */
+async function fetchTakenSlots(): Promise<Set<string> | null> {
+  try {
+    const res = await fetch("/api/book-call/availability", { cache: "no-store" })
+    const data = (await res.json()) as { taken?: unknown }
+    return Array.isArray(data.taken) ? new Set(data.taken as string[]) : null
+  } catch {
+    // The booking endpoint still rejects a taken slot, so this can fail quietly.
+    return null
+  }
+}
+
 export default function BookingFlow() {
   const [now] = React.useState(() => new Date())
   const [timeZone, setTimeZone] = React.useState(detectTimeZone)
@@ -84,10 +96,23 @@ export default function BookingFlow() {
   const [details, setDetails] = React.useState<BookingDetails>(EMPTY_DETAILS)
   const [submitError, setSubmitError] = React.useState<string | null>(null)
 
+  // Start times (ISO) that someone has already booked.
+  const [taken, setTaken] = React.useState<ReadonlySet<string>>(() => new Set())
+
   const cardRef = React.useRef<HTMLElement>(null)
   const slotsRef = React.useRef<HTMLDivElement>(null)
 
-  // Every visitor-local day in the booking window that has at least one slot.
+  React.useEffect(() => {
+    let cancelled = false
+    fetchTakenSlots().then((slots) => {
+      if (!cancelled && slots) setTaken(slots)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  // Every visitor-local day in the booking window that has at least one free slot.
   const availability = React.useMemo(() => {
     const map = new Map<string, Date[]>()
     const todayKey = dateKeyInZone(now, timeZone)
@@ -95,11 +120,13 @@ export default function BookingFlow() {
     for (let i = 0; i <= bookingConfig.maxDaysAhead + 1; i++) {
       const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i)
       const key = localDateKey(d)
-      const slots = getSlotsForDate(key, timeZone, now)
+      const slots = getSlotsForDate(key, timeZone, now).filter(
+        (slot) => !taken.has(slot.toISOString())
+      )
       if (slots.length) map.set(key, slots)
     }
     return { map, todayKey }
-  }, [now, timeZone])
+  }, [now, timeZone, taken])
 
   const availableKeys = [...availability.map.keys()]
   const firstKey = availableKeys[0]
@@ -144,14 +171,14 @@ export default function BookingFlow() {
     requestAnimationFrame(scrollCardIntoView)
   }
 
-  async function submit(values: BookingDetails) {
+  async function submit(values: BookingDetails, trap: string) {
     if (!slotIso) return
     setSubmitError(null)
     try {
       const res = await fetch("/api/book-call", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, slot: slotIso, timeZone }),
+        body: JSON.stringify({ ...values, slot: slotIso, timeZone, bk_check: trap }),
       })
       const data = (await res.json().catch(() => null)) as
         | { ok: boolean; error?: string }
@@ -160,8 +187,13 @@ export default function BookingFlow() {
         setSubmitError(
           data?.error ?? "Something went wrong. Please try again in a moment."
         )
+        // Someone else may have just taken the slot — refresh what's free.
+        if (res.status === 409) {
+          void fetchTakenSlots().then((slots) => slots && setTaken(slots))
+        }
         return
       }
+      setTaken((prev) => new Set(prev).add(slotIso))
       setStep("done")
       requestAnimationFrame(scrollCardIntoView)
     } catch {

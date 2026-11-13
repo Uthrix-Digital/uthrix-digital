@@ -11,6 +11,9 @@ import IntroController from "@/components/shared/(IntoAnimation)/IntroController
 import ScrollToTopOnLoad from "@/components/shared/ScrollToTopOnLoad";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import { PageTransition } from "@/components/shared/PageTransition";
+import { ConsentProvider } from "@/components/shared/(CookieConsent)/ConsentProvider";
+import { CookieBanner } from "@/components/shared/(CookieConsent)/CookieBanner";
+import { MetaPixel } from "@/components/shared/(CookieConsent)/MetaPixel";
 import { themeInitScript } from "@/lib/theme";
 
 const manrope = Manrope({
@@ -50,6 +53,7 @@ const hkg = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: siteConfig.companyName,
   description: siteConfig.description,
 };
@@ -74,20 +78,24 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
-          <Intro />
-          <IntroController />
-          <ScrollToTopOnLoad />
-          <PageTransition />
-          <div className="relative min-h-screen bg-background text-foreground transition-colors duration-300">
-            <div className="relative z-10">
-              <Navigation />
+          <ConsentProvider>
+            <MetaPixel />
+            <CookieBanner />
+            <Intro />
+            <IntroController />
+            <ScrollToTopOnLoad />
+            <PageTransition />
+            <div className="relative min-h-screen bg-background text-foreground transition-colors duration-300">
+              <div className="relative z-10">
+                <Navigation />
+              </div>
+              <main>{children}</main>
+              <ScrollToTopButton />
+              <div className="relative z-0">
+                <Footer />
+              </div>
             </div>
-            <main>{children}</main>
-            <ScrollToTopButton />
-            <div className="relative z-0">
-              <Footer />
-            </div>
-          </div>
+          </ConsentProvider>
         </ThemeProvider>
       </body>
     </html>

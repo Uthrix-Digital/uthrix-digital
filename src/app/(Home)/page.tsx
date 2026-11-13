@@ -1,5 +1,6 @@
 import { Hero } from "@/components/shared/(HeroSection)/Hero";
 import { ConnectsDots } from "@/components/shared/(ConnetsDots)/ConnectsDots";
+import { FeaturedCaseStudies } from "@/components/shared/(CaseStudies)/FeaturedCaseStudies";
 import { HowCanWeHelp } from "@/components/shared/(HowCanWeHelp)/HowCanWeHelp";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
       <main>
         <Hero />
         <HowCanWeHelp />
+        <FeaturedCaseStudies />
         <ConnectsDots />
       </main>
       
