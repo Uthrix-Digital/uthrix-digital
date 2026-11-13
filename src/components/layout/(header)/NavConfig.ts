@@ -120,6 +120,17 @@ export const navMenus: NavMenu[] = [
     showSocials: true,
     items: [
       {
+        label: "Company profile",
+        href: "/Company",
+        description: "Who we are and How we work with clients",
+      },
+{
+        label: "Uthrix Team",
+        href: "company#team",
+        description: "Peoples who run the Uthrix Digital",
+      },
+      
+      {
         label: "About us",
         href: "/AboutUs",
         description:
@@ -130,6 +141,23 @@ export const navMenus: NavMenu[] = [
         href: "/partners",
         description:
           "For agencies and IT firms with more client work than developers.",
+      },
+      {
+        label: "Why Uthrix",
+        href: "company#works",
+        description:
+          "For agencies and IT firms with more client work than developers.",
+      },
+      {
+        label: "Blog",
+        href: "/blog",
+        description:
+          "We'll share practical notes on marketing, websites and software here.",
+      },
+      {
+        label: "Careers",
+        href: "/careers",
+        description: "Open roles will be listed here soon.",
       },
       {
         label: "Contact",
@@ -146,3 +174,16 @@ export const navCta = {
   shortLabel: "Book a call",
   href: "/BookACall",
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
