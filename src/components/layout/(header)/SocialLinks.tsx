@@ -23,10 +23,10 @@ const labels: Record<keyof typeof icons, string> = {
 };
 
 export function SocialLinks({ className = "" }: { className?: string }) {
-  const entries = Object.entries(siteConfig.socials) as [
-    keyof typeof icons,
-    string,
-  ][];
+  // "#" marks a profile that doesn't exist yet: hide it rather than link nowhere.
+  const entries = (
+    Object.entries(siteConfig.socials) as [keyof typeof icons, string][]
+  ).filter(([, href]) => href !== "#");
 
   return (
     <ul className={`flex items-center gap-2.5 ${className}`}>
