@@ -50,6 +50,7 @@ const hkg = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: siteConfig.companyName,
   description: siteConfig.description,
 };
