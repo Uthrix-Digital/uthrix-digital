@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
-import { ServiceCta } from "@/components/shared/(ServicePage)/ServiceCta";
 import { CASE_STUDIES, CASE_STUDY_GROUPS } from "@/config/caseStudies";
 import { CaseStudyExplorer } from "./_components/CaseStudyExplorer";
 
@@ -84,7 +83,6 @@ export default function CaseStudiesPage() {
         </div>
       </section>
 
-      <ServiceCta topic="a project like the ones in your case studies" />
     </div>
   );
 }

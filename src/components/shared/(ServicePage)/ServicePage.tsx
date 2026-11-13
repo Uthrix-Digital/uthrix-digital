@@ -6,7 +6,6 @@ import type { NodeDef } from "@/app/ConnetMainDots/(GrowthPathMap)/types";
 import { SERVICE_PAGES, type ServiceId } from "@/config/servicePages";
 import { PHASE_INFO, PhaseTrack } from "./PhaseTrack";
 import { Reveal } from "./Reveal";
-import { ServiceCta } from "./ServiceCta";
 import { ServiceFaq } from "./ServiceFaq";
 
 const SECTION =
@@ -106,7 +105,7 @@ export function ServicePage({ id }: { id: ServiceId }) {
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link
-                  href="#start"
+                  href="/BookACall"
                   className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-base font-semibold text-background transition-colors hover:bg-brand hover:text-brand-foreground"
                 >
                   Start with {node.label}
@@ -380,10 +379,6 @@ export function ServicePage({ id }: { id: ServiceId }) {
           </Reveal>
         </div>
       </section>
-
-      <div id="start" className="scroll-mt-20">
-        <ServiceCta topic={node.label} />
-      </div>
     </main>
   );
 }

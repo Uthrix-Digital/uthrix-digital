@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Check, UserRound } from "lucide-react";
 import { NODES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/nodes";
 import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
-import { ServiceCta } from "@/components/shared/(ServicePage)/ServiceCta";
 import {
   COMPANY_FACTS,
   COMPANY_PATH,
@@ -366,7 +365,6 @@ export default function CompanyPage() {
       </section>
 
       {/* ── Next step ────────────────────────────────────────────────── */}
-      <ServiceCta topic="UthriX Digital" />
     </div>
   );
 }

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
-import { ServiceCta } from "@/components/shared/(ServicePage)/ServiceCta";
 import {
   CASE_STUDIES,
   CASE_STUDIES_PATH,
@@ -281,7 +280,6 @@ export default async function CaseStudyRoute({ params }: CaseStudyRouteProps) {
 
       {next && <CaseStudyNext study={next} />}
 
-      <ServiceCta topic={`a project like "${study.title}"`} />
     </article>
   );
 }

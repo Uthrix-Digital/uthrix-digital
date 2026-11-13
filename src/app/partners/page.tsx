@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
-import { ServiceCta } from "@/components/shared/(ServicePage)/ServiceCta";
 import { ServiceFaq } from "@/components/shared/(ServicePage)/ServiceFaq";
 import { siteConfig } from "@/config/siteConfig";
 
@@ -249,7 +248,6 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      <ServiceCta topic="partnering with UthriX as an agency or IT firm" />
     </div>
   );
 }

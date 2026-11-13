@@ -4,7 +4,6 @@ import { NODES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/nodes";
 import type { NodeDef } from "@/app/ConnetMainDots/(GrowthPathMap)/types";
 import { PhaseTrack, PHASE_INFO } from "@/components/shared/(ServicePage)/PhaseTrack";
 import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
-import { ServiceCta } from "@/components/shared/(ServicePage)/ServiceCta";
 
 interface GrowthPathDestinationProps {
   title: string;
@@ -129,7 +128,6 @@ export function GrowthPathDestination({
         </div>
       </section>
 
-      <ServiceCta topic={`the "${hubTitle}" growth path (${nodes.map((n) => n.label).join(", ")})`} />
     </main>
   );
 }
