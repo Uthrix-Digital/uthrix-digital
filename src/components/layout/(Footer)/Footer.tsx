@@ -6,7 +6,9 @@ import { CookieSettingsButton } from "@/components/shared/(CookieConsent)/Cookie
 const COPYRIGHT_YEAR = 2026;
 
 const companyLinks = [
-  { label: "About Us", href: "#about" },
+  { label: "Company", href: "/Company" },
+  { label: "Team", href: "/Company#team" },
+  { label: "Mission & values", href: "/Company#mission" },
   { label: "Services", href: "#services" },
   { label: "Case Studies", href: "/case-studies" },
   { label: "Careers", href: "/careers" },

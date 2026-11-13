@@ -1,9 +1,13 @@
 import type { MetadataRoute } from "next";
 import { AUDIENCE_ORDER, STAGE_ORDER, audienceHref, stageHref } from "@/config/audiences";
-import { CASE_STUDIES, CASE_STUDIES_PATH, caseStudyHref } from "@/config/caseStudies";
+import { BLOG_PATH, POSTS, postHref } from "@/config/blog";
+import { CASE_STUDIES,CASE_STUDIES_PATH, caseStudyHref } from "@/config/caseStudies";
 import { siteConfig } from "@/config/siteConfig";
 
-type Entry = Pick<MetadataRoute.Sitemap[number], "changeFrequency" | "priority"> & {
+type Entry = Pick<
+  MetadataRoute.Sitemap[number],
+  "changeFrequency" | "priority" | "lastModified"
+> & {
   path: string;
 };
 
@@ -11,15 +15,15 @@ type Entry = Pick<MetadataRoute.Sitemap[number], "changeFrequency" | "priority">
  * Static, indexable routes. Add a line here when you add a page.
  *
  * Left out on purpose:
- *  - /careers and /blog: placeholders marked noindex. Add them when they
- *    have real content (and remove `robots` from their metadata).
  *  - /GrowthPath/[slug]: built from the visitor's own selection, not a
  *    fixed set of pages.
  *  - /api/*: not pages.
  */
 const STATIC_ROUTES: Entry[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
-  { path: "/AboutUs", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/Company", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/careers", changeFrequency: "monthly", priority: 0.6 },
+  { path: BLOG_PATH, changeFrequency: "weekly", priority: 0.7 },
   { path: "/ContactUs", changeFrequency: "monthly", priority: 0.8 },
   { path: "/BookACall", changeFrequency: "monthly", priority: 0.8 },
   { path: "/ConnetMainDots", changeFrequency: "monthly", priority: 0.7 },
@@ -52,6 +56,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       path: stageHref(id),
       changeFrequency: "monthly" as const,
       priority: 0.8,
+    })),
+    ...POSTS.map(({ slug, publishedAt }) => ({
+      path: postHref(slug),
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
+      lastModified: new Date(publishedAt),
     })),
     ...CASE_STUDIES.map(({ slug }) => ({
       path: caseStudyHref(slug),

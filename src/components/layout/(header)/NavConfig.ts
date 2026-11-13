@@ -1,4 +1,6 @@
 import { NODES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/nodes";
+import { BLOG_PATH } from "@/config/blog";
+import { companyHref } from "@/config/company";
 import { CURATED_BUNDLES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/resolver";
 import {
   AUDIENCES,
@@ -176,48 +178,49 @@ export const navMenus: NavMenu[] = [
     eyebrow: "About UthriX",
     title: "The people behind the growth.",
     description:
-      "Meet the team, see how we work and find out why businesses choose UthriX Digital.",
+      "Meet the team, see what guides our work, read our notes and find out why businesses choose UthriX Digital.",
     showSocials: true,
     items: [
       {
         label: "Company profile",
-        href: "/Company",
-        description: "Who we are and How we work with clients",
-      },
-{
-        label: "Uthrix Team",
-        href: "company#team",
-        description: "Peoples who run the Uthrix Digital",
-      },
-      
-      {
-        label: "About us",
-        href: "/AboutUs",
+        href: companyHref(),
         description:
-          "Who we are, what guides our work and the team that will build with you.",
+          "Who we are, how we work with clients and what we do.",
+      },
+      {
+        label: "Team",
+        href: companyHref("team"),
+        description:
+          "The disciplines and people you'll work with, all in one team.",
+      },
+      {
+        label: "Mission & values",
+        href: companyHref("mission"),
+        description:
+          "Why UthriX exists and the values behind every project.",
+      },
+      {
+        label: "Why UthriX",
+        href: companyHref("why"),
+        description:
+          "What you can count on when you work with us, in writing.",
+      },
+      {
+        label: "Blog",
+        href: BLOG_PATH,
+        description:
+          "Practical notes on marketing, websites and software.",
+      },
+      {
+        label: "Careers",
+        href: "/careers",
+        description: "Open roles and how to apply, or introduce yourself.",
       },
       {
         label: "Partners",
         href: "/partners",
         description:
           "For agencies and IT firms with more client work than developers.",
-      },
-      {
-        label: "Why Uthrix",
-        href: "company#works",
-        description:
-          "For agencies and IT firms with more client work than developers.",
-      },
-      {
-        label: "Blog",
-        href: "/blog",
-        description:
-          "We'll share practical notes on marketing, websites and software here.",
-      },
-      {
-        label: "Careers",
-        href: "/careers",
-        description: "Open roles will be listed here soon.",
       },
       {
         label: "Contact",

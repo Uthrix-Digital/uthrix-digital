@@ -33,6 +33,12 @@ const nextConfig: NextConfig = {
         destination: "/for/stage/growing",
         permanent: true,
       },
+      // About us now lives on the Company page.
+      {
+        source: "/AboutUs",
+        destination: "/Company",
+        permanent: true,
+      },
       {
         source: "/for/partners",
         destination: "/partners",
