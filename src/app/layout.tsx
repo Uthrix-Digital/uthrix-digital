@@ -15,6 +15,7 @@ import { ConsentProvider } from "@/components/shared/(CookieConsent)/ConsentProv
 import { CookieBanner } from "@/components/shared/(CookieConsent)/CookieBanner";
 import { MetaPixel } from "@/components/shared/(CookieConsent)/MetaPixel";
 import { themeInitScript } from "@/lib/theme";
+import { Analytics } from "@vercel/analytics/next";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -97,6 +98,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </div>
           </ConsentProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
