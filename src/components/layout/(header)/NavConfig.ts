@@ -1,7 +1,7 @@
-import { NODES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/nodes";
+import { NODES } from "@/app/growth-map/(GrowthPathMap)/data/nodes";
 import { BLOG_PATH } from "@/config/blog";
 import { companyHref } from "@/config/company";
-import { CURATED_BUNDLES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/resolver";
+import { CURATED_BUNDLES } from "@/app/growth-map/(GrowthPathMap)/data/resolver";
 import {
   AUDIENCES,
   AUDIENCE_ORDER,
@@ -120,7 +120,7 @@ export const navMenus: NavMenu[] = [
     items: [
       {
         label: "Plan your growth path",
-        href: "/ConnetMainDots",
+        href: "/growth-map",
         description:
           "Connect the services you need into one growth path built around a single business goal.",
       },
@@ -224,7 +224,7 @@ export const navMenus: NavMenu[] = [
       },
       {
         label: "Contact",
-        href: "/ContactUs",
+        href: "/contact",
         description:
           "Tell us about your project and we'll get back to you with next steps.",
       },
@@ -235,7 +235,7 @@ export const navMenus: NavMenu[] = [
 export const navCta = {
   label: "Book a free 20-min call",
   shortLabel: "Book a call",
-  href: "/BookACall",
+  href: "/book-a-call",
 };
 
 

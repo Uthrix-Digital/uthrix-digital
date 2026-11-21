@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, RotateCcw } from "lucide-react";
-import { NODES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/nodes";
-import { bundlesWith } from "@/app/ConnetMainDots/(GrowthPathMap)/data/resolver";
-import type { NodeDef } from "@/app/ConnetMainDots/(GrowthPathMap)/types";
+import { NODES } from "@/app/growth-map/(GrowthPathMap)/data/nodes";
+import { bundlesWith } from "@/app/growth-map/(GrowthPathMap)/data/resolver";
+import type { NodeDef } from "@/app/growth-map/(GrowthPathMap)/types";
 import { SERVICE_PAGES, type ServiceId } from "@/config/servicePages";
 import { PHASE_INFO, PhaseTrack } from "./PhaseTrack";
 import { Reveal } from "./Reveal";
@@ -25,6 +25,7 @@ export function getServiceMetadata(id: ServiceId) {
   return {
     title: `${SERVICE_PAGES[id].metaTitle} | UthriX Digital`,
     description: node.summary,
+    alternates: { canonical: node.route },
   };
 }
 
@@ -105,14 +106,14 @@ export function ServicePage({ id }: { id: ServiceId }) {
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link
-                  href="/BookACall"
+                  href="/book-a-call"
                   className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-base font-semibold text-background transition-colors hover:bg-brand hover:text-brand-foreground"
                 >
                   Start with {node.label}
                   <ArrowRight aria-hidden="true" className="size-4" />
                 </Link>
                 <Link
-                  href="/ConnetMainDots"
+                  href="/growth-map"
                   className="inline-flex items-center rounded-full border border-foreground/25 px-6 py-3 text-base font-semibold transition-colors hover:border-foreground"
                 >
                   Combine with others
@@ -296,7 +297,7 @@ export function ServicePage({ id }: { id: ServiceId }) {
 
             <Reveal delay={0.08} className="h-full">
               <Link
-                href={next ? next.route : "/ConnetMainDots"}
+                href={next ? next.route : "/growth-map"}
                 className="group flex h-full flex-col gap-3 rounded-card-lg border border-border p-6 transition-colors hover:border-foreground sm:p-8"
               >
                 <span className={EYEBROW}>{next ? "Leads into" : "Restarts the cycle"}</span>
@@ -323,7 +324,7 @@ export function ServicePage({ id }: { id: ServiceId }) {
                   </h3>
                 </div>
                 <Link
-                  href="/ConnetMainDots"
+                  href="/growth-map"
                   className="inline-flex w-fit items-center gap-1 text-sm font-semibold underline underline-offset-4 hover:text-brand-text"
                 >
                   Build your own <ArrowUpRight aria-hidden="true" className="size-4" />

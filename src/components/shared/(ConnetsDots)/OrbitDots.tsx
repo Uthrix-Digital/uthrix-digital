@@ -25,7 +25,7 @@ const defaultDots: readonly OrbitDot[] = [
 
 export function OrbitDots({
   dots = defaultDots,
-  href = "/ConnetMainDots",
+  href = "/growth-map",
   linkLabel = "View our brand identity services",
   caption = "From idea to first step",
   className = "",

@@ -16,7 +16,7 @@ export function ComingSoon({
   eyebrow,
   title,
   description,
-  action = { label: "Contact us", href: "/ContactUs" },
+  action = { label: "Contact us", href: "/contact" },
 }: ComingSoonProps) {
   return (
     <section

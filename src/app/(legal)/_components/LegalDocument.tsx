@@ -133,7 +133,7 @@ export function LegalDocument({
                 </a>{" "}
                 or use our{" "}
                 <Link
-                  href="/ContactUs"
+                  href="/contact"
                   className="font-semibold underline underline-offset-4 transition-colors hover:text-brand-text"
                 >
                   contact page

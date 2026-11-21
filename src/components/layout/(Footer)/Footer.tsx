@@ -36,12 +36,12 @@ const linkColumns: { title: string; links: FooterLinkItem[] }[] = [
   {
     title: "Company",
     links: [
-      { label: "About us", href: "/AboutUs" },
+      { label: "About us", href: "/company" },
       { label: "Case studies", href: CASE_STUDIES_PATH },
       { label: "Partners", href: "/partners" },
       { label: "Blog", href: "/blog" },
       { label: "Careers", href: "/careers" },
-      { label: "Contact", href: "/ContactUs" },
+      { label: "Contact", href: "/contact" },
     ],
   },
 ];

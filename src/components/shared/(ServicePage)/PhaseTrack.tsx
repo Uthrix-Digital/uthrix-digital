@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { NODES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/nodes";
-import type { Phase } from "@/app/ConnetMainDots/(GrowthPathMap)/types";
+import { NODES } from "@/app/growth-map/(GrowthPathMap)/data/nodes";
+import type { Phase } from "@/app/growth-map/(GrowthPathMap)/types";
 
 export const PHASE_INFO: readonly {
   id: Phase;

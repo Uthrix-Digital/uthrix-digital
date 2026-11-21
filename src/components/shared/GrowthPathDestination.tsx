@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { NODES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/nodes";
-import type { NodeDef } from "@/app/ConnetMainDots/(GrowthPathMap)/types";
+import { NODES } from "@/app/growth-map/(GrowthPathMap)/data/nodes";
+import type { NodeDef } from "@/app/growth-map/(GrowthPathMap)/types";
 import { PhaseTrack, PHASE_INFO } from "@/components/shared/(ServicePage)/PhaseTrack";
 import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
 
@@ -28,7 +28,7 @@ export function GrowthPathDestination({
         <div className="mx-auto w-full max-w-[100rem] px-[clamp(1.25rem,5vw,5rem)] pb-[clamp(3rem,7vw,6rem)] pt-32 lg:pt-40">
           <Reveal immediate>
             <Link
-              href="/ConnetMainDots"
+              href="/growth-map"
               className="inline-flex w-fit items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               <ArrowLeft aria-hidden="true" className="size-4" />

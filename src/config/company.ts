@@ -1,13 +1,13 @@
 /**
- * Company page content (/Company). Every section of the page, and the About
+ * Company page content (/company). Every section of the page, and the About
  * menu entries that jump to them, read from here.
  *
- * Section ids double as URL hashes: /Company#team, /Company#mission, ...
+ * Section ids double as URL hashes: /company#team, /company#mission, ...
  */
 
 import { siteConfig } from "@/config/siteConfig";
 
-export const COMPANY_PATH = "/Company";
+export const COMPANY_PATH = "/company";
 
 export const COMPANY_SECTIONS = [
   { id: "profile", label: "Profile" },
@@ -83,7 +83,7 @@ export interface TeamMember {
 
 /**
  * People shown under "Leadership". Add one object per person and the card
- * appears on /Company#team. While the list is empty, the section shows the
+ * appears on /company#team. While the list is empty, the section shows the
  * disciplines above and a "talk to us" prompt instead.
  */
 export const TEAM: TeamMember[] = [];

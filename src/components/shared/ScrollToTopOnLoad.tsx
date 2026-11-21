@@ -6,7 +6,7 @@ export default function ScrollToTopOnLoad() {
   useEffect(() => {
     window.history.scrollRestoration = "manual";
 
-    // A link like /Company#team should land on its section, not the top.
+    // A link like /company#team should land on its section, not the top.
     const id = decodeURIComponent(window.location.hash.slice(1));
     const target = id ? document.getElementById(id) : null;
     if (target) {
