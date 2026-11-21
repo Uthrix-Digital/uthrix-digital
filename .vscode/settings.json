@@ -1,0 +1,6 @@
+{
+  // Console Ninja's predictive logging injects logpoints that call Date.now()
+  // into Server Components. With cacheComponents on, Next.js rejects that
+  // during prerender ("blocking-prerender-current-time").
+  "console-ninja.predictiveLoggingEnabled": false
+}

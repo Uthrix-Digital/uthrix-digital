@@ -2,7 +2,7 @@
  * Long-form content for each "What we do" service page.
  *
  * Keyed by the node `id` from the growth-path map
- * (`src/app/ConnetMainDots/(GrowthPathMap)/data/nodes.ts`). The map supplies
+ * (`src/app/growth-map/(GrowthPathMap)/data/nodes.ts`). The map supplies
  * the shared facts (label, phase, route, summary, "why"); this file adds the
  * page-level story for each service.
  */

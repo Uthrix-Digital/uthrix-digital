@@ -143,7 +143,7 @@ export default function PartnersPage() {
                   />
                 </a>
                 <Link
-                  href="/BookACall"
+                  href="/book-a-call"
                   className="inline-flex items-center rounded-full border border-foreground/25 px-6 py-3 text-base font-semibold transition-colors hover:border-foreground"
                 >
                   Book a free 20-min call

@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Contact | UthriX Digital",
   description:
     "Tell UthriX Digital about your business. Send an enquiry, message us on WhatsApp or book a free 20-minute call.",
+  alternates: { canonical: "/contact" },
 };
 
 const EYEBROW = "nav-panel-label";
@@ -45,7 +46,7 @@ export default function ContactUs() {
                 <ul className="mt-5 grid gap-3">
                   <li>
                     <Link
-                      href="/BookACall"
+                      href="/book-a-call"
                       className="group inline-flex items-center gap-2 text-lg font-semibold underline-offset-4 hover:text-brand-text hover:underline"
                     >
                       Book a free 20-min call

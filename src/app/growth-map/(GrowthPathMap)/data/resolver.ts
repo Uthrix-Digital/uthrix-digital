@@ -135,10 +135,24 @@ export function slugifyPath(value: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
+export const GROWTH_PATH_BASE = "/growth-path";
+
+/** Clean, indexable address of a curated (Tier 2) bundle, e.g. /growth-path/trusted-presence. */
+export function curatedBundleHref(title: string): string {
+  return `${GROWTH_PATH_BASE}/${slugifyPath(title)}`;
+}
+
+/** Address of any combined path. Uncurated mixes keep the mask in the query. */
+export function growthPathHref(mask: number, hubTitle: string): string {
+  if (T2[mask]) return curatedBundleHref(T2[mask]);
+  return `${GROWTH_PATH_BASE}/${slugifyPath(hubTitle)}?selection=${mask}`;
+}
+
 /**
  * Returns the canonical destination for the current selection.
- * Single selections use the service route; combined selections retain the
- * mask in the URL so the destination can render the same resolved path.
+ * Single selections use the service route; curated bundles get a clean
+ * slug-only address; other combinations keep the mask in the query so the
+ * destination can render the same resolved path.
  */
 export function getDestinationHref(mask: number): string | null {
   const resolved = resolveGoal(mask);
@@ -148,7 +162,7 @@ export function getDestinationHref(mask: number): string | null {
     return resolved.selectedNodes[0].route;
   }
 
-  return `/GrowthPath/${slugifyPath(resolved.hubTitle)}?selection=${mask}`;
+  return growthPathHref(mask, resolved.hubTitle);
 }
 
 /* ── Curated bundles (combined paths) ────────────────────────────────────── */
@@ -166,11 +180,16 @@ export const CURATED_BUNDLES: readonly CuratedBundle[] = Object.entries(T2)
     return {
       mask,
       title,
-      href: `/GrowthPath/${slugifyPath(title)}?selection=${mask}`,
+      href: curatedBundleHref(title),
       nodes: NODES.filter((n) => (mask & n.bit) !== 0) as NodeDef[],
     };
   })
   .sort((a, b) => a.nodes.length - b.nodes.length || a.mask - b.mask);
+
+/** The curated bundle served at /growth-path/<slug>, if any. */
+export function getCuratedBundleBySlug(slug: string): CuratedBundle | undefined {
+  return CURATED_BUNDLES.find((b) => slugifyPath(b.title) === slug);
+}
 
 /** Curated bundles that include the given service bit. */
 export function bundlesWith(bit: number): CuratedBundle[] {

@@ -6,6 +6,7 @@ import { BookingLoader } from "./_components/BookingLoader"
 export const metadata: Metadata = {
   title: `Book a free ${bookingConfig.durationMinutes}-min call | ${siteConfig.companyName}`,
   description: `Schedule a free ${bookingConfig.durationMinutes}-minute strategy call with ${siteConfig.companyName}. Pick a date, choose a time and tell us about your project.`,
+  alternates: { canonical: "/book-a-call" },
 }
 
 export default function BookACallPage() {

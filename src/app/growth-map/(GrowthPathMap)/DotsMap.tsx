@@ -7,7 +7,7 @@ import {
   OrbitDotRed,
   OrbitKeyframes,
   OrbitRing,
-} from "@/app/ConnetMainDots/OrbitDotRed";
+} from "@/app/growth-map/OrbitDotRed";
 
 interface DotsMapProps {
   mask: number;

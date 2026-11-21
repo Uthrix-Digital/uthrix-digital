@@ -151,14 +151,14 @@ export default async function PostRoute({ params }: PostRouteProps) {
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
-                href={audience ? audienceHref(audience.id) : "/ConnetMainDots"}
+                href={audience ? audienceHref(audience.id) : "/growth-map"}
                 className="inline-flex items-center gap-2 rounded-full bg-brand-surface-foreground px-6 py-3 text-base font-semibold text-brand-surface transition-colors hover:bg-background hover:text-foreground"
               >
                 {audience ? `See the ${audience.shortLabel} plan` : "Plan your growth path"}
                 <ArrowRight aria-hidden="true" className="size-4" />
               </Link>
               <Link
-                href="/BookACall"
+                href="/book-a-call"
                 className="inline-flex items-center rounded-full border border-brand-surface-foreground/50 px-6 py-3 text-base font-semibold transition-colors hover:border-brand-surface-foreground"
               >
                 Book a free 20-min call

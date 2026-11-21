@@ -226,7 +226,7 @@ export function GrowthPathMap() {
               </div>
 
               <Link
-                href={destinationHref ?? "/ConnetMainDots"}
+                href={destinationHref ?? "/growth-map"}
                 className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-foreground px-6 py-3 text-base font-semibold text-background transition-colors hover:bg-brand hover:text-brand-foreground"
               >
                 Start with this path

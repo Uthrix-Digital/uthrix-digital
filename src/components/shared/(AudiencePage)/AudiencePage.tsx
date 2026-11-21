@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import {
   getDestinationHref,
   resolveGoal,
-} from "@/app/ConnetMainDots/(GrowthPathMap)/data/resolver";
+} from "@/app/growth-map/(GrowthPathMap)/data/resolver";
 import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
 import { ServiceFaq } from "@/components/shared/(ServicePage)/ServiceFaq";
 import { InquiryForm } from "@/components/shared/InquiryForm";
@@ -45,7 +45,7 @@ function buildStageViews(id: AudienceId): StageView[] {
       measure: plan.measure,
       pack: plan.pack,
       pathTitle: resolved?.hubTitle ?? "Your growth path",
-      pathHref: getDestinationHref(plan.pathMask) ?? "/ConnetMainDots",
+      pathHref: getDestinationHref(plan.pathMask) ?? "/growth-map",
       pathServices: resolved?.selectedNodes.map((n) => n.label) ?? [],
       whatsappHref: `${siteConfig.whatsappLink}?text=${encodeURIComponent(message)}`,
     };
@@ -106,7 +106,7 @@ export function AudiencePage({ id }: { id: AudienceId }) {
                   <ArrowRight aria-hidden="true" className="size-4" />
                 </Link>
                 <Link
-                  href="/BookACall"
+                  href="/book-a-call"
                   className="inline-flex items-center rounded-full border border-foreground/25 px-6 py-3 text-base font-semibold transition-colors hover:border-foreground"
                 >
                   Book a free 20-min call

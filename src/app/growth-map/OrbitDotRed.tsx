@@ -35,7 +35,7 @@ export const defaultOrbitDotsContent: OrbitDotsContent = {
     { className: "left-[23%] bottom-[23%] size-1.5 bg-foreground/35" },
     { className: "right-[22%] bottom-[18%] size-2 bg-foreground/70" },
   ],
-  href: "/ConnetMainDots",
+  href: "/growth-map",
   linkLabel: "View our brand identity services",
   caption: "From idea to first step",
 };

@@ -33,7 +33,7 @@ export const NODES: readonly NodeDef[] = [
     why: "A clear strategy tells the brand what it needs to say.",
     summary:
       "You tell us about your business and goals; we review where you stand and suggest the clearest next moves.",
-    route: "/BusinessStrategy",
+    route: "/services/business-strategy",
   },
   {
     bit: 2,
@@ -46,7 +46,7 @@ export const NODES: readonly NodeDef[] = [
     why: "The brand sets the look every page uses.",
     summary:
       "Logo, colours, typography and voice guidelines every other service inherits.",
-    route: "/BrandIdentity",
+    route: "/services/brand-identity",
   },
   {
     bit: 4,
@@ -59,7 +59,7 @@ export const NODES: readonly NodeDef[] = [
     why: "The site gives every post and ad somewhere to send people.",
     summary:
       "A fast, mobile-first site that turns visits into enquiries; the home base all traffic lands on.",
-    route: "/Website",
+    route: "/services/web-development",
   },
   {
     bit: 8,
@@ -72,7 +72,7 @@ export const NODES: readonly NodeDef[] = [
     why: "Organic posts show which messages win before ad money is spent.",
     summary:
       "Profiles, content system and branded creatives, published consistently on the platforms your customers use.",
-    route: "/SocialContent",
+    route: "/services/social-content",
   },
   {
     bit: 16,
@@ -85,7 +85,7 @@ export const NODES: readonly NodeDef[] = [
     why: "Ad data shows what people actually search for.",
     summary:
       "Paid campaigns that reach the right people now; ad budgets are paid separately to the platforms.",
-    route: "/MetaGoogleAds",
+    route: "/services/meta-google-ads",
   },
   {
     bit: 32,
@@ -98,7 +98,7 @@ export const NODES: readonly NodeDef[] = [
     why: "Search visitors expect fast replies.",
     summary:
       "Local and on-page SEO that brings free, compounding traffic over time.",
-    route: "/Seo",
+    route: "/services/seo",
   },
   {
     bit: 64,
@@ -111,6 +111,6 @@ export const NODES: readonly NodeDef[] = [
     why: "Repeat customers and referrals restart the cycle.",
     summary:
       "WhatsApp replies, reminders and reporting that turn enquiries into customers and customers into repeat business.",
-    route: "/FollowUp",
+    route: "/services/follow-up",
   },
 ] as const;

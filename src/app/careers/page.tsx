@@ -158,7 +158,7 @@ export default function CareersPage() {
           <p className="text-sm text-foreground/70">
             Want to know us first?{" "}
             <Link
-              href="/Company"
+              href="/company"
               className="font-semibold text-foreground underline underline-offset-4 hover:text-brand-text"
             >
               Read about the company
