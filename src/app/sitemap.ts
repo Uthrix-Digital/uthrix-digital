@@ -1,53 +1,57 @@
 import type { MetadataRoute } from "next";
-import { AUDIENCE_ORDER, STAGE_ORDER, audienceHref, stageHref } from "@/config/audiences";
-import { BLOG_PATH, POSTS, postHref } from "@/config/blog";
-import { CASE_STUDIES,CASE_STUDIES_PATH, caseStudyHref } from "@/config/caseStudies";
+import { NODES } from "@/app/growth-map/(GrowthPathMap)/data/nodes";
 import { CURATED_BUNDLES } from "@/app/growth-map/(GrowthPathMap)/data/resolver";
+import { AUDIENCE_ORDER, STAGE_ORDER, audienceHref, stageHref } from "@/config/audiences";
+import { BLOG_PATH, getPosts, postHref } from "@/config/blog";
+import { CASE_STUDIES, CASE_STUDIES_PATH, caseStudyHref } from "@/config/caseStudies";
+import { COMPANY_PATH } from "@/config/company";
 import { siteConfig } from "@/config/siteConfig";
 
-type Entry = Pick<
-  MetadataRoute.Sitemap[number],
-  "changeFrequency" | "priority" | "lastModified"
-> & {
+type SitemapEntry = MetadataRoute.Sitemap[number];
+type Entry = Pick<SitemapEntry, "changeFrequency" | "priority" | "lastModified"> & {
   path: string;
 };
 
 /**
- * Static, indexable routes. Add a line here when you add a page.
+ * Served at /sitemap.xml: every page we want in search results.
+ *
+ * Wherever a page's address lives in config (services, audiences, posts,
+ * bundles, case studies), it's read from there, the same source the page uses
+ * for its canonical URL. Renaming a route in config updates the sitemap too.
  *
  * Left out on purpose:
- *  - /growth-path/[slug]?selection=...: one-off mixes built from the
- *    visitor's own selection (noindex). Curated bundles are listed below.
- *  - /api/*: not pages.
+ *  - /growth-path/<hub>?selection=<mask>: one-off mixes from the visitor's own
+ *    selection. They're noindex; the curated bundles are listed instead.
+ *  - Old addresses (/AboutUs, /Website, ...): they 301 to the pages below.
+ *  - /services: a temporary redirect to /growth-map, not a page.
+ *  - /api/*: form endpoints, not pages.
+ *
+ * `lastModified` is only set where we know a real date. A made-up "now" on
+ * every build tells search engines everything changed, so they learn to
+ * ignore the field.
  */
-const STATIC_ROUTES: Entry[] = [
-  { path: "/", changeFrequency: "weekly", priority: 1 },
-  { path: "/company", changeFrequency: "monthly", priority: 0.8 },
-  { path: "/careers", changeFrequency: "monthly", priority: 0.6 },
-  { path: BLOG_PATH, changeFrequency: "weekly", priority: 0.7 },
-  { path: "/contact", changeFrequency: "monthly", priority: 0.8 },
-  { path: "/book-a-call", changeFrequency: "monthly", priority: 0.8 },
-  { path: "/growth-map", changeFrequency: "monthly", priority: 0.7 },
-  { path: "/partners", changeFrequency: "monthly", priority: 0.7 },
-  { path: CASE_STUDIES_PATH, changeFrequency: "weekly", priority: 0.8 },
-
-  // Services
-  { path: "/services/business-strategy", changeFrequency: "monthly", priority: 0.9 },
-  { path: "/services/brand-identity", changeFrequency: "monthly", priority: 0.9 },
-  { path: "/services/web-development", changeFrequency: "monthly", priority: 0.9 },
-  { path: "/services/meta-google-ads", changeFrequency: "monthly", priority: 0.9 },
-  { path: "/services/seo", changeFrequency: "monthly", priority: 0.9 },
-  { path: "/services/social-content", changeFrequency: "monthly", priority: 0.9 },
-  { path: "/services/follow-up", changeFrequency: "monthly", priority: 0.9 },
-
-  // Legal
-  { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
-  { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
-];
-
-/** Served at /sitemap.xml. Dynamic routes come from the same config the pages use. */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const dynamicRoutes: Entry[] = [
+  const posts = getPosts(); // newest first
+  const latestPost = posts[0] ? new Date(posts[0].publishedAt) : undefined;
+
+  const entries: Entry[] = [
+    // Core
+    { path: "/", changeFrequency: "weekly", priority: 1 },
+    { path: COMPANY_PATH, changeFrequency: "monthly", priority: 0.8 },
+    { path: "/contact", changeFrequency: "monthly", priority: 0.8 },
+    { path: "/book-a-call", changeFrequency: "monthly", priority: 0.8 },
+    { path: "/growth-map", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/partners", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/careers", changeFrequency: "monthly", priority: 0.6 },
+
+    // Services
+    ...NODES.map(({ route }) => ({
+      path: route,
+      changeFrequency: "monthly" as const,
+      priority: 0.9,
+    })),
+
+    // Who we help: by business type, then by stage
     ...AUDIENCE_ORDER.map((id) => ({
       path: audienceHref(id),
       changeFrequency: "monthly" as const,
@@ -58,26 +62,39 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
-    ...POSTS.map(({ slug, publishedAt }) => ({
-      path: postHref(slug),
-      changeFrequency: "yearly" as const,
-      priority: 0.6,
-      lastModified: new Date(publishedAt),
-    })),
+
+    // Curated growth paths (slug-only, indexable)
     ...CURATED_BUNDLES.map(({ href }) => ({
       path: href,
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),
+
+    // Case studies
+    { path: CASE_STUDIES_PATH, changeFrequency: "weekly", priority: 0.8 },
     ...CASE_STUDIES.map(({ slug }) => ({
       path: caseStudyHref(slug),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),
+
+    // Blog: the index changes whenever a post is published
+    { path: BLOG_PATH, changeFrequency: "weekly", priority: 0.7, lastModified: latestPost },
+    ...posts.map(({ slug, publishedAt }) => ({
+      path: postHref(slug),
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
+      lastModified: new Date(publishedAt),
+    })),
+
+    // Legal
+    { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
+    { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
   ];
 
-  return [...STATIC_ROUTES, ...dynamicRoutes].map(({ path, ...rest }) => ({
+  return entries.map(({ path, lastModified, ...rest }) => ({
     url: new URL(path, siteConfig.url).toString(),
+    ...(lastModified ? { lastModified } : {}),
     ...rest,
   }));
 }
