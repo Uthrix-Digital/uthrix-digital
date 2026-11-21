@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Check, UserRound } from "lucide-react";
-import { NODES } from "@/app/ConnetMainDots/(GrowthPathMap)/data/nodes";
+import { NODES } from "@/app/growth-map/(GrowthPathMap)/data/nodes";
 import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
 import {
   COMPANY_FACTS,
@@ -125,7 +125,7 @@ export default function CompanyPage() {
               ))}
               <li>
                 <Link
-                  href="/ConnetMainDots"
+                  href="/growth-map"
                   className="inline-flex items-center gap-1.5 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-brand-foreground transition-colors hover:bg-brand-hover"
                 >
                   Plan your growth path
@@ -231,7 +231,7 @@ export default function CompanyPage() {
 
           <Reveal className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
             <Link
-              href="/BookACall"
+              href="/book-a-call"
               className="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-base font-semibold text-background transition-colors hover:bg-brand hover:text-brand-foreground"
             >
               Talk to the team
