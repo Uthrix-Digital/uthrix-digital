@@ -84,7 +84,7 @@ export function BusinessTypeExplorer() {
         role="tablist"
         aria-label="Which kind of tourism business are you?"
         aria-orientation="horizontal"
-        className="-mx-[clamp(1.25rem,5vw,5rem)] flex snap-x snap-mandatory scroll-px-[clamp(1.25rem,5vw,5rem)] gap-3 overflow-x-auto px-[clamp(1.25rem,5vw,5rem)] pb-3 pt-1 [scrollbar-width:none] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible lg:px-0 lg:pb-0 lg:pt-0"
+        className="isolate -mx-[clamp(1.25rem,5vw,5rem)] flex snap-x snap-mandatory scroll-px-[clamp(1.25rem,5vw,5rem)] gap-3 overflow-x-auto px-[clamp(1.25rem,5vw,5rem)] pb-3 pt-1 [scrollbar-width:none] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible lg:px-0 lg:pb-0 lg:pt-0"
       >
         {TOURISM_TYPES.map((type, index) => {
           const Icon = type.icon;
