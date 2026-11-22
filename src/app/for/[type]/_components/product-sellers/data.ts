@@ -510,19 +510,6 @@ export const DAY_IN_THE_LIFE: DayMoment[] = [
   },
 ];
 
-/* ── Order leak calculator defaults ───────────────────────────────────── */
-
-export const CALCULATOR = {
-  messages: { min: 50, max: 5000, step: 50, initial: 600 },
-  value: { min: 500, max: 50000, step: 500, initial: 4500 },
-  conversion: { min: 2, max: 50, step: 1, initial: 12 },
-  returns: { min: 0, max: 40, step: 1, initial: 15 },
-  /** Scenario we show: this many more orders per 100 messages… */
-  liftPoints: 3,
-  /** …and returns cut by this share. */
-  returnCut: 1 / 3,
-} as const;
-
 /* ── Features ─────────────────────────────────────────────────────────── */
 
 export const FEATURES: { icon: LucideIcon; title: string; body: string }[] = [

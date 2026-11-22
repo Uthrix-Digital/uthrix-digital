@@ -13,7 +13,6 @@ import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
 import { CategoryExplorer } from "./CategoryExplorer";
 import { COMMENTS, BUYER_JOURNEY, FEATURES, PROCESS, SALES_CHANNELS } from "./data";
 import { DayInTheLife } from "./DayInTheLife";
-import { OrderLeakCalculator } from "./OrderLeakCalculator";
 import { SellersHero } from "./SellersHero";
 
 /* ── The comment wall ─────────────────────────────────────────────────── */
@@ -200,26 +199,6 @@ function DaySection() {
   );
 }
 
-/* ── Order leak calculator ────────────────────────────────────────────── */
-
-function LeakSection() {
-  return (
-    <section aria-labelledby="sellers-leak" className="border-t border-border">
-      <div className={SECTION}>
-        <SectionHead
-          id="sellers-leak"
-          eyebrow="The order leak"
-          title="Where your sales slip away"
-          body="Most sellers don't need more followers first. They need fewer lost messages and fewer parcels coming back. Put in your own numbers and see what a small fix is worth."
-        />
-        <Reveal>
-          <OrderLeakCalculator />
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
 /* ── Features ─────────────────────────────────────────────────────────── */
 
 function FeaturesSection() {
@@ -362,7 +341,6 @@ export function ProductSellersPage() {
       <CategoriesSection />
       <ChannelsSection />
       <DaySection />
-      <LeakSection />
       <FeaturesSection />
       <JourneySection />
       <AudienceStageSection
