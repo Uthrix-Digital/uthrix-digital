@@ -231,9 +231,11 @@ export const AUDIENCES: Record<AudienceId, AudienceDef> = {
     shortLabel: "Product sellers",
     subTypes: [
       "Online stores",
-      "Facebook & Instagram sellers",
+      "Facebook, Instagram & TikTok sellers",
       "Shops & showrooms",
-      "Furniture",
+      "Marketplace sellers",
+      "Wholesalers & distributors",
+      "Brands & manufacturers",
     ],
     summary:
       "More orders from the people you already reach, and fewer lost in the chat.",
@@ -317,6 +319,31 @@ export const AUDIENCES: Record<AudienceId, AudienceDef> = {
         question: "Can you help with cash-on-delivery returns?",
         answer:
           "Yes. Most returns trace back to unclear offers, missing confirmation and weak follow-up. We tighten the offer page and add an order confirmation step, which usually brings returns down.",
+      },
+      {
+        question: "I sell on Daraz or another marketplace. Can you still help?",
+        answer:
+          "Yes. We don't ask you to leave the marketplace. We build your own store and customer list alongside it, so repeat buyers can order from you directly, without paying a fee every time.",
+      },
+      {
+        question: "I already have a Shopify or WooCommerce store. Do I need a new one?",
+        answer:
+          "Usually not. We start by fixing what's there: speed, product pages, checkout and tracking. We only suggest a rebuild if the current store is holding sales back, and we'll show you why.",
+      },
+      {
+        question: "Can you take product photos and videos?",
+        answer:
+          "Yes. We plan and produce product photos, reels and short videos built to sell, and we can also guide you to shoot good content yourself on a phone between shoots.",
+      },
+      {
+        question: "Do you work with small sellers, or only big brands?",
+        answer:
+          "Both. Many of the sellers we help start with a Facebook page and a phone. We match the plan to your stage and budget, starting with the fix that brings the most orders back.",
+      },
+      {
+        question: "How soon will I see more orders?",
+        answer:
+          "Quick wins like auto-replies, an order link and COD confirmation often show within the first few weeks. Ads, content and SEO build over two to three months. You get a monthly report so you can see exactly what's changing.",
       },
       {
         question: "Will I need to change how I take orders?",

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AudiencePage } from "@/components/shared/(AudiencePage)/AudiencePage";
 import { AUDIENCES, AUDIENCE_ORDER, isAudienceId } from "@/config/audiences";
 import { HospitalityPage } from "./_components/hospitality/HospitalityPage";
+import { ProductSellersPage } from "./_components/product-sellers/ProductSellersPage";
 
 export const instant = false;
 
@@ -32,5 +33,6 @@ export default async function AudienceRoute({ params }: AudienceRouteProps) {
   if (!isAudienceId(type)) notFound();
 
   if (type === "hospitality") return <HospitalityPage />;
+  if (type === "product-sellers") return <ProductSellersPage />;
   return <AudiencePage id={type} />;
 }

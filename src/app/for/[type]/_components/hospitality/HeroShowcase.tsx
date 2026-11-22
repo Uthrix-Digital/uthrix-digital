@@ -34,7 +34,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 /** Soft spring shared by the pointer parallax: settles without wobbling. */
 const SPRING = { stiffness: 70, damping: 20, mass: 0.9 };
 
-interface Pointer {
+export interface Pointer {
   /** -0.5 … 0.5 across the viewport, spring-smoothed. */
   x: MotionValue<number>;
   y: MotionValue<number>;
@@ -47,7 +47,7 @@ interface Pointer {
  *  2. depth   – drifts against the pointer by `depth` px (spring)
  *  3. idle    – a slow float loop in pure CSS, on the compositor
  */
-function Floating({
+export function Floating({
   children,
   className,
   delay,
@@ -103,7 +103,7 @@ function Floating({
  * Pointer position over the viewport as two spring values. Only follows
  * a fine pointer (mouse/trackpad) and stays still for reduced motion.
  */
-function usePointerParallax(): Pointer {
+export function usePointerParallax(): Pointer {
   const reduce = useReducedMotion();
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
