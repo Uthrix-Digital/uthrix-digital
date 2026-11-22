@@ -8,6 +8,7 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import Image from "next/image";
 import { useEffect, type CSSProperties, type ReactNode } from "react";
 import {
   CalendarDays,
@@ -134,72 +135,25 @@ function usePointerParallax(): Pointer {
 
 /* ── Pieces of the fake website ──────────────────────────────────────── */
 
-function Palm({ className, flip = false }: { className: string; flip?: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 140 200"
-      className={className}
-      style={flip ? { transform: "scaleX(-1)" } : undefined}
-    >
-      <path
-        fill="currentColor"
-        d="M70 200c-1-40 2-82 16-122l5 2c-12 38-15 80-14 120z"
-      />
-      <path
-        fill="currentColor"
-        d="M88 78C70 60 38 56 10 70c26-6 52-2 76 12zM88 78c-6-26-28-44-56-46 24 10 40 26 52 48zM88 78c10-24 34-36 60-32-26 4-44 16-58 34zM88 78c22-6 44 4 52 24-18-12-34-16-52-20zM88 78c-22 2-40 18-46 40 12-18 28-30 48-36z"
-      />
-    </svg>
-  );
-}
-
-function SunsetScene() {
-  return (
-    <div className="absolute inset-0 overflow-hidden">
-      {/* Sky */}
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,#241d47_0%,#5e2f5f_30%,#c4566a_52%,#f08a5d_66%,#f9c27a_74%)]" />
-      {/* Sun + glow */}
-      <div className="absolute left-[60%] top-[47%] size-16 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,#fff8dc_0%,#ffd98a_55%,#ffb35c_100%)] shadow-[0_0_60px_24px_rgba(255,186,110,0.55)] sm:size-20" />
-      {/* Far hills */}
-      <svg viewBox="0 0 400 40" preserveAspectRatio="none" className="absolute inset-x-0 top-[58%] h-[9%] w-full text-[#4a2b52]">
-        <path fill="currentColor" d="M0 40V22c30-10 60-16 95-8s60 12 90 2 55-6 80 0 40 8 70-6 45-8 65-4v34z" />
-      </svg>
-      {/* Sea */}
-      <div className="absolute inset-x-0 bottom-0 top-[66%] bg-[linear-gradient(180deg,#5a4a78_0%,#2b2c55_45%,#141834_100%)]" />
-      <div className="absolute inset-x-0 top-[66%] h-px bg-[#ffd9a0]/70" />
-      {/* Sun reflection */}
-      <div className="absolute left-[60%] top-[66%] h-[34%] w-20 -translate-x-1/2 bg-[repeating-linear-gradient(180deg,rgba(255,206,140,0.75)_0_2px,transparent_2px_7px)] [mask-image:linear-gradient(180deg,#000,transparent)]" />
-      {/* Infinity pool edge + deck in the foreground */}
-      <div className="absolute inset-x-0 bottom-0 h-[20%] bg-[linear-gradient(180deg,#3fa3b3_0%,#1f6876_100%)]">
-        <div className="absolute inset-x-0 top-0 h-[3px] bg-[#e9f3f1]" />
-        <div className="absolute inset-x-[30%] top-2 h-px bg-white/40" />
-        <div className="absolute inset-x-[45%] top-4 h-px bg-white/30" />
-      </div>
-      {/* Palms */}
-      <Palm className="absolute -left-6 bottom-[14%] h-[95%] text-[#160f22]" />
-      <Palm flip className="absolute -right-10 bottom-[16%] h-[70%] text-[#160f22]" />
-    </div>
-  );
-}
-
+/** Room photos: Unsplash (Unsplash License) — @abenteueralbanien, @sergskur, @spxclicks. */
 const ROOMS = [
   {
     name: "Ocean Suite",
     price: "$180",
-    scene: "bg-[linear-gradient(160deg,#f6e3c4_0%,#e2b483_55%,#b97c52_100%)]",
-    detail: "bg-white/80",
+    image: "/assets/Images/hospitality/room-ocean-suite.jpg",
+    rating: "4.9",
   },
   {
     name: "Garden Villa",
     price: "$220",
-    scene: "bg-[linear-gradient(160deg,#cfe6c4_0%,#79ac78_55%,#3d6e48_100%)]",
-    detail: "bg-[#f4efe6]/85",
+    image: "/assets/Images/hospitality/room-garden-villa.jpg",
+    rating: "4.8",
   },
   {
     name: "Pool House",
     price: "$260",
-    scene: "bg-[linear-gradient(160deg,#cdeff2_0%,#6cc0cc_55%,#2a7f90_100%)]",
-    detail: "bg-white/75",
+    image: "/assets/Images/hospitality/room-pool-house.jpg",
+    rating: "5.0",
   },
 ];
 
@@ -244,14 +198,25 @@ function VillaSite() {
       {/* Hero "photo" */}
       <div className="relative mx-2 h-52 rounded-xl sm:h-64">
         <div className="absolute inset-0 overflow-hidden rounded-xl">
-          <SunsetScene />
-          <div className="absolute left-5 top-5 max-w-[15rem] text-white sm:left-7 sm:top-7">
-            <p className="flex items-center gap-1 text-[0.55rem] font-semibold uppercase tracking-[0.18em] text-white/80">
+          {/* Photo: Unsplash, @theanamcxr (Unsplash License) */}
+          <Image
+            src="/assets/Images/hospitality/hero-villa-pool.jpg"
+            alt=""
+            fill
+            preload
+            sizes="(min-width: 1200px) 38rem, (min-width: 640px) 36rem, 92vw"
+            className="object-cover object-[50%_60%]"
+          />
+          {/* Darken the top-left so the headline reads on the bright sky */}
+          <div className="absolute inset-0 bg-[linear-gradient(160deg,rgba(10,12,20,0.62)_0%,rgba(10,12,20,0.25)_38%,transparent_60%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(0deg,rgba(10,12,20,0.35),transparent)]" />
+          <div className="absolute left-5 top-5 max-w-[15rem] text-white [text-shadow:0_1px_12px_rgba(0,0,0,0.35)] sm:left-7 sm:top-7">
+            <p className="flex items-center gap-1 text-[0.55rem] font-semibold uppercase tracking-[0.18em] text-white/85">
               <MapPin className="size-2.5" />
               Mirissa, Sri Lanka
             </p>
             <p className="mt-1.5 font-serif text-[1.45rem] leading-[1.05] sm:text-[1.8rem]">
-              Wake up to the Indian Ocean
+              Your own pool, steps from the beach
             </p>
           </div>
         </div>
@@ -297,10 +262,18 @@ function VillaSite() {
         <div className="mt-2.5 grid grid-cols-3 gap-2">
           {ROOMS.map((room) => (
             <div key={room.name} className="overflow-hidden rounded-lg ring-1 ring-black/5">
-              <div className={`relative h-12 sm:h-16 ${room.scene}`}>
-                {/* a bed / lounger shape so it reads as a room photo */}
-                <span className={`absolute bottom-2 left-1/2 h-2.5 w-3/5 -translate-x-1/2 rounded-sm ${room.detail}`} />
-                <span className={`absolute bottom-[1.05rem] left-[24%] h-1.5 w-[18%] rounded-sm ${room.detail}`} />
+              <div className="relative h-12 overflow-hidden bg-[#e4e4e9] sm:h-16">
+                <Image
+                  src={room.image}
+                  alt=""
+                  fill
+                  sizes="(min-width: 640px) 11rem, 30vw"
+                  className="object-cover"
+                />
+                <span className="absolute right-1 top-1 flex items-center gap-0.5 rounded-full bg-white/90 px-1 py-px text-[0.48rem] font-semibold text-[#16161a]">
+                  <Star className="size-2 fill-[#fbbc05] text-[#fbbc05]" />
+                  {room.rating}
+                </span>
               </div>
               <div className="px-2 py-1.5">
                 <p className="truncate text-[0.6rem] font-semibold">{room.name}</p>
