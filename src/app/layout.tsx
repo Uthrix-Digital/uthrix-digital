@@ -87,7 +87,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <ScrollToTopOnLoad />
             <PageTransition />
             <div className="relative min-h-screen bg-background text-foreground transition-colors duration-300">
-              <div className="relative z-10">
+              {/* z-50 keeps the fixed header above page content that uses its own
+                  z-index (cards, overlays). Only the cookie banner, intro and page
+                  transition sit higher; popovers tie and win by DOM order. */}
+              <div className="relative z-50">
                 <Navigation />
               </div>
               <main>{children}</main>
