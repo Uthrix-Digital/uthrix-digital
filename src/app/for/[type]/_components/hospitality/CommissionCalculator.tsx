@@ -19,7 +19,7 @@ interface SliderProps {
   onChange: (value: number) => void;
 }
 
-function Slider({ label, value, display, range, onChange }: SliderProps) {
+export function Slider({ label, value, display, range, onChange }: SliderProps) {
   const id = useId();
   const { min, max, step } = range;
   const pct = ((value - min) / (max - min)) * 100;

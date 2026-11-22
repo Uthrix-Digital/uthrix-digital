@@ -719,3 +719,28 @@ html[data-intro="skipping"] {
     animation: none;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Product sellers: the moving wall of "price?" comments.
+   The track holds the list twice, so sliding it by half loops seamlessly.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@keyframes comment-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+.comment-marquee {
+  animation: comment-marquee var(--marquee-duration, 45s) linear infinite;
+  animation-direction: var(--marquee-direction, normal);
+  will-change: transform;
+}
+
+.comment-marquee-wrap:hover .comment-marquee {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comment-marquee {
+    animation: none;
+  }
+}
