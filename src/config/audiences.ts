@@ -114,7 +114,7 @@ export const AUDIENCES: Record<AudienceId, AudienceDef> = {
       "More direct bookings and enquiries, and less commission paid to booking sites.",
     goal: "direct bookings",
     metaDescription:
-      "Websites, ads, SEO and automation for hotels, villas, guest houses and tour operators in Sri Lanka who want more direct bookings.",
+      "Tourism websites, ads, SEO and automation for hotels, villas, guest houses, tour operators, safari and activity providers in Sri Lanka who want more direct bookings.",
     headline: "More direct bookings. Less commission.",
     intro:
       "Guests find you on Booking.com, and you pay for every one of them. We help hotels, villas, guest houses and tour operators get found directly, turn visits into enquiries, and keep guests coming back without paying the middleman each time.",
@@ -201,6 +201,26 @@ export const AUDIENCES: Record<AudienceId, AudienceDef> = {
         question: "We're a small guest house. Is this too big for us?",
         answer:
           "Not at all. Small places often see the quickest gains, because a proper Google profile, a clean site and one enquiry path can change a lot. We scale the work to your size.",
+      },
+      {
+        question: "I run tours or activities, not accommodation. Is this for me?",
+        answer:
+          "Yes. Tour operators, safari jeeps, surf schools, boat tours, transport providers and restaurants in tourist areas all need the same thing: to be found before travellers arrive, and to be trusted enough to book. We shape the site around how your guests book.",
+      },
+      {
+        question: "Can the site take payments or deposits online?",
+        answer:
+          "Yes. We can connect online payments and deposits through a provider that suits your business, or keep it to an enquiry and confirmation by WhatsApp or email if that fits better.",
+      },
+      {
+        question: "Can my website be in other languages?",
+        answer:
+          "Yes. We can add pages for your main source markets, such as German, French or Chinese, and show prices in the guest's currency. We usually start with the one or two markets that bring you the most guests.",
+      },
+      {
+        question: "Will I be able to update prices and photos myself?",
+        answer:
+          "Yes. We build the site so you can change rates, photos, packages and seasonal offers yourself, and we show you how before launch.",
       },
     ],
   },

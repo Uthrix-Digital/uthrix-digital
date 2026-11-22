@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AudiencePage } from "@/components/shared/(AudiencePage)/AudiencePage";
 import { AUDIENCES, AUDIENCE_ORDER, isAudienceId } from "@/config/audiences";
+import { HospitalityPage } from "./_components/hospitality/HospitalityPage";
 
 export const instant = false;
 
@@ -30,5 +31,6 @@ export default async function AudienceRoute({ params }: AudienceRouteProps) {
   const { type } = await params;
   if (!isAudienceId(type)) notFound();
 
+  if (type === "hospitality") return <HospitalityPage />;
   return <AudiencePage id={type} />;
 }
