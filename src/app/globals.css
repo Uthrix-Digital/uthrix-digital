@@ -696,3 +696,26 @@ html[data-intro="skipping"] {
     display: none;
   }
 }
+/* ═══════════════════════════════════════════════════════════════════════════
+   Hospitality hero showcase: idle float for the floating cards.
+   Pure CSS transform so it runs on the compositor and never stutters while
+   the main thread is busy. Each card sets its own --float-* values.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@keyframes showcase-float {
+  0%,
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, var(--float-drift, -8px), 0) rotate(var(--float-tilt, 0deg)); }
+}
+
+.showcase-float {
+  animation: showcase-float var(--float-duration, 6s) cubic-bezier(0.37, 0, 0.63, 1) infinite;
+  animation-delay: var(--float-delay, 0s);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-float {
+    animation: none;
+  }
+}
