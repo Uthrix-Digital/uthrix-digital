@@ -49,6 +49,8 @@ export interface TourismType {
   id: string;
   label: string;
   icon: LucideIcon;
+  /** Card photo (Unsplash, Unsplash License), 640×400. */
+  image: string;
   /** Small line under the label, e.g. examples or places. */
   examples: string;
   /** What this business wants most, in one line. */
@@ -64,6 +66,7 @@ export interface TourismType {
 export const TOURISM_TYPES: TourismType[] = [
   {
     id: "hotels",
+    image: "/assets/Images/hospitality/types/hotels.jpg",
     label: "Hotels & resorts",
     icon: Hotel,
     examples: "City hotels, beach resorts, boutique hotels",
@@ -83,6 +86,7 @@ export const TOURISM_TYPES: TourismType[] = [
   },
   {
     id: "villas",
+    image: "/assets/Images/hospitality/types/villas.jpg",
     label: "Villas & boutique stays",
     icon: House,
     examples: "Private villas, bungalows, holiday homes",
@@ -102,6 +106,7 @@ export const TOURISM_TYPES: TourismType[] = [
   },
   {
     id: "guest-houses",
+    image: "/assets/Images/hospitality/types/guest-houses.jpg",
     label: "Guest houses & homestays",
     icon: BedDouble,
     examples: "Family-run guest houses, homestays, hostels",
@@ -121,6 +126,7 @@ export const TOURISM_TYPES: TourismType[] = [
   },
   {
     id: "tour-operators",
+    image: "/assets/Images/hospitality/types/tour-operators.jpg",
     label: "Tour operators & DMCs",
     icon: Compass,
     examples: "Round tours, custom itineraries, inbound DMCs",
@@ -140,6 +146,7 @@ export const TOURISM_TYPES: TourismType[] = [
   },
   {
     id: "travel-agencies",
+    image: "/assets/Images/hospitality/types/travel-agencies.jpg",
     label: "Travel agencies",
     icon: Plane,
     examples: "Outbound holidays, ticketing, visa services",
@@ -159,6 +166,7 @@ export const TOURISM_TYPES: TourismType[] = [
   },
   {
     id: "safari",
+    image: "/assets/Images/hospitality/types/safari.jpg",
     label: "Safari & wildlife tours",
     icon: Binoculars,
     examples: "Jeep safaris, birding, national park tours",
@@ -178,6 +186,7 @@ export const TOURISM_TYPES: TourismType[] = [
   },
   {
     id: "adventure",
+    image: "/assets/Images/hospitality/types/adventure.jpg",
     label: "Adventure & activities",
     icon: Mountain,
     examples: "Rafting, diving, surfing, hiking, ziplining",
@@ -197,6 +206,7 @@ export const TOURISM_TYPES: TourismType[] = [
   },
   {
     id: "wellness",
+    image: "/assets/Images/hospitality/types/wellness.jpg",
     label: "Wellness & Ayurveda retreats",
     icon: Flower2,
     examples: "Ayurveda resorts, yoga retreats, spa programmes",
@@ -216,6 +226,7 @@ export const TOURISM_TYPES: TourismType[] = [
   },
   {
     id: "transport",
+    image: "/assets/Images/hospitality/types/transport-sedan.jpg",
     label: "Transport & chauffeur",
     icon: CarFront,
     examples: "Airport transfers, chauffeur-guides, car hire",
@@ -235,6 +246,7 @@ export const TOURISM_TYPES: TourismType[] = [
   },
   {
     id: "boat-tours",
+    image: "/assets/Images/hospitality/types/boat-tours.jpg",
     label: "Boat & whale-watching tours",
     icon: Ship,
     examples: "Whale watching, lagoon safaris, boat trips",
@@ -254,6 +266,7 @@ export const TOURISM_TYPES: TourismType[] = [
   },
   {
     id: "eco-camping",
+    image: "/assets/Images/hospitality/types/eco-camping.jpg",
     label: "Eco lodges & camping",
     icon: Tent,
     examples: "Glamping, tree houses, nature lodges",
@@ -273,6 +286,7 @@ export const TOURISM_TYPES: TourismType[] = [
   },
   {
     id: "restaurants",
+    image: "/assets/Images/hospitality/types/restaurants.jpg",
     label: "Restaurants & cafés",
     icon: UtensilsCrossed,
     examples: "Beach cafés, rooftop bars, tourist-town restaurants",

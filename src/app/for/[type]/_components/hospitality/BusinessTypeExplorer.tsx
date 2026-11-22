@@ -1,9 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRef, useState, type KeyboardEvent } from "react";
-import { ArrowUpRight, Check } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { EYEBROW } from "@/components/shared/(AudiencePage)/styles";
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { siteConfig } from "@/config/siteConfig";
 import { TOURISM_TYPES } from "./data";
 
@@ -39,7 +49,12 @@ export function BusinessTypeExplorer() {
     window.history.replaceState(null, "", url);
     const tab = tabRefs.current[id];
     if (focus) tab?.focus();
-    tab?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+    // Scroll the whole card into view (matters for the swipe strip on phones).
+    (tab?.closest('[data-slot="card"]') ?? tab)?.scrollIntoView({
+      block: "nearest",
+      inline: "nearest",
+      behavior: "smooth",
+    });
   };
 
   const onKeyDown = (event: KeyboardEvent, index: number) => {
@@ -69,62 +84,92 @@ export function BusinessTypeExplorer() {
         role="tablist"
         aria-label="Which kind of tourism business are you?"
         aria-orientation="horizontal"
-        className="-mx-[clamp(1.25rem,5vw,5rem)] flex snap-x snap-mandatory gap-3 overflow-x-auto px-[clamp(1.25rem,5vw,5rem)] pb-2 [scrollbar-width:none] lg:mx-0 lg:grid lg:grid-cols-3 lg:overflow-visible lg:px-0 lg:pb-0"
+        className="-mx-[clamp(1.25rem,5vw,5rem)] flex snap-x snap-mandatory scroll-px-[clamp(1.25rem,5vw,5rem)] gap-3 overflow-x-auto px-[clamp(1.25rem,5vw,5rem)] pb-3 pt-1 [scrollbar-width:none] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible lg:px-0 lg:pb-0 lg:pt-0"
       >
         {TOURISM_TYPES.map((type, index) => {
           const Icon = type.icon;
           const isActive = type.id === active.id;
           return (
-            <button
+            <Card
               key={type.id}
-              ref={(node) => {
-                tabRefs.current[type.id] = node;
-              }}
-              id={`type-tab-${type.id}`}
-              role="tab"
-              type="button"
-              aria-selected={isActive}
-              aria-controls="type-panel"
-              tabIndex={isActive ? 0 : -1}
-              onClick={() => select(type.id)}
-              onKeyDown={(event) => onKeyDown(event, index)}
-              className={`group flex w-[11.5rem] shrink-0 snap-start flex-col gap-4 rounded-card-lg border p-4 text-left transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:p-5 lg:w-auto ${
+              size="sm"
+              className={`group/type relative w-[15rem] shrink-0 snap-start gap-3 rounded-card-lg pt-0 transition-[box-shadow,transform] duration-300 has-focus-visible:ring-2 has-focus-visible:ring-brand lg:w-auto ${
                 isActive
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border bg-background hover:border-foreground"
+                  ? "-translate-y-1 shadow-menu ring-2 ring-foreground"
+                  : "hover:-translate-y-0.5 hover:shadow-menu hover:ring-foreground/30"
               }`}
             >
-              <span className="flex items-start justify-between">
+              {/* Cover photo */}
+              <div className="relative aspect-[16/10] w-full overflow-hidden">
+                <Image
+                  src={type.image}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1200px) 17rem, 15rem"
+                  className={`object-cover transition-[transform,filter] duration-500 ease-out group-hover/type:scale-105 ${
+                    isActive ? "scale-105 saturate-100" : "saturate-[0.85]"
+                  }`}
+                />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.25)_0%,transparent_35%,transparent_55%,rgba(0,0,0,0.55)_100%)]" />
                 <span
-                  className={`flex size-11 items-center justify-center rounded-full transition-colors ${
+                  aria-hidden="true"
+                  className={`absolute bottom-3 left-3 flex size-9 items-center justify-center rounded-full backdrop-blur-sm transition-colors ${
                     isActive
                       ? "bg-brand text-brand-foreground"
-                      : "bg-foreground/5 text-foreground group-hover:bg-foreground/10"
+                      : "bg-white/85 text-[#16161a]"
                   }`}
                 >
-                  <Icon aria-hidden="true" className="size-5" />
+                  <Icon className="size-4" />
                 </span>
-                <span
-                  className={`font-mono text-[0.65rem] ${
-                    isActive ? "text-background/50" : "text-muted-foreground"
-                  }`}
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-              </span>
-              <span>
-                <span className="block text-base font-semibold leading-tight tracking-[-0.02em]">
-                  {type.label}
-                </span>
-                <span
-                  className={`mt-1 block text-xs leading-snug ${
-                    isActive ? "text-background/65" : "text-muted-foreground"
-                  }`}
-                >
+              </div>
+
+              {/* No container here: it would trap the tab's full-card ::after inside the header. */}
+              <CardHeader className="[container-type:normal]">
+                <CardAction>
+                  {isActive ? (
+                    <Badge className="bg-brand text-brand-foreground">Selected</Badge>
+                  ) : (
+                    <Badge variant="secondary" className="font-mono">
+                      {String(index + 1).padStart(2, "0")}
+                    </Badge>
+                  )}
+                </CardAction>
+                <CardTitle className="text-base font-semibold leading-tight tracking-[-0.02em]">
+                  {/* The tab itself; its ::after covers the whole card so any part is clickable. */}
+                  <button
+                    ref={(node) => {
+                      tabRefs.current[type.id] = node;
+                    }}
+                    id={`type-tab-${type.id}`}
+                    role="tab"
+                    type="button"
+                    aria-selected={isActive}
+                    aria-controls="type-panel"
+                    tabIndex={isActive ? 0 : -1}
+                    onClick={() => select(type.id)}
+                    onKeyDown={(event) => onKeyDown(event, index)}
+                    className="text-left outline-none after:absolute after:inset-0 after:z-10 after:rounded-card-lg after:content-['']"
+                  >
+                    {type.label}
+                  </button>
+                </CardTitle>
+                <CardDescription className="text-xs leading-snug">
                   {type.examples}
+                </CardDescription>
+              </CardHeader>
+
+              <CardFooter className="mt-auto justify-between bg-surface-raised text-xs font-semibold">
+                <span className={isActive ? "text-brand-text" : "text-foreground/70"}>
+                  {isActive ? "Showing what we build" : "See what we build"}
                 </span>
-              </span>
-            </button>
+                <ArrowRight
+                  aria-hidden="true"
+                  className={`size-4 transition-transform duration-300 ${
+                    isActive ? "rotate-90 text-brand-text lg:rotate-0" : "group-hover/type:translate-x-0.5"
+                  }`}
+                />
+              </CardFooter>
+            </Card>
           );
         })}
       </div>
