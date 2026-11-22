@@ -306,15 +306,6 @@ export const TOURISM_TYPES: TourismType[] = [
   },
 ];
 
-/* ── Commission calculator defaults ───────────────────────────────────── */
-
-export const CALCULATOR = {
-  bookings: { min: 5, max: 400, step: 5, initial: 60 },
-  value: { min: 20, max: 1500, step: 10, initial: 180 },
-  commission: { min: 10, max: 30, step: 1, initial: 18 },
-  directShare: { min: 5, max: 60, step: 5, initial: 25 },
-} as const;
-
 /* ── Features ─────────────────────────────────────────────────────────── */
 
 export const FEATURES: { icon: LucideIcon; title: string; body: string }[] = [

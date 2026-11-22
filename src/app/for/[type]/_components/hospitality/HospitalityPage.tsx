@@ -15,7 +15,6 @@ import {
 } from "@/components/shared/(AudiencePage)/styles";
 import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
 import { BusinessTypeExplorer } from "./BusinessTypeExplorer";
-import { CommissionCalculator } from "./CommissionCalculator";
 import { FEATURES, GUEST_JOURNEY, PROCESS } from "./data";
 import { HospitalityHero } from "./HospitalityHero";
 
@@ -84,24 +83,6 @@ function TypesSection() {
         >
           <BusinessTypeExplorer />
         </Suspense>
-      </div>
-    </section>
-  );
-}
-
-function CommissionSection() {
-  return (
-    <section aria-labelledby="hosp-commission" className="border-t border-border">
-      <div className={SECTION}>
-        <SectionHead
-          id="hosp-commission"
-          eyebrow="The commission problem"
-          title="What booking sites cost you"
-          body="Booking sites bring you guests, and keep 15 to 25% of every booking. Move even a small share of those guests to your own website and the difference adds up quickly. Try your own numbers."
-        />
-        <Reveal>
-          <CommissionCalculator />
-        </Reveal>
       </div>
     </section>
   );
@@ -238,7 +219,6 @@ export function HospitalityPage() {
     <div className="bg-background text-foreground">
       <HospitalityHero />
       <TypesSection />
-      <CommissionSection />
       <FeaturesSection />
       <JourneySection />
       <AudienceStageSection
