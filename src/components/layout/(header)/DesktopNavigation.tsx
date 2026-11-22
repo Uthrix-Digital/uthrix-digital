@@ -172,7 +172,7 @@ function MegaMenuContent({
                     {item.label}
                     <ArrowRight
                       aria-hidden="true"
-                      className="size-[0.7em] -translate-x-[0.4em] opacity-0 transition-[opacity,transform] duration-300 group-hover/link:translate-x-0 group-hover/link:opacity-100 group-focus-visible/link:translate-x-0 group-focus-visible/link:opacity-100"
+                      className="size-[0.7em] -translate-x-[0.4em] opacity-0 transition-[opacity,translate] duration-300 group-hover/link:translate-x-0 group-hover/link:opacity-100 group-focus-visible/link:translate-x-0 group-focus-visible/link:opacity-100"
                     />
                   </span>
                   {item.sub && (
@@ -213,7 +213,7 @@ function MegaMenuContent({
                         {item.label}
                         <ArrowRight
                           aria-hidden="true"
-                          className="size-3.5 -translate-x-1 opacity-0 transition-[opacity,transform] duration-300 group-hover/stage:translate-x-0 group-hover/stage:opacity-100 group-focus-visible/stage:translate-x-0 group-focus-visible/stage:opacity-100"
+                          className="size-3.5 -translate-x-1 opacity-0 transition-[opacity,translate] duration-300 group-hover/stage:translate-x-0 group-hover/stage:opacity-100 group-focus-visible/stage:translate-x-0 group-focus-visible/stage:opacity-100"
                         />
                       </span>
                       <span className="hidden max-w-[16rem] text-right font-sans text-xs text-muted-foreground xl:block">

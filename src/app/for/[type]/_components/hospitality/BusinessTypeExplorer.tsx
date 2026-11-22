@@ -93,10 +93,12 @@ export function BusinessTypeExplorer() {
             <Card
               key={type.id}
               size="sm"
-              className={`group/type relative w-[15rem] shrink-0 snap-start gap-3 rounded-card-lg pt-0 transition-[box-shadow,transform] duration-300 has-focus-visible:ring-2 has-focus-visible:ring-brand lg:w-auto ${
+              // Tailwind v4 moves/zooms with the `translate` and `scale` properties
+              // (not `transform`), so those are what we transition.
+              className={`group/type relative w-[15rem] shrink-0 snap-start gap-3 rounded-card-lg pt-0 transition-[translate,scale,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[translate,scale] hover:z-10 has-focus-visible:ring-2 has-focus-visible:ring-brand motion-reduce:transition-none lg:w-auto ${
                 isActive
                   ? "-translate-y-1 shadow-menu ring-2 ring-foreground"
-                  : "hover:-translate-y-0.5 hover:shadow-menu hover:ring-foreground/30"
+                  : "hover:-translate-y-1.5 hover:scale-[1.02] hover:shadow-menu hover:ring-foreground/30 motion-reduce:hover:translate-y-0 motion-reduce:hover:scale-100"
               }`}
             >
               {/* Cover photo */}
@@ -106,14 +108,14 @@ export function BusinessTypeExplorer() {
                   alt=""
                   fill
                   sizes="(min-width: 1200px) 17rem, 15rem"
-                  className={`object-cover transition-[transform,filter] duration-500 ease-out group-hover/type:scale-105 ${
+                  className={`object-cover transition-[scale,filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[scale] group-hover/type:scale-110 group-hover/type:saturate-100 motion-reduce:transition-none motion-reduce:group-hover/type:scale-100 ${
                     isActive ? "scale-105 saturate-100" : "saturate-[0.85]"
                   }`}
                 />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.25)_0%,transparent_35%,transparent_55%,rgba(0,0,0,0.55)_100%)]" />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.25)_0%,transparent_35%,transparent_55%,rgba(0,0,0,0.55)_100%)] transition-opacity duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/type:opacity-75" />
                 <span
                   aria-hidden="true"
-                  className={`absolute bottom-3 left-3 flex size-9 items-center justify-center rounded-full backdrop-blur-sm transition-colors ${
+                  className={`absolute bottom-3 left-3 flex size-9 items-center justify-center rounded-full backdrop-blur-sm transition-[translate,background-color,color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/type:-translate-y-1 motion-reduce:transition-none ${
                     isActive
                       ? "bg-brand text-brand-foreground"
                       : "bg-white/85 text-[#16161a]"
