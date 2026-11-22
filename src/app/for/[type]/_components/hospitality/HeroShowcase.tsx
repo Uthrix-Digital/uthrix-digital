@@ -422,20 +422,22 @@ function DirectShareCard() {
   const reduce = useReducedMotion();
 
   return (
-    <div className="w-[10.5rem] rounded-2xl bg-[#16161a] p-3 text-white shadow-[0_20px_40px_-12px_rgba(0,0,0,0.6)] ring-1 ring-white/10">
+    <div className="w-[10.5rem] rounded-2xl bg-white p-3 text-[#16161a] shadow-[0_20px_40px_-12px_rgba(0,0,0,0.45)] ring-1 ring-black/5">
       <div className="flex items-center justify-between">
-        <span className="text-[0.55rem] uppercase tracking-[0.14em] text-white/55">Direct bookings</span>
-        <TrendingUp className="size-3 text-[#4ade80]" />
+        <span className="text-[0.55rem] uppercase tracking-[0.14em] text-[#8a8a90]">Direct bookings</span>
+        <span className="flex size-4 items-center justify-center rounded-full bg-[#e7f6ec]">
+          <TrendingUp className="size-2.5 text-[#1f8a4c]" />
+        </span>
       </div>
       <p className="mt-1 text-lg font-bold leading-none">
-        64<span className="text-xs text-white/55">% of all</span>
+        64<span className="text-xs font-semibold text-[#8a8a90]">% of all</span>
       </p>
-      <div className="mt-2.5 flex h-10 items-end gap-1.5">
+      <div className="mt-2.5 flex h-10 items-end gap-1.5 border-b border-black/5">
         {BARS.map((h, i) => (
           <motion.span
             key={i}
-            className={`flex-1 origin-bottom rounded-sm ${
-              i === BARS.length - 1 ? "bg-[#ff1f28]" : "bg-white/25"
+            className={`flex-1 origin-bottom rounded-t-[3px] ${
+              i === BARS.length - 1 ? "bg-[#c40202]" : "bg-[#e4e4e9]"
             }`}
             style={{ height: `${h * 1.5}%` }}
             initial={reduce ? false : { scaleY: 0 }}
@@ -444,7 +446,7 @@ function DirectShareCard() {
           />
         ))}
       </div>
-      <div className="mt-1 flex justify-between text-[0.45rem] text-white/40">
+      <div className="mt-1 flex justify-between text-[0.45rem] text-[#8a8a90]">
         <span>Sep</span>
         <span>Feb</span>
       </div>

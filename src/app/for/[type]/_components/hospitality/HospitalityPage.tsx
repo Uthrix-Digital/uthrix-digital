@@ -147,7 +147,8 @@ function JourneySection() {
           body="A website is one stop on a long journey. Travellers dream, search, compare and ask long before they book. We make sure you show up at each step, and that they come back."
         />
 
-        <ol className="relative grid gap-4 md:grid-cols-2 lg:grid-cols-6 lg:gap-0">
+        {/* `isolate` keeps the step numbers' z-index local, below the fixed header. */}
+        <ol className="relative isolate grid gap-4 md:grid-cols-2 lg:grid-cols-6 lg:gap-0">
           {/* The track the steps sit on (desktop) */}
           <span
             aria-hidden="true"
