@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { ArrowRight, ArrowUpRight, Check, Quote } from "lucide-react";
@@ -89,26 +90,26 @@ export function CategoryExplorer() {
                   : "ring-foreground/10 hover:-translate-y-1 hover:shadow-menu hover:ring-foreground/30 motion-reduce:hover:translate-y-0"
               }`}
             >
-              {/* Card art: tinted tile, dotted texture and a big outline icon */}
-              <div
-                aria-hidden="true"
-                className="relative flex h-20 items-center justify-between overflow-hidden bg-[color-mix(in_oklab,var(--tint)_16%,var(--card))] px-4 sm:h-24"
-              >
-                <span className="absolute inset-0 bg-[radial-gradient(color-mix(in_oklab,var(--tint)_30%,transparent)_1px,transparent_1.5px)] [background-size:12px_12px] opacity-60" />
+              {/* Cover photo */}
+              <div aria-hidden="true" className="relative aspect-[16/10] w-full overflow-hidden bg-[color-mix(in_oklab,var(--tint)_16%,var(--card))]">
+                <Image
+                  src={category.image}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1200px) 17rem, (min-width: 640px) 30vw, 11.5rem"
+                  className={`object-cover transition-[scale,filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[scale] group-hover/cat:scale-110 group-hover/cat:saturate-100 motion-reduce:transition-none motion-reduce:group-hover/cat:scale-100 ${
+                    isActive ? "scale-105 saturate-100" : "saturate-[0.85]"
+                  }`}
+                />
+                <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.25)_0%,transparent_35%,transparent_55%,rgba(0,0,0,0.55)_100%)] transition-opacity duration-700 group-hover/cat:opacity-75" />
                 <span
-                  className={`relative flex size-9 items-center justify-center rounded-full transition-colors duration-300 ${
-                    isActive
-                      ? "bg-brand text-brand-foreground"
-                      : "bg-background text-[color-mix(in_oklab,var(--tint)_75%,var(--foreground))]"
+                  className={`absolute bottom-3 left-3 flex size-9 items-center justify-center rounded-full backdrop-blur-sm transition-[translate,background-color,color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/cat:-translate-y-1 motion-reduce:transition-none ${
+                    isActive ? "bg-brand text-brand-foreground" : "bg-white/85 text-[#16161a]"
                   }`}
                 >
                   <Icon className="size-4" />
                 </span>
-                <Icon
-                  strokeWidth={1}
-                  className="relative -mb-6 -mr-3 size-20 text-[color-mix(in_oklab,var(--tint)_55%,transparent)] transition-[translate,rotate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/cat:-translate-y-1 group-hover/cat:-rotate-6 motion-reduce:transition-none sm:size-24"
-                />
-                <span className="absolute right-3 top-2.5 font-mono text-[0.6rem] font-semibold text-foreground/45">
+                <span className="absolute right-3 top-2.5 rounded-full bg-black/40 px-1.5 py-0.5 font-mono text-[0.6rem] font-semibold text-white backdrop-blur-sm">
                   {String(index + 1).padStart(2, "0")}
                 </span>
               </div>

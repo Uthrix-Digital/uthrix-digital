@@ -76,6 +76,8 @@ export interface SellerCategory {
   id: string;
   label: string;
   icon: LucideIcon;
+  /** Card photo (Unsplash, Unsplash License), 640×400. Photo IDs in CATEGORY_PHOTO_CREDITS. */
+  image: string;
   /** Accent colour for the card art. Used through a CSS variable. */
   tint: string;
   /** Small line under the label. */
@@ -92,9 +94,26 @@ export interface SellerCategory {
   measure: string[];
 }
 
+/** Unsplash photo IDs for the category photos (unsplash.com/photos/<id>). */
+export const CATEGORY_PHOTO_CREDITS: Record<string, string> = {
+  "fashion": "OYYE4g-I5ZQ",
+  "beauty": "dMjkQJs58uo",
+  "electronics": "dIdWiMTZdto",
+  "furniture": "fZuleEfeA1Q",
+  "food": "LRIQuZyxKRM",
+  "groceries": "D6Tu_L3chLE",
+  "handmade": "iUbsw_VOkbM",
+  "jewellery": "G3Hrl6WzQYQ",
+  "kids": "O8eo2BC1SOI",
+  "health": "747NDboAWNY",
+  "hardware": "IClZBVw5W5A",
+  "pets-garden": "T-0EW-SEbsE",
+};
+
 export const SELLER_CATEGORIES: SellerCategory[] = [
   {
     id: "fashion",
+    image: "/assets/Images/product-sellers/types/fashion.jpg",
     label: "Fashion & clothing",
     icon: Shirt,
     tint: "#e0456b",
@@ -116,6 +135,7 @@ export const SELLER_CATEGORIES: SellerCategory[] = [
   },
   {
     id: "beauty",
+    image: "/assets/Images/product-sellers/types/beauty.jpg",
     label: "Beauty & skincare",
     icon: Sparkles,
     tint: "#c26bd6",
@@ -137,6 +157,7 @@ export const SELLER_CATEGORIES: SellerCategory[] = [
   },
   {
     id: "electronics",
+    image: "/assets/Images/product-sellers/types/electronics.jpg",
     label: "Electronics & gadgets",
     icon: Smartphone,
     tint: "#2f7ee8",
@@ -158,6 +179,7 @@ export const SELLER_CATEGORIES: SellerCategory[] = [
   },
   {
     id: "furniture",
+    image: "/assets/Images/product-sellers/types/furniture.jpg",
     label: "Furniture & home décor",
     icon: Sofa,
     tint: "#b7793a",
@@ -179,6 +201,7 @@ export const SELLER_CATEGORIES: SellerCategory[] = [
   },
   {
     id: "food",
+    image: "/assets/Images/product-sellers/types/food.jpg",
     label: "Food, cakes & home bakers",
     icon: Cake,
     tint: "#e8833a",
@@ -200,6 +223,7 @@ export const SELLER_CATEGORIES: SellerCategory[] = [
   },
   {
     id: "groceries",
+    image: "/assets/Images/product-sellers/types/groceries.jpg",
     label: "Groceries & daily essentials",
     icon: ShoppingBasket,
     tint: "#3a9b5c",
@@ -221,6 +245,7 @@ export const SELLER_CATEGORIES: SellerCategory[] = [
   },
   {
     id: "handmade",
+    image: "/assets/Images/product-sellers/types/handmade.jpg",
     label: "Handmade & crafts",
     icon: Scissors,
     tint: "#d1553f",
@@ -242,6 +267,7 @@ export const SELLER_CATEGORIES: SellerCategory[] = [
   },
   {
     id: "jewellery",
+    image: "/assets/Images/product-sellers/types/jewellery.jpg",
     label: "Jewellery & accessories",
     icon: Gem,
     tint: "#b08a1e",
@@ -263,6 +289,7 @@ export const SELLER_CATEGORIES: SellerCategory[] = [
   },
   {
     id: "kids",
+    image: "/assets/Images/product-sellers/types/kids.jpg",
     label: "Baby, kids & toys",
     icon: Baby,
     tint: "#3fb1c8",
@@ -284,6 +311,7 @@ export const SELLER_CATEGORIES: SellerCategory[] = [
   },
   {
     id: "health",
+    image: "/assets/Images/product-sellers/types/health.jpg",
     label: "Health, pharmacy & supplements",
     icon: Pill,
     tint: "#2e9e8f",
@@ -305,6 +333,7 @@ export const SELLER_CATEGORIES: SellerCategory[] = [
   },
   {
     id: "hardware",
+    image: "/assets/Images/product-sellers/types/hardware.jpg",
     label: "Hardware, auto & tools",
     icon: Wrench,
     tint: "#6b7280",
@@ -326,6 +355,7 @@ export const SELLER_CATEGORIES: SellerCategory[] = [
   },
   {
     id: "pets-garden",
+    image: "/assets/Images/product-sellers/types/pets-garden.jpg",
     label: "Pets, plants & garden",
     icon: PawPrint,
     tint: "#7a9a2e",

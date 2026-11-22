@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, useTransform } from "framer-motion";
+import Image from "next/image";
 import {
   Check,
   Heart,
@@ -8,12 +9,9 @@ import {
   RotateCw,
   Search,
   ShoppingBag,
-  Shirt,
   Star,
   TrendingUp,
   Truck,
-  Watch,
-  type LucideIcon,
 } from "lucide-react";
 import {
   Floating,
@@ -29,17 +27,11 @@ import {
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const PRODUCTS: {
-  name: string;
-  price: string;
-  icon: LucideIcon;
-  bg: string;
-  fg: string;
-  tag?: string;
-}[] = [
-  { name: "Linen Wrap Dress", price: "4,450", icon: Shirt, bg: "#f6e3d7", fg: "#b4593a", tag: "New" },
-  { name: "Woven Tote", price: "3,200", icon: ShoppingBag, bg: "#e4ecdf", fg: "#4f7a45" },
-  { name: "Classic Watch", price: "8,900", icon: Watch, bg: "#e2e6f2", fg: "#3f5596", tag: "-15%" },
+/** Product photos: Unsplash (Unsplash License), photo IDs dziVRZYOFpI, tcVH_BwHtrc, 12V36G17IbQ. */
+const PRODUCTS: { name: string; price: string; image: string; tag?: string }[] = [
+  { name: "Linen Shift Dress", price: "4,450", image: "/assets/Images/product-sellers/product-dress.jpg", tag: "New" },
+  { name: "Woven Leather Tote", price: "6,200", image: "/assets/Images/product-sellers/product-tote.jpg" },
+  { name: "Classic Watch", price: "18,900", image: "/assets/Images/product-sellers/product-watch.jpg", tag: "-15%" },
 ];
 
 function StoreSite() {
@@ -83,25 +75,29 @@ function StoreSite() {
       </div>
 
       {/* Drop banner */}
-      <div className="relative mx-2 overflow-hidden rounded-xl bg-[linear-gradient(120deg,#2a1d18_0%,#5b3326_55%,#b4593a_100%)] px-5 py-6 text-white sm:px-7 sm:py-8">
-        <div
-          aria-hidden="true"
-          className="absolute -right-6 -top-10 size-40 rounded-full bg-[radial-gradient(closest-side,rgba(255,214,170,0.55),transparent)]"
+      <div className="relative mx-2 h-44 overflow-hidden rounded-xl text-white sm:h-52">
+        {/* Photo: Unsplash, ID p9Ekz8XckR0 (Unsplash License) */}
+        <Image
+          src="/assets/Images/product-sellers/hero-summer-drop.jpg"
+          alt=""
+          fill
+          preload
+          sizes="(min-width: 1200px) 38rem, (min-width: 640px) 36rem, 92vw"
+          className="object-cover object-[70%_35%]"
         />
-        <Shirt
-          aria-hidden="true"
-          strokeWidth={1}
-          className="absolute -bottom-6 right-4 size-32 text-white/15 sm:right-10 sm:size-40"
-        />
-        <p className="relative text-[0.52rem] font-semibold uppercase tracking-[0.2em] text-white/70">
-          New drop · Linen season
-        </p>
-        <p className="relative mt-1.5 max-w-[14rem] text-[1.35rem] font-black leading-[1] tracking-[-0.04em] sm:text-[1.7rem]">
-          Light, breathable, made for the heat.
-        </p>
-        <span className="relative mt-3 inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-[0.58rem] font-bold text-[#16161a]">
-          Shop the drop →
-        </span>
+        {/* Darken the left so the headline reads on the photo */}
+        <div className="absolute inset-0 bg-[linear-gradient(95deg,rgba(18,12,10,0.82)_0%,rgba(18,12,10,0.5)_45%,transparent_75%)]" />
+        <div className="relative px-5 py-6 sm:px-7 sm:py-8">
+          <p className="text-[0.52rem] font-semibold uppercase tracking-[0.2em] text-white/75">
+            New drop · Summer edit
+          </p>
+          <p className="mt-1.5 max-w-[14rem] text-[1.35rem] font-black leading-[1] tracking-[-0.04em] [text-shadow:0_1px_12px_rgba(0,0,0,0.3)] sm:text-[1.7rem]">
+            Light, breathable, made for the heat.
+          </p>
+          <span className="mt-3 inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-[0.58rem] font-bold text-[#16161a]">
+            Shop the drop →
+          </span>
+        </div>
       </div>
 
       {/* Trust strip */}
@@ -119,13 +115,10 @@ function StoreSite() {
 
       {/* Products */}
       <div className="grid grid-cols-3 gap-2 px-2 pb-3 pt-2.5">
-        {PRODUCTS.map(({ name, price, icon: Icon, bg, fg, tag }) => (
+        {PRODUCTS.map(({ name, price, image, tag }) => (
           <div key={name} className="overflow-hidden rounded-lg ring-1 ring-black/5">
-            <div
-              className="relative flex h-16 items-center justify-center sm:h-20"
-              style={{ backgroundColor: bg }}
-            >
-              <Icon strokeWidth={1.25} className="size-9 sm:size-11" style={{ color: fg }} />
+            <div className="relative h-16 overflow-hidden bg-[#e4e4e9] sm:h-20">
+              <Image src={image} alt="" fill sizes="(min-width: 640px) 11rem, 30vw" className="object-cover" />
               {tag && (
                 <span className="absolute left-1 top-1 rounded-full bg-[#16161a] px-1.5 py-px text-[0.45rem] font-bold text-white">
                   {tag}
