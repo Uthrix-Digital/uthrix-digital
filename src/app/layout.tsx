@@ -17,6 +17,7 @@ import { MetaPixel } from "@/components/shared/(CookieConsent)/MetaPixel";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
 import { themeInitScript } from "@/lib/theme";
+import { introInitScript } from "@/lib/intro";
 import { googleConsentInitScript } from "@/lib/consent";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -94,6 +95,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         {/* Sets data-theme before first paint: no flash of the wrong theme. */}
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* Decides before first paint whether the intro splash plays
+            (returning visitors only, once per session). */}
+        <script dangerouslySetInnerHTML={{ __html: introInitScript }} />
         {siteConfig.gtmId && (
           <>
             {/* Consent Mode defaults must run before gtm.js: everything starts

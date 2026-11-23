@@ -156,21 +156,22 @@ export function Hero() {
             {/* Left column is a size container so the headline scales to the
                 space left beside the form instead of the viewport. */}
             <div className="@container flex min-w-0 flex-col">
-              <motion.h1
-                variants={fadeUp}
-                className="font-archivo-black w-full uppercase"
-              >
+              {/* The headline and intro paragraph are the page's largest
+                  content (LCP). They use a CSS slide (.hero-rise) instead of a
+                  framer-motion fade so they are visible from the first paint
+                  rather than after hydration. */}
+              <h1 className="hero-rise font-archivo-black w-full uppercase">
                 <RotatingHeadline />
-              </motion.h1>
+              </h1>
 
-              <motion.p
-                variants={fadeUp}
-                className="font-sans mt-4 max-w-250 text-[clamp(1.05rem,4.7vw,1.5rem)] leading-[1.3] tracking-tight text-foreground/95 sm:mt-4 sm:text-[clamp(1.25rem,2.1vw,2rem)] sm:leading-[1.18]"
+              <p
+                style={{ animationDelay: "0.1s" }}
+                className="hero-rise font-sans mt-4 max-w-250 text-[clamp(1.05rem,4.7vw,1.5rem)] leading-[1.3] tracking-tight text-foreground/95 sm:mt-4 sm:text-[clamp(1.25rem,2.1vw,2rem)] sm:leading-[1.18]"
               >
                 We build your website, run your Meta and Google ads, and follow
                 up every lead. One small team, one plan, and one monthly report
                 that shows what your money brought in.
-              </motion.p>
+              </p>
 
               <motion.div
                 variants={fadeUp}

@@ -608,7 +608,13 @@ html {
 }
 
 /* ---------- Intro ---------- */
+/* Hidden unless the pre-paint script (src/lib/intro.ts) marks a returning
+   visitor's first page of the session as data-intro="playing". */
 #intro-overlay {
+  display: none;
+}
+html[data-intro="playing"] #intro-overlay,
+html[data-intro="skipping"] #intro-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
@@ -681,9 +687,6 @@ html[data-intro="playing"] {
   overflow: hidden;
   scrollbar-gutter: stable;
 }
-html[data-intro="seen"] #intro-overlay {
-  display: none;
-}
 html[data-intro="skipping"] #intro-overlay {
   animation: intro-out 0.3s ease-out forwards; /* swapping the animation restarts it */
 }
@@ -692,8 +695,24 @@ html[data-intro="skipping"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #intro-overlay {
+  html[data-intro] #intro-overlay {
     display: none;
+  }
+}
+
+/* Home hero entrance for the LCP text: slide only, never invisible, so the
+   text counts as painted at first paint. Runs before hydration. */
+@keyframes hero-rise {
+  from {
+    transform: translateY(24px);
+  }
+}
+.hero-rise {
+  animation: hero-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise {
+    animation: none;
   }
 }
 /* ═══════════════════════════════════════════════════════════════════════════

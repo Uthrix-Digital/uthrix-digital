@@ -1,17 +1,20 @@
 "use client";
 
 import { useEffect } from "react";
+import { INTRO_SEEN_STORAGE_KEY } from "@/lib/intro";
 
 export default function IntroController() {
   useEffect(() => {
     const root = document.documentElement;
     const overlay = document.getElementById("intro-overlay");
-    if (!overlay) return;
+    // The pre-paint script (src/lib/intro.ts) decides whether the splash
+    // plays; without data-intro="playing" the overlay is already hidden.
+    if (!overlay || root.dataset.intro !== "playing") return;
 
     const done = () => {
       root.dataset.intro = "seen";
       try {
-        sessionStorage.setItem("introSeen", "1");
+        sessionStorage.setItem(INTRO_SEEN_STORAGE_KEY, "1");
       } catch {}
     };
 
