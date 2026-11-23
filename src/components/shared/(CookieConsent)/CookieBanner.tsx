@@ -22,9 +22,10 @@ export function CookieBanner() {
         >
           <h2 className="text-lg font-medium leading-6">We use cookies</h2>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            With your permission, we use advertising cookies (Meta Pixel) to
-            measure our ads and show you relevant ones. The site works the same
-            if you reject them. Read more in our{" "}
+            With your permission, we use analytics and advertising cookies from
+            Google and Meta to see how the site is used, measure our ads and
+            show you relevant ones. The site works the same if you reject them.
+            Read more in our{" "}
             <Link
               href="/privacy#cookies"
               className="text-foreground underline underline-offset-4"

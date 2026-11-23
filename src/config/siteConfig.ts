@@ -9,6 +9,8 @@ export const siteConfig = {
   email: "info@uthrix.com",
   /** Meta Pixel ID. Public by nature (sent to every visitor's browser). Empty string disables the Pixel. */
   metaPixelId: "2194372151424643",
+  /** Google Tag Manager container ID. Public by nature. Empty string disables GTM. */
+  gtmId: "GTM-MSSHF24G",
   // TODO: replace the "#" placeholders with the real profile URLs.
   socials: {
     linkedin: "https://www.linkedin.com/company/uthrix/home/?viewAsMember=true",

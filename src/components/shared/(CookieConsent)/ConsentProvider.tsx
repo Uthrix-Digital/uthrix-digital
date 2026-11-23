@@ -11,7 +11,8 @@ import {
 import {
   CONSENT_STORAGE_KEY,
   CONSENT_VERSION,
-  MARKETING_COOKIE_NAMES,
+  TRACKING_COOKIE_PREFIXES,
+  googleConsentState,
   parseConsent,
   type Consent,
 } from "@/lib/consent";
@@ -19,6 +20,8 @@ import {
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
   }
 }
 
@@ -68,10 +71,11 @@ function readRaw(): string | null {
 // `undefined` = not known yet (server render / before hydration): show nothing.
 const getServerSnapshot = (): string | null | undefined => undefined;
 
-function save(marketing: boolean) {
+function save(granted: boolean) {
   const value: Consent = {
     version: CONSENT_VERSION,
-    marketing,
+    analytics: granted,
+    marketing: granted,
     decidedAt: new Date().toISOString(),
   };
   memoryValue = JSON.stringify(value);
@@ -83,10 +87,17 @@ function save(marketing: boolean) {
   listeners.forEach((listener) => listener());
 }
 
-function deleteMarketingCookies() {
+/** Expires every tracking cookie on this host and its parent domain. */
+function deleteTrackingCookies() {
   const host = window.location.hostname;
   const rootDomain = host.split(".").slice(-2).join(".");
-  for (const name of MARKETING_COOKIE_NAMES) {
+  const names = document.cookie
+    .split(";")
+    .map((part) => part.split("=")[0].trim())
+    .filter((name) =>
+      TRACKING_COOKIE_PREFIXES.some((prefix) => name.startsWith(prefix)),
+    );
+  for (const name of names) {
     for (const domain of ["", `; domain=${host}`, `; domain=.${rootDomain}`]) {
       document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${domain}`;
     }
@@ -103,6 +114,8 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
   const ready = raw !== undefined;
 
   const acceptAll = useCallback(() => {
+    // Google tags inside GTM start setting cookies and sending full data.
+    window.gtag?.("consent", "update", googleConsentState({ analytics: true, marketing: true }));
     // If the pixel was loaded and then revoked earlier, switch it back on.
     window.fbq?.("consent", "grant");
     save(true);
@@ -110,9 +123,10 @@ export function ConsentProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const rejectAll = useCallback(() => {
-    // Stops an already-loaded pixel from sending anything further.
+    // Google tags go back to cookieless mode; the pixel stops sending.
+    window.gtag?.("consent", "update", googleConsentState({ analytics: false, marketing: false }));
     window.fbq?.("consent", "revoke");
-    deleteMarketingCookies();
+    deleteTrackingCookies();
     save(false);
     setSettingsOpen(false);
   }, []);

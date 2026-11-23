@@ -49,14 +49,13 @@ const sections: LegalSection[] = [
     title: "Cookies and local storage",
     paragraphs: [
       "We store a small amount of information in your browser so the site works the way you left it: your light or dark theme preference and your cookie choice. This is strictly necessary, stays on your device and is not used to identify you.",
-      "With your permission, we also use the Meta Pixel, an advertising tool from Meta Platforms. It is only loaded after you choose “Accept” on the cookie banner. If you choose “Reject”, it is never loaded and the site works the same.",
-      "You can change or withdraw your choice at any time using the “Cookie settings” link at the bottom of every page. Withdrawing stops the Meta Pixel and removes its cookies from this site.",
-      "When it is switched on, the Meta Pixel does the following:",
+      "With your permission, we also use analytics and advertising tools from Google and Meta. Nothing from these tools sets a cookie or sends identifying data about you until you choose “Accept” on the cookie banner. If you choose “Reject”, the site works the same.",
+      "You can change or withdraw your choice at any time using the “Cookie settings” link at the bottom of every page. Withdrawing switches these tools off and removes their cookies from this site.",
+      "The tools we use are:",
     ],
     items: [
-      "Sets the _fbp cookie, and the _fbc cookie if you arrived from one of our ads on Facebook or Instagram. Each lasts up to 90 days.",
-      "Tells Meta which pages you visit on this site, together with technical details such as your IP address, browser and device.",
-      "Lets us measure how our adverts perform and show our adverts to people who have visited this site. Meta may link this activity to your Facebook or Instagram account.",
+      "Google Tag Manager, which loads Google’s measurement and advertising tags, such as Google Analytics. It runs in Google Consent Mode: before you accept, Google tags set no cookies and only send basic, cookieless signals (for example, that a page was viewed). After you accept, they may set cookies such as _ga, _ga_<id> and _gcl_au, which last up to two years, to tell us how visitors use the site and how our Google adverts perform.",
+      "The Meta Pixel, from Meta Platforms. It is only loaded after you accept. It sets the _fbp cookie, and the _fbc cookie if you arrived from one of our ads on Facebook or Instagram, each lasting up to 90 days. It tells Meta which pages you visit, together with technical details such as your IP address, browser and device, so we can measure our adverts and show them to people who have visited this site. Meta may link this activity to your Facebook or Instagram account.",
     ],
   },
   {
@@ -69,7 +68,8 @@ const sections: LegalSection[] = [
       "Website hosting and database providers, which store enquiries and bookings.",
       "Email delivery providers, which send confirmation and notification emails.",
       "Messaging services such as WhatsApp, if you choose to contact us there.",
-      "Meta Platforms, through the Meta Pixel, only if you accept advertising cookies.",
+      "Google, through Google Tag Manager and the tags it loads, with cookies only if you accept them.",
+      "Meta Platforms, through the Meta Pixel, only if you accept cookies.",
       "Authorities or advisers, where the law requires it or to protect our legal rights.",
     ],
   },
@@ -142,8 +142,8 @@ export default function PrivacyPage() {
   return (
     <LegalDocument
       title="Privacy policy"
-      lastUpdated="13 November 2026"
-      lastUpdatedIso="2026-11-13"
+      lastUpdated="23 November 2026"
+      lastUpdatedIso="2026-11-23"
       intro="We collect as little personal information as we can, use it only to talk to you and work with you, and never sell it."
       sections={sections}
     />

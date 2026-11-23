@@ -15,6 +15,7 @@ import { ConsentProvider } from "@/components/shared/(CookieConsent)/ConsentProv
 import { CookieBanner } from "@/components/shared/(CookieConsent)/CookieBanner";
 import { MetaPixel } from "@/components/shared/(CookieConsent)/MetaPixel";
 import { themeInitScript } from "@/lib/theme";
+import { googleConsentInitScript } from "@/lib/consent";
 import { Analytics } from "@vercel/analytics/next";
 
 const manrope = Manrope({
@@ -76,6 +77,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <head>
         {/* Sets data-theme before first paint: no flash of the wrong theme. */}
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {siteConfig.gtmId && (
+          <>
+            {/* Consent Mode defaults must run before gtm.js: everything starts
+                "denied" until the visitor accepts on the cookie banner. */}
+            <script dangerouslySetInnerHTML={{ __html: googleConsentInitScript }} />
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtm.js?id=${siteConfig.gtmId}`}
+            />
+          </>
+        )}
       </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider>
