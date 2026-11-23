@@ -13,7 +13,12 @@ import {
   postHref,
   readingMinutes,
   topicLabel,
+  wordCount,
 } from "@/config/blog";
+import { JsonLd } from "@/components/shared/JsonLd";
+import { siteConfig } from "@/config/siteConfig";
+import { pageOpenGraph } from "@/lib/metadata";
+import { blogPostingSchema, breadcrumbSchema } from "@/lib/schema";
 
 export const instant = false;
 
@@ -36,12 +41,16 @@ export async function generateMetadata({
     title: `${post.title} | Uthrix Digital`,
     description: post.excerpt,
     alternates: { canonical: postHref(post.slug) },
-    openGraph: {
+    ...(post.author ? { authors: [{ name: post.author.name, url: post.author.url }] } : {}),
+    openGraph: pageOpenGraph({
       type: "article",
       title: post.title,
       description: post.excerpt,
+      url: postHref(post.slug),
       publishedTime: post.publishedAt,
-    },
+      ...(post.updatedAt ? { modifiedTime: post.updatedAt } : {}),
+      section: topicLabel(post.topic),
+    }),
   };
 }
 
@@ -55,6 +64,24 @@ export default async function PostRoute({ params }: PostRouteProps) {
 
   return (
     <article className="bg-background text-foreground">
+      <JsonLd
+        data={blogPostingSchema({
+          title: post.title,
+          description: post.excerpt,
+          path: postHref(post.slug),
+          publishedAt: post.publishedAt,
+          updatedAt: post.updatedAt,
+          author: post.author,
+          section: topicLabel(post.topic),
+          wordCount: wordCount(post),
+        })}
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Blog", path: BLOG_PATH },
+          { name: post.title, path: postHref(post.slug) },
+        ])}
+      />
       <header>
         <div className="mx-auto w-full max-w-[100rem] px-[clamp(1.25rem,5vw,5rem)] pb-[clamp(2.5rem,6vw,5rem)] pt-32 lg:pt-40">
           <Reveal immediate>
@@ -71,8 +98,35 @@ export default async function PostRoute({ params }: PostRouteProps) {
               <time dateTime={post.publishedAt}>
                 {formatPostDate(post.publishedAt)}
               </time>
+              {post.updatedAt && (
+                <>
+                  <span aria-hidden="true">·</span>
+                  <span>
+                    Updated{" "}
+                    <time dateTime={post.updatedAt}>
+                      {formatPostDate(post.updatedAt)}
+                    </time>
+                  </span>
+                </>
+              )}
               <span aria-hidden="true">·</span>
               <span>{readingMinutes(post)} min read</span>
+              <span aria-hidden="true">·</span>
+              <span>
+                By{" "}
+                {post.author?.url ? (
+                  <a
+                    href={post.author.url}
+                    rel="author noopener noreferrer"
+                    target="_blank"
+                    className="underline-offset-4 hover:text-foreground hover:underline"
+                  >
+                    {post.author.name}
+                  </a>
+                ) : (
+                  (post.author?.name ?? `the ${siteConfig.companyName} team`)
+                )}
+              </span>
             </p>
             <h1 className="font-archivo-black mt-6 max-w-[20ch] text-[clamp(2.5rem,7vw,6.5rem)] uppercase leading-[0.9] tracking-[-0.07em]">
               {post.title}

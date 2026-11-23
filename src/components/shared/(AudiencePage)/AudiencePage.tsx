@@ -8,6 +8,7 @@ import {
 import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
 import { ServiceFaq } from "@/components/shared/(ServicePage)/ServiceFaq";
 import { InquiryForm } from "@/components/shared/InquiryForm";
+import { JsonLd } from "@/components/shared/JsonLd";
 import {
   AUDIENCES,
   AUDIENCE_ORDER,
@@ -17,6 +18,7 @@ import {
   type AudienceId,
 } from "@/config/audiences";
 import { siteConfig } from "@/config/siteConfig";
+import { faqSchema } from "@/lib/schema";
 import { StageExplorer, type StageView } from "./StageExplorer";
 import {
   BTN_PRIMARY,
@@ -235,6 +237,7 @@ export function AudienceProofSection({ id }: { id: AudienceId }) {
 export function AudienceFaqSection({ id }: { id: AudienceId }) {
   return (
     <section aria-labelledby="audience-faq">
+      <JsonLd data={faqSchema(AUDIENCES[id].faqs)} />
       <div
         className={`${SECTION} grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16`}
       >

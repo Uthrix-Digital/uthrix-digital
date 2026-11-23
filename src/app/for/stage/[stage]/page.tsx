@@ -10,7 +10,10 @@ import {
   STAGE_ORDER,
   audienceHref,
   isStageId,
+  stageHref,
 } from "@/config/audiences";
+import { JsonLd } from "@/components/shared/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
 
 export const instant = false;
 
@@ -31,6 +34,7 @@ export async function generateMetadata({
   return {
     title: `${STAGES[stage].label} | Uthrix Digital`,
     description: STAGES[stage].description,
+    alternates: { canonical: stageHref(stage) },
   };
 }
 
@@ -47,6 +51,9 @@ export default async function StageRoute({ params }: StageRouteProps) {
 
   return (
     <div className="bg-background text-foreground">
+      <JsonLd
+        data={breadcrumbSchema([{ name: stage.label, path: stageHref(stageId) }])}
+      />
       <section aria-labelledby="stage-title">
         <div className="mx-auto w-full max-w-[100rem] px-[clamp(1.25rem,5vw,5rem)] pb-[clamp(3rem,7vw,6rem)] pt-32 lg:pt-40">
           <Reveal immediate>

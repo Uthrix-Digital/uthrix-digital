@@ -9,10 +9,14 @@ import {
   CASE_STUDIES_PATH,
   caseStudyCategoryHref,
   caseStudyGroupHref,
+  caseStudyHref,
   getCaseStudy,
   getCaseStudyTaxonomy,
   getNextCaseStudy,
 } from "@/config/caseStudies";
+import { JsonLd } from "@/components/shared/JsonLd";
+import { pageOpenGraph } from "@/lib/metadata";
+import { breadcrumbSchema, caseStudySchema } from "@/lib/schema";
 import { CaseStudyNext } from "./_components/CaseStudyNext";
 import { CaseStudyResults } from "./_components/CaseStudyResults";
 
@@ -53,11 +57,14 @@ export async function generateMetadata({
   return {
     title: `${study.title} | Case Study | Uthrix Digital`,
     description: study.summary,
-    openGraph: {
+    alternates: { canonical: caseStudyHref(study.slug) },
+    openGraph: pageOpenGraph({
+      type: "article",
       title: study.title,
       description: study.summary,
+      url: caseStudyHref(study.slug),
       images: [{ url: study.cover.src, alt: study.cover.alt }],
-    },
+    }),
   };
 }
 
@@ -78,6 +85,24 @@ export default async function CaseStudyRoute({ params }: CaseStudyRouteProps) {
 
   return (
     <article className="bg-background text-foreground">
+      <JsonLd
+        data={caseStudySchema({
+          title: study.title,
+          description: study.summary,
+          path: caseStudyHref(study.slug),
+          image: study.cover.src,
+          client: study.client,
+          industry: study.industry,
+          results: study.results,
+          technologies: study.technologies,
+        })}
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Case studies", path: CASE_STUDIES_PATH },
+          { name: study.title, path: caseStudyHref(study.slug) },
+        ])}
+      />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <header className="mx-auto w-full max-w-[100rem] px-[clamp(1.25rem,5vw,5rem)] pb-[clamp(2.5rem,5vw,4rem)] pt-32 lg:pt-40">
         <Reveal immediate>

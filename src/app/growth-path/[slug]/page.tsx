@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import { GrowthPathDestination } from "@/components/shared/GrowthPathDestination";
+import { JsonLd } from "@/components/shared/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
 import {
   curatedBundleHref,
   getCuratedBundleBySlug,
@@ -70,13 +72,27 @@ export default async function GrowthPathPage(props: GrowthPathPageProps) {
   if (!page) notFound();
   if (page.redirectTo) permanentRedirect(page.redirectTo);
 
-  const { mask, resolved } = page;
+  const { mask, resolved, curated } = page;
   return (
-    <GrowthPathDestination
-      title={resolved.panelHeadline}
-      hubTitle={resolved.hubTitle}
-      mask={mask}
-      nodes={resolved.selectedNodes}
-    />
+    <>
+      {/* Breadcrumbs only on the indexable curated paths. */}
+      {curated && (
+        <JsonLd
+          data={breadcrumbSchema([
+            { name: "Growth map", path: "/growth-map" },
+            {
+              name: `${resolved.hubTitle} growth path`,
+              path: curatedBundleHref(resolved.hubTitle),
+            },
+          ])}
+        />
+      )}
+      <GrowthPathDestination
+        title={resolved.panelHeadline}
+        hubTitle={resolved.hubTitle}
+        mask={mask}
+        nodes={resolved.selectedNodes}
+      />
+    </>
   );
 }

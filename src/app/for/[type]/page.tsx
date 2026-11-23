@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AudiencePage } from "@/components/shared/(AudiencePage)/AudiencePage";
-import { AUDIENCES, AUDIENCE_ORDER, isAudienceId } from "@/config/audiences";
+import { JsonLd } from "@/components/shared/JsonLd";
+import { AUDIENCES, AUDIENCE_ORDER, audienceHref, isAudienceId } from "@/config/audiences";
+import { breadcrumbSchema } from "@/lib/schema";
 import { HospitalityPage } from "./_components/hospitality/HospitalityPage";
 import { ProductSellersPage } from "./_components/product-sellers/ProductSellersPage";
 
@@ -25,6 +27,7 @@ export async function generateMetadata({
   return {
     title: `${audience.label} | Uthrix Digital`,
     description: audience.metaDescription,
+    alternates: { canonical: audienceHref(type) },
   };
 }
 
@@ -32,7 +35,22 @@ export default async function AudienceRoute({ params }: AudienceRouteProps) {
   const { type } = await params;
   if (!isAudienceId(type)) notFound();
 
-  if (type === "hospitality") return <HospitalityPage />;
-  if (type === "product-sellers") return <ProductSellersPage />;
-  return <AudiencePage id={type} />;
+  const breadcrumbs = (
+    <JsonLd
+      data={breadcrumbSchema([{ name: AUDIENCES[type].label, path: audienceHref(type) }])}
+    />
+  );
+
+  return (
+    <>
+      {breadcrumbs}
+      {type === "hospitality" ? (
+        <HospitalityPage />
+      ) : type === "product-sellers" ? (
+        <ProductSellersPage />
+      ) : (
+        <AudiencePage id={type} />
+      )}
+    </>
+  );
 }

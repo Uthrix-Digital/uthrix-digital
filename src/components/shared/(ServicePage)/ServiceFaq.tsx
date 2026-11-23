@@ -23,7 +23,10 @@ export function ServiceFaq({ faqs }: { faqs: ServiceFaqItem[] }) {
               </span>
             </AccordionTrigger>
           </AccordionHeader>
-          <AccordionPanel>
+          {/* hiddenUntilFound keeps closed answers in the HTML (hidden="until-found"),
+              so crawlers and AI engines can read them and Ctrl+F can open them.
+              Without it, closed answers are not rendered at all. */}
+          <AccordionPanel hiddenUntilFound>
             <p className="max-w-3xl pb-6 pr-12 text-base leading-relaxed text-foreground/75 sm:text-lg">
               {faq.answer}
             </p>

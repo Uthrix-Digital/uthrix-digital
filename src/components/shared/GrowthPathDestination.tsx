@@ -23,7 +23,7 @@ export function GrowthPathDestination({
   nodes,
 }: GrowthPathDestinationProps) {
   return (
-    <main className="bg-background text-foreground">
+    <div className="bg-background text-foreground">
       <section aria-labelledby="path-title">
         <div className="mx-auto w-full max-w-[100rem] px-[clamp(1.25rem,5vw,5rem)] pb-[clamp(3rem,7vw,6rem)] pt-32 lg:pt-40">
           <Reveal immediate>
@@ -128,6 +128,6 @@ export function GrowthPathDestination({
         </div>
       </section>
 
-    </main>
+    </div>
   );
 }

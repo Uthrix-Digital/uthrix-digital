@@ -26,7 +26,21 @@ export interface Post {
   topic: PostTopic;
   /** ISO date, YYYY-MM-DD. */
   publishedAt: string;
+  /** ISO date of the last real content change. Shown on the page and sent
+   *  to search and AI engines as dateModified. Leave out if never updated. */
+  updatedAt?: string;
+  /** The person who wrote it. Named authors are a trust signal for search
+   *  and AI engines; without one, the post is credited to the company. */
+  author?: PostAuthor;
   body: PostBlock[];
+}
+
+export interface PostAuthor {
+  name: string;
+  /** Job title, e.g. "Founder". */
+  role?: string;
+  /** Public profile, e.g. LinkedIn. */
+  url?: string;
 }
 
 export const BLOG_PATH = "/blog";
@@ -240,14 +254,17 @@ export function getRelatedPosts(post: Post, count = 2): Post[] {
 
 const WORDS_PER_MINUTE = 200;
 
-export function readingMinutes(post: Post): number {
-  const words = post.body
+export function wordCount(post: Post): number {
+  return post.body
     .map((block) =>
       block.type === "ul" ? block.items.join(" ") : block.text,
     )
     .join(" ")
     .split(/\s+/).length;
-  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+}
+
+export function readingMinutes(post: Post): number {
+  return Math.max(1, Math.round(wordCount(post) / WORDS_PER_MINUTE));
 }
 
 /** "12 Nov 2026" — fixed locale and zone so server and client agree. */

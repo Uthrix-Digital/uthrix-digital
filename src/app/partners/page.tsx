@@ -4,11 +4,14 @@ import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
 import { ServiceFaq } from "@/components/shared/(ServicePage)/ServiceFaq";
 import { siteConfig } from "@/config/siteConfig";
+import { JsonLd } from "@/components/shared/JsonLd";
+import { faqSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Partners | Uthrix Digital",
   description:
     "Uthrix Digital builds websites, software and marketing systems for agencies and IT firms that have more client work than developers.",
+  alternates: { canonical: "/partners" },
 };
 
 const SECTION =
@@ -235,6 +238,7 @@ export default function PartnersPage() {
       </section>
 
       <section aria-labelledby="partners-faq" className="border-t border-border">
+        <JsonLd data={faqSchema(faqs)} />
         <div className={`${SECTION} grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16`}>
           <Reveal>
             <p className="nav-panel-label">FAQ</p>

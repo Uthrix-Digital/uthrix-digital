@@ -99,7 +99,7 @@ export function HowCanWeHelp() {
                   </span>
                 </AccordionTrigger>
               </AccordionHeader>
-              <AccordionPanel>
+              <AccordionPanel hiddenUntilFound>
                 <div className="grid gap-3 pb-6 pl-9 pr-10 leading-relaxed text-foreground/75 sm:pl-10 lg:hidden">
                   <p className="text-[0.95rem]">{service.description}</p>
                   <p className="text-[0.8rem] text-brand-text">

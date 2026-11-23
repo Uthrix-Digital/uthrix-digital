@@ -3,7 +3,9 @@ import { ArrowRight, ArrowUpRight, RotateCcw } from "lucide-react";
 import { NODES } from "@/app/growth-map/(GrowthPathMap)/data/nodes";
 import { bundlesWith } from "@/app/growth-map/(GrowthPathMap)/data/resolver";
 import type { NodeDef } from "@/app/growth-map/(GrowthPathMap)/types";
+import { JsonLd } from "@/components/shared/JsonLd";
 import { SERVICE_PAGES, type ServiceId } from "@/config/servicePages";
+import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schema";
 import { PHASE_INFO, PhaseTrack } from "./PhaseTrack";
 import { Reveal } from "./Reveal";
 import { ServiceFaq } from "./ServiceFaq";
@@ -68,7 +70,19 @@ export function ServicePage({ id }: { id: ServiceId }) {
   const number = `${String(index + 1).padStart(2, "0")} / ${String(NODES.length).padStart(2, "0")}`;
 
   return (
-    <main className="bg-background text-foreground">
+    <div className="bg-background text-foreground">
+      <JsonLd
+        data={serviceSchema({
+          name: content.metaTitle,
+          description: node.summary,
+          path: node.route,
+          deliverables: content.deliverables.map((d) => d.title),
+        })}
+      />
+      <JsonLd data={faqSchema(content.faqs)} />
+      <JsonLd
+        data={breadcrumbSchema([{ name: content.metaTitle, path: node.route }])}
+      />
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section aria-labelledby="service-title" className="relative">
         <div className="mx-auto w-full max-w-[100rem] px-[clamp(1.25rem,5vw,5rem)] pb-[clamp(3rem,7vw,6rem)] pt-32 lg:pt-40">
@@ -380,6 +394,6 @@ export function ServicePage({ id }: { id: ServiceId }) {
           </Reveal>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
