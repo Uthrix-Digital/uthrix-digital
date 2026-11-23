@@ -1,10 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { HERO_TICKER } from "./data";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
 
 /**
  * "Built for clinics / salons / lawyers…", cycling every couple of seconds.
@@ -31,18 +29,12 @@ export function HeroTicker() {
         aria-hidden="true"
         className="relative inline-flex h-[1.3em] min-w-[12ch] overflow-hidden align-bottom"
       >
-        <AnimatePresence mode="popLayout" initial={false}>
-          <motion.span
-            key={HERO_TICKER[index]}
-            initial={{ y: "100%", opacity: 0 }}
-            animate={{ y: "0%", opacity: 1 }}
-            exit={{ y: "-100%", opacity: 0 }}
-            transition={{ duration: 0.55, ease: EASE }}
-            className="whitespace-nowrap text-brand-text underline decoration-2 underline-offset-[0.2em]"
-          >
-            {HERO_TICKER[index]}.
-          </motion.span>
-        </AnimatePresence>
+        <span
+          key={HERO_TICKER[index]}
+          className="whitespace-nowrap text-brand-text underline decoration-2 underline-offset-[0.2em] motion-safe:animate-in motion-safe:fade-in-0 motion-safe:slide-in-from-bottom-[100%] motion-safe:duration-500"
+        >
+          {HERO_TICKER[index]}.
+        </span>
       </span>
     </p>
   );
