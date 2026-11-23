@@ -43,7 +43,7 @@ export function ConnectsDots() {
             />
           </Link>
 
-          <p className="mt-5 text-sm text-brand-surface-foreground/75">
+          <p className="mt-5 text-sm text-brand-surface-foreground">
             No strings attached. Just a chat first.
           </p>
         </div>

@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useMotionValueEvent, useScroll } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { navCta } from "./NavConfig";
 import { DesktopNavigation } from "./DesktopNavigation";
@@ -27,10 +26,11 @@ export function Navigation() {
     setIsMobileOpen(false);
   }
 
-  const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", (value) => {
-    setIsScrolled(value > 12);
-  });
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 12);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const isAnyOpen = openMenu !== null || isMobileOpen;
 

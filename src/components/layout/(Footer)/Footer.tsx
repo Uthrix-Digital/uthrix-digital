@@ -67,7 +67,7 @@ export function Footer() {
           <div>
             <p className="nav-panel-label">Start a project</p>
             <h2 className="font-archivo-black mt-4 text-[clamp(3.5rem,11vw,9rem)] uppercase leading-[0.9] tracking-[-0.03em]">
-              Let&rsquo;s <span className="text-brand">talk</span>
+              Let&rsquo;s <span className="text-brand-text">talk</span>
             </h2>
           </div>
 

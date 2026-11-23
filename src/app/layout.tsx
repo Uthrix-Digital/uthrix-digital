@@ -18,6 +18,7 @@ import { JsonLd } from "@/components/shared/JsonLd";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
 import { themeInitScript } from "@/lib/theme";
 import { introInitScript } from "@/lib/intro";
+import { gtmLoaderScript } from "@/lib/gtm";
 import { googleConsentInitScript } from "@/lib/consent";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -42,7 +43,7 @@ const archivoBlack = Archivo_Black({
 });
 
 const rogta = localFont({
-  src: "../../public/fonts/rogta-modern.bold.otf",
+  src: "../../public/fonts/rogta-modern.bold.woff2",
   variable: "--font-rogta",
   weight: "700",
   style: "normal",
@@ -50,7 +51,7 @@ const rogta = localFont({
 });
 
 const hkg = localFont({
-  src: "../../public/fonts/hk-grotesk/WEB/HKGrotesk-BoldLegacy.woff",
+  src: "../../public/fonts/hk-grotesk/WEB/HKGrotesk-BoldLegacy.woff2",
   variable: "--font-hkg",
   weight: "100",
   style: "normal",
@@ -103,9 +104,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {/* Consent Mode defaults must run before gtm.js: everything starts
                 "denied" until the visitor accepts on the cookie banner. */}
             <script dangerouslySetInnerHTML={{ __html: googleConsentInitScript }} />
+            {/* gtm.js itself loads on first interaction or shortly after
+                page load, off the critical path (see src/lib/gtm.ts). */}
             <script
-              async
-              src={`https://www.googletagmanager.com/gtm.js?id=${siteConfig.gtmId}`}
+              dangerouslySetInnerHTML={{ __html: gtmLoaderScript(siteConfig.gtmId) }}
             />
           </>
         )}

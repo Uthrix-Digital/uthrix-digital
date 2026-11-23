@@ -700,19 +700,92 @@ html[data-intro="skipping"] {
   }
 }
 
-/* Home hero entrance for the LCP text: slide only, never invisible, so the
-   text counts as painted at first paint. Runs before hydration. */
-@keyframes hero-rise {
+/* ═══════════════════════════════════════════════════════════════════════════
+   Entrance animations. Plain CSS (no animation library) so they start at
+   first paint instead of waiting for hydration.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@keyframes rise {
   from {
     transform: translateY(24px);
   }
 }
-.hero-rise {
-  animation: hero-rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
 }
+
+/* Above-the-fold headings (page LCP text): slide only, never invisible, so
+   the text counts as painted at first paint. */
+.hero-rise,
+.reveal-immediate {
+  animation: rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+/* Secondary above-the-fold items (buttons, form): fade + slide. */
+.fade-up {
+  animation: fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* <Reveal>: hidden until scrolled into view, then data-shown is set. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal[data-shown] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Home hero rotating words: the outgoing word slides up and out while the
+   incoming one slides up into place (both stacked in one grid cell, clipped
+   by its overflow-hidden row). Transform only: no half-transparent text, so
+   contrast stays full at every frame. */
+@keyframes slot-in {
+  from {
+    transform: translateY(110%);
+  }
+}
+@keyframes slot-out {
+  to {
+    transform: translateY(-110%);
+  }
+}
+.slot-in {
+  animation: slot-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.slot-out {
+  animation: slot-out 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Scroll-to-top arrow: gentle bob. */
+@keyframes bob {
+  50% {
+    transform: translateY(-2px);
+  }
+}
+.bob {
+  animation: bob 1.5s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero-rise {
+  .hero-rise,
+  .reveal-immediate,
+  .fade-up,
+  .slot-in,
+  .bob {
     animation: none;
+  }
+  .slot-out {
+    display: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 /* ═══════════════════════════════════════════════════════════════════════════
