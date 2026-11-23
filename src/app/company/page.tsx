@@ -18,9 +18,9 @@ import {
 import { siteConfig } from "@/config/siteConfig";
 
 export const metadata: Metadata = {
-  title: "Company | UthriX Digital",
+  title: "Company | Uthrix Digital",
   description:
-    "UthriX Digital is a small team from Sri Lanka that blends web and software development with data-driven marketing. See who we are, what guides us and why businesses choose us.",
+    "Uthrix Digital is a small team from Sri Lanka that blends web and software development with data-driven marketing. See who we are, what guides us and why businesses choose us.",
   alternates: { canonical: COMPANY_PATH },
 };
 
@@ -148,7 +148,7 @@ export default function CompanyPage() {
             <div>
               <p className={EYEBROW}>/ Leadership</p>
               <h2 id="team-title" className={`${SECTION_TITLE} mt-4 max-w-[12ch]`}>
-                The team behind UthriX.
+                The team behind Uthrix Digital.
               </h2>
             </div>
             <p className="max-w-md text-base leading-relaxed text-foreground/75 sm:text-lg">
@@ -256,7 +256,7 @@ export default function CompanyPage() {
           <Reveal className="mb-[clamp(2.5rem,6vw,5rem)]">
             <p className={EYEBROW}>/ Mission &amp; values</p>
             <h2 id="mission-title" className={`${SECTION_TITLE} mt-4 max-w-[12ch]`}>
-              Why UthriX exists.
+              Why Uthrix Digital exists.
             </h2>
           </Reveal>
 
@@ -320,7 +320,7 @@ export default function CompanyPage() {
         </div>
       </section>
 
-      {/* ── Why UthriX ───────────────────────────────────────────────── */}
+      {/* ── Why Uthrix ───────────────────────────────────────────────── */}
       <section
         id="why"
         aria-labelledby="why-title"
@@ -331,7 +331,7 @@ export default function CompanyPage() {
         >
           <Reveal>
             <p className="font-mono text-[0.68rem] font-medium uppercase tracking-[0.16em] text-background/60">
-              / Why UthriX
+              / Why Uthrix Digital
             </p>
             <h2 id="why-title" className={`${SECTION_TITLE} mt-4 max-w-[12ch]`}>
               Why businesses choose us.

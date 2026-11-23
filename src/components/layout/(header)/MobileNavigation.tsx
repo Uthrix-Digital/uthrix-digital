@@ -140,7 +140,7 @@ export function MobileNavigation({ isOpen, onNavigate }: MobileNavigationProps) 
         </ul>
 
         <div className="pt-6">
-          <p className="nav-panel-label">Follow UthriX</p>
+          <p className="nav-panel-label">Follow Uthrix Digital</p>
           <SocialLinks className="mt-4" />
         </div>
       </div>

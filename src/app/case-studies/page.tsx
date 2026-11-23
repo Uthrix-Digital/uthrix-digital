@@ -5,9 +5,9 @@ import { CASE_STUDIES, CASE_STUDY_GROUPS } from "@/config/caseStudies";
 import { CaseStudyExplorer } from "./_components/CaseStudyExplorer";
 
 export const metadata: Metadata = {
-  title: "Case Studies | UthriX Digital",
+  title: "Case Studies | Uthrix Digital",
   description:
-    "Marketing and development projects from UthriX Digital: the problem, what we built and the results it produced.",
+    "Marketing and development projects from Uthrix Digital: the problem, what we built and the results it produced.",
 };
 
 export default function CaseStudiesPage() {

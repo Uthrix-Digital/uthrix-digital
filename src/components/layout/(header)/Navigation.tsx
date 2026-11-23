@@ -130,14 +130,14 @@ export function Navigation() {
         >
           <Link
             href="/"
-            aria-label="UthriX Digital home"
+            aria-label="Uthrix Digital home"
             onClick={closeAll}
             className="relative block h-8 w-20 shrink-0 transition-opacity hover:opacity-80 min-[360px]:h-9 min-[360px]:w-24 sm:h-10 sm:w-28"
           >
             {/* Both logos are rendered; CSS picks one so it's right on first paint. */}
             <Image
               src="/assets/Images/logoBlack.svg"
-              alt="UthriX Digital"
+              alt="Uthrix Digital"
               fill
               loading="eager"
               fetchPriority="high"
@@ -146,7 +146,7 @@ export function Navigation() {
             />
             <Image
               src="/assets/Images/logoWhite.svg"
-              alt="UthriX Digital"
+              alt="Uthrix Digital"
               fill
               loading="eager"
               fetchPriority="high"

@@ -51,7 +51,7 @@ export async function generateMetadata(
   if (!page) return {};
 
   const { resolved, curated } = page;
-  const title = `${resolved.hubTitle} growth path | UthriX Digital`;
+  const title = `${resolved.hubTitle} growth path | Uthrix Digital`;
   const description = `${resolved.panelHeadline}. See how these services connect into one plan.`;
 
   if (!curated) {

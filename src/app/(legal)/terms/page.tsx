@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { LegalDocument, type LegalSection } from "../_components/LegalDocument";
 
 export const metadata: Metadata = {
-  title: "Terms of Use | UthriX Digital",
+  title: "Terms of Use | Uthrix Digital",
   description:
-    "The terms that apply when you use the UthriX Digital website, send us an enquiry or book a call with our team.",
+    "The terms that apply when you use the Uthrix Digital website, send us an enquiry or book a call with our team.",
   alternates: { canonical: "/terms" },
 };
 
@@ -13,7 +13,7 @@ const sections: LegalSection[] = [
     id: "acceptance",
     title: "Agreeing to these terms",
     paragraphs: [
-      "These terms apply to your use of the UthriX Digital website. By using the site, you agree to them. If you do not agree, please do not use the site.",
+      "These terms apply to your use of the Uthrix Digital website. By using the site, you agree to them. If you do not agree, please do not use the site.",
     ],
   },
   {
@@ -53,7 +53,7 @@ const sections: LegalSection[] = [
     id: "intellectual-property",
     title: "Intellectual property",
     paragraphs: [
-      "The text, design, graphics, logos and code on this website belong to UthriX Digital or our licensors. You may view the site and share links to it. You may not reproduce, modify or republish its content without our written permission.",
+      "The text, design, graphics, logos and code on this website belong to Uthrix Digital or our licensors. You may view the site and share links to it. You may not reproduce, modify or republish its content without our written permission.",
       "Client names, logos and project materials shown in our case studies remain the property of their owners.",
     ],
   },
@@ -82,7 +82,7 @@ const sections: LegalSection[] = [
     id: "liability",
     title: "Limitation of liability",
     paragraphs: [
-      "To the extent the law allows, UthriX Digital is not liable for any indirect or consequential loss, or for loss of profit, revenue or data, that results from your use of this website or from relying on its content. Nothing in these terms limits liability that cannot be limited by law.",
+      "To the extent the law allows, Uthrix Digital is not liable for any indirect or consequential loss, or for loss of profit, revenue or data, that results from your use of this website or from relying on its content. Nothing in these terms limits liability that cannot be limited by law.",
     ],
   },
   {

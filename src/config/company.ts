@@ -13,7 +13,7 @@ export const COMPANY_SECTIONS = [
   { id: "profile", label: "Profile" },
   { id: "team", label: "Team" },
   { id: "mission", label: "Mission & values" },
-  { id: "why", label: "Why UthriX" },
+  { id: "why", label: "Why Uthrix Digital" },
 ] as const;
 
 export type CompanySectionId = (typeof COMPANY_SECTIONS)[number]["id"];

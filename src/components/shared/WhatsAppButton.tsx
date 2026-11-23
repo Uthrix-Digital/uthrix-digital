@@ -1,12 +1,13 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { siteConfig } from '@/config/siteConfig';
 
 const WhatsAppButton: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   // Your WhatsApp number (include country code without + or 00)
-  const whatsappNumber = '94786733516'; // Replace with your actual number
+  const whatsappNumber = siteConfig.whatsappNumber; // Replace with your actual number
   const message = 'Hello! I would like to discuss a project with you.';
 
   useEffect(() => {

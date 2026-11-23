@@ -7,9 +7,9 @@ import { AUDIENCES, AUDIENCE_ORDER, audienceHref } from "@/config/audiences";
 import { siteConfig } from "@/config/siteConfig";
 
 export const metadata: Metadata = {
-  title: "Contact | UthriX Digital",
+  title: "Contact | Uthrix Digital",
   description:
-    "Tell UthriX Digital about your business. Send an enquiry, message us on WhatsApp or book a free 20-minute call.",
+    "Tell Uthrix Digital about your business. Send an enquiry, message us on WhatsApp or book a free 20-minute call.",
   alternates: { canonical: "/contact" },
 };
 

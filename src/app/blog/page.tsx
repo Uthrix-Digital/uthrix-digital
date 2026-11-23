@@ -12,9 +12,9 @@ import {
 import { PostList, type PostCardData } from "./_components/PostList";
 
 export const metadata: Metadata = {
-  title: "Blog | UthriX Digital",
+  title: "Blog | Uthrix Digital",
   description:
-    "Practical notes on marketing, websites and software for hotels, online sellers and service businesses, from the UthriX Digital team.",
+    "Practical notes on marketing, websites and software for hotels, online sellers and service businesses, from the Uthrix Digital team.",
   alternates: { canonical: BLOG_PATH },
 };
 

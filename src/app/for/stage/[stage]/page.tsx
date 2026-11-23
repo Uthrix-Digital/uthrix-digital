@@ -29,7 +29,7 @@ export async function generateMetadata({
   if (!isStageId(stage)) return {};
 
   return {
-    title: `${STAGES[stage].label} | UthriX Digital`,
+    title: `${STAGES[stage].label} | Uthrix Digital`,
     description: STAGES[stage].description,
   };
 }

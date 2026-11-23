@@ -3,9 +3,9 @@ import { siteConfig } from "@/config/siteConfig";
 import { LegalDocument, type LegalSection } from "../_components/LegalDocument";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | UthriX Digital",
+  title: "Privacy Policy | Uthrix Digital",
   description:
-    "How UthriX Digital collects, uses, stores and protects the personal information you share through our website, enquiry form and call bookings.",
+    "How Uthrix Digital collects, uses, stores and protects the personal information you share through our website, enquiry form and call bookings.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -14,8 +14,8 @@ const sections: LegalSection[] = [
     id: "who-we-are",
     title: "Who we are",
     paragraphs: [
-      "UthriX Digital is a digital marketing and software development company based in Sri Lanka. This policy explains what personal information we collect through this website, why we collect it and what we do with it.",
-      "For the information described here, UthriX Digital is the party responsible for deciding how it is used.",
+      "Uthrix Digital is a digital marketing and software development company based in Sri Lanka. This policy explains what personal information we collect through this website, why we collect it and what we do with it.",
+      "For the information described here, Uthrix Digital is the party responsible for deciding how it is used.",
     ],
   },
   {

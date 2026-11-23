@@ -232,7 +232,7 @@ function MegaMenuContent({
 
           {menu.showSocials && (
             <div className="mt-8 border-t border-border pt-8">
-              <p className="nav-panel-label">Follow UthriX</p>
+              <p className="nav-panel-label">Follow Uthrix Digital</p>
               <SocialLinks className="mt-5" />
             </div>
           )}

@@ -51,7 +51,7 @@ export async function generateMetadata({
   if (!study) return {};
 
   return {
-    title: `${study.title} | Case Study | UthriX Digital`,
+    title: `${study.title} | Case Study | Uthrix Digital`,
     description: study.summary,
     openGraph: {
       title: study.title,

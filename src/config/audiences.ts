@@ -70,7 +70,7 @@ export const STAGE_ORDER: StageId[] = ["starting", "stuck", "growing"];
 export interface StagePlan {
   /** What the owner is thinking, in their words. */
   pains: string[];
-  /** What UthriX does about it. */
+  /** What Uthrix does about it. */
   whatWeDo: string[];
   /** The numbers they will see improve. */
   measure: string[];

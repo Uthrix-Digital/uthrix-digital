@@ -33,7 +33,7 @@ export async function generateMetadata({
   if (!post) return {};
 
   return {
-    title: `${post.title} | UthriX Digital`,
+    title: `${post.title} | Uthrix Digital`,
     description: post.excerpt,
     alternates: { canonical: postHref(post.slug) },
     openGraph: {

@@ -11,11 +11,25 @@ export const siteConfig = {
   metaPixelId: "2194372151424643",
   /** Google Tag Manager container ID. Public by nature. Empty string disables GTM. */
   gtmId: "GTM-MSSHF24G",
-  // TODO: replace the "#" placeholders with the real profile URLs.
+  /** Where the business is based. Used in Organization structured data. */
+  country: "LK",
+  /** Logo used in structured data and link previews (path under /public). */
+  logoPath: "/assets/Images/logoBlack.svg",
+  /**
+   * Official profiles. Clean, canonical URLs only (no tracking or share
+   * parameters): they also feed Organization `sameAs`, which AI engines and
+   * search engines use to confirm these profiles belong to us.
+   * "#" marks a profile that doesn't exist yet; it's hidden everywhere.
+   */
   socials: {
-    linkedin: "https://www.linkedin.com/company/uthrix/home/?viewAsMember=true",
-    facebook: "https://web.facebook.com/profile.php?id=61581276571721",
-    instagram: "#",
+    linkedin: "https://www.linkedin.com/company/uthrix/",
+    facebook: "https://www.facebook.com/profile.php?id=61581276571721",
+    instagram: "https://www.instagram.com/uthrix_digital/",
     tiktok: "#",
   },
 };
+
+/** Social profile URLs that exist (placeholders removed). */
+export const socialProfiles = Object.values(siteConfig.socials).filter(
+  (href) => href !== "#",
+);

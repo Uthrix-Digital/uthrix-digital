@@ -6,9 +6,9 @@ import { HIRING_STEPS, LOOKING_FOR, REASONS } from "@/config/careers";
 import { CareersApply } from "./_components/CareersApply";
 
 export const metadata: Metadata = {
-  title: "Careers | UthriX Digital",
+  title: "Careers | Uthrix Digital",
   description:
-    "Work with UthriX Digital. See how we work, how we hire and how to apply for roles in marketing, design and software development.",
+    "Work with Uthrix Digital. See how we work, how we hire and how to apply for roles in marketing, design and software development.",
   alternates: { canonical: "/careers" },
 };
 

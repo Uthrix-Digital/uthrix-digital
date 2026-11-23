@@ -6,9 +6,9 @@ import { ServiceFaq } from "@/components/shared/(ServicePage)/ServiceFaq";
 import { siteConfig } from "@/config/siteConfig";
 
 export const metadata: Metadata = {
-  title: "Partners | UthriX Digital",
+  title: "Partners | Uthrix Digital",
   description:
-    "UthriX Digital builds websites, software and marketing systems for agencies and IT firms that have more client work than developers.",
+    "Uthrix Digital builds websites, software and marketing systems for agencies and IT firms that have more client work than developers.",
 };
 
 const SECTION =
@@ -94,7 +94,7 @@ const faqs = [
 
 export default function PartnersPage() {
   const whatsappHref = `${siteConfig.whatsappLink}?text=${encodeURIComponent(
-    "Hi! I run an agency / IT firm and I'd like to talk about partnering with UthriX.",
+    "Hi! I run an agency / IT firm and I'd like to talk about partnering with Uthrix.",
   )}`;
 
   return (

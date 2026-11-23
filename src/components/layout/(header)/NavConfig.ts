@@ -175,10 +175,10 @@ export const navMenus: NavMenu[] = [
   {
     id: "company",
     label: "About",
-    eyebrow: "About UthriX",
+    eyebrow: "About Uthrix Digital",
     title: "The people behind the growth.",
     description:
-      "Meet the team, see what guides our work, read our notes and find out why businesses choose UthriX Digital.",
+      "Meet the team, see what guides our work, read our notes and find out why businesses choose Uthrix Digital.",
     showSocials: true,
     items: [
       {
@@ -197,10 +197,10 @@ export const navMenus: NavMenu[] = [
         label: "Mission & values",
         href: companyHref("mission"),
         description:
-          "Why UthriX exists and the values behind every project.",
+          "Why Uthrix exists and the values behind every project.",
       },
       {
-        label: "Why UthriX",
+        label: "Why Uthrix Digital",
         href: companyHref("why"),
         description:
           "What you can count on when you work with us, in writing.",

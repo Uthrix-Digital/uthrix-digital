@@ -14,6 +14,7 @@ import { PageTransition } from "@/components/shared/PageTransition";
 import { ConsentProvider } from "@/components/shared/(CookieConsent)/ConsentProvider";
 import { CookieBanner } from "@/components/shared/(CookieConsent)/CookieBanner";
 import { MetaPixel } from "@/components/shared/(CookieConsent)/MetaPixel";
+import { JsonLd, organizationSchema, websiteSchema } from "@/components/shared/JsonLd";
 import { themeInitScript } from "@/lib/theme";
 import { googleConsentInitScript } from "@/lib/consent";
 import { Analytics } from "@vercel/analytics/next";
@@ -54,10 +55,25 @@ const hkg = localFont({
   display: "swap",
 });
 
+/**
+ * Site-wide defaults. Pages override title, description and canonical.
+ * The share image comes from app/opengraph-image.tsx and applies to every
+ * route that doesn't supply its own.
+ */
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: siteConfig.companyName,
   description: siteConfig.description,
+  applicationName: siteConfig.companyName,
+  publisher: siteConfig.companyName,
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.companyName,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export const viewport: Viewport = {
@@ -90,6 +106,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         )}
       </head>
       <body className="min-h-full flex flex-col">
+        <JsonLd data={organizationSchema()} />
+        <JsonLd data={websiteSchema()} />
         <ThemeProvider>
           <ConsentProvider>
             <MetaPixel />

@@ -23,7 +23,7 @@ export function getServiceNode(id: ServiceId): NodeDef {
 export function getServiceMetadata(id: ServiceId) {
   const node = getServiceNode(id);
   return {
-    title: `${SERVICE_PAGES[id].metaTitle} | UthriX Digital`,
+    title: `${SERVICE_PAGES[id].metaTitle} | Uthrix Digital`,
     description: node.summary,
     alternates: { canonical: node.route },
   };

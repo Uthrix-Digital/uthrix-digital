@@ -23,7 +23,7 @@ export async function generateMetadata({
 
   const audience = AUDIENCES[type];
   return {
-    title: `${audience.label} | UthriX Digital`,
+    title: `${audience.label} | Uthrix Digital`,
     description: audience.metaDescription,
   };
 }

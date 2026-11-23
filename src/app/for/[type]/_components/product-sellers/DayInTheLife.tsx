@@ -8,7 +8,7 @@ type Mode = "without" | "with";
 
 const MODES: { id: Mode; label: string; note: string }[] = [
   { id: "without", label: "Today, without a system", note: "Busy all day, unsure what's working" },
-  { id: "with", label: "With UthriX", note: "Orders flow in, you run the business" },
+  { id: "with", label: "With Uthrix Digital", note: "Orders flow in, you run the business" },
 ];
 
 /** A seller's day, before and after. A two-option toggle swaps every moment. */
