@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import {
   useMemo,
@@ -18,6 +19,7 @@ import {
   SERVICE_TYPES,
   type SectorId,
   type ServiceType,
+  typeImage,
 } from "./data";
 
 type Filter = SectorId | "all";
@@ -85,6 +87,9 @@ export function ServiceExplorer() {
     return filter === "all" ? SERVICE_TYPES : SERVICE_TYPES.filter((t) => t.sector === filter);
   }, [filter, query]);
 
+  // A single sector has few enough types for photo cards; "All" and search stay compact.
+  const showCards = !query.trim() && filter !== "all";
+
   const selected: ServiceType = findType(activeId) ?? SERVICE_TYPES[0];
   // While searching, show the best match if the selected one is filtered out.
   const active: ServiceType = visible.some((t) => t.id === selected.id)
@@ -108,7 +113,9 @@ export function ServiceExplorer() {
   const select = (id: string, { focus = false, reveal = false } = {}) => {
     setActiveId(id);
     writeUrl({ service: id, sector: null });
-    if (focus) tabRefs.current[id]?.focus();
+    const tab = tabRefs.current[id];
+    if (focus) tab?.focus();
+    tab?.closest("li")?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
     // On small screens the panel sits below the list: bring it into view.
     if (reveal && !window.matchMedia("(min-width: 1024px)").matches) {
       panelRef.current?.scrollIntoView({ block: "start", behavior: "smooth" });
@@ -238,6 +245,92 @@ export function ServiceExplorer() {
                 <ArrowRight aria-hidden="true" className="size-4" />
               </a>
             </div>
+          ) : showCards ? (
+            /* One sector picked: few enough types for photo cards. */
+            <ul
+              role="tablist"
+              aria-label="Which business are you?"
+              aria-orientation="horizontal"
+              className="isolate -mx-[clamp(1.25rem,5vw,5rem)] flex snap-x snap-mandatory scroll-px-[clamp(1.25rem,5vw,5rem)] gap-3 overflow-x-auto px-[clamp(1.25rem,5vw,5rem)] pb-3 pt-1 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 sm:pt-0 xl:grid-cols-3 lg:gap-4"
+            >
+              {visible.map((type, index) => {
+                const Icon = type.icon;
+                const isActive = type.id === active.id;
+                return (
+                  <li
+                    key={type.id}
+                    role="presentation"
+                    style={{ "--tint": type.tint } as CSSProperties}
+                    className={`group/type relative flex w-[12.5rem] shrink-0 snap-start flex-col overflow-hidden rounded-card-lg bg-card ring-1 transition-[translate,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] animate-in fade-in-0 slide-in-from-bottom-2 has-focus-visible:ring-2 has-focus-visible:ring-brand motion-reduce:transition-none sm:w-auto ${
+                      isActive
+                        ? "-translate-y-1 shadow-menu ring-2 ring-foreground"
+                        : "ring-foreground/10 hover:-translate-y-1 hover:shadow-menu hover:ring-foreground/30 motion-reduce:hover:translate-y-0"
+                    }`}
+                  >
+                    {/* Cover photo */}
+                    <div
+                      aria-hidden="true"
+                      className="relative aspect-[16/10] w-full overflow-hidden bg-[color-mix(in_oklab,var(--tint)_16%,var(--card))]"
+                    >
+                      <Image
+                        src={typeImage(type.id)}
+                        alt=""
+                        fill
+                        sizes="(min-width: 1280px) 15rem, (min-width: 640px) 40vw, 12.5rem"
+                        className={`object-cover transition-[scale,filter] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[scale] group-hover/type:scale-110 group-hover/type:saturate-100 motion-reduce:transition-none motion-reduce:group-hover/type:scale-100 ${
+                          isActive ? "scale-105 saturate-100" : "saturate-[0.85]"
+                        }`}
+                      />
+                      <span className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.25)_0%,transparent_35%,transparent_55%,rgba(0,0,0,0.55)_100%)] transition-opacity duration-700 group-hover/type:opacity-75" />
+                      <span
+                        className={`absolute bottom-3 left-3 flex size-9 items-center justify-center rounded-full backdrop-blur-sm transition-[translate,background-color,color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/type:-translate-y-1 motion-reduce:transition-none ${
+                          isActive ? "bg-brand text-brand-foreground" : "bg-white/85 text-[#16161a]"
+                        }`}
+                      >
+                        <Icon className="size-4" />
+                      </span>
+                      <span className="absolute right-3 top-2.5 rounded-full bg-black/40 px-1.5 py-0.5 font-mono text-[0.6rem] font-semibold text-white backdrop-blur-sm">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-1 flex-col gap-1 p-3.5">
+                      {/* The tab itself; its ::after covers the whole card so any part is clickable. */}
+                      <button
+                        ref={(node) => {
+                          tabRefs.current[type.id] = node;
+                        }}
+                        id={`service-tab-${type.id}`}
+                        role="tab"
+                        type="button"
+                        aria-selected={isActive}
+                        aria-controls="service-panel"
+                        tabIndex={type.id === focusableId ? 0 : -1}
+                        onClick={() => select(type.id)}
+                        onKeyDown={(event) => onKeyDown(event, index)}
+                        className="text-left text-sm font-semibold leading-tight tracking-[-0.02em] outline-none after:absolute after:inset-0 after:z-10 after:rounded-card-lg after:content-[''] sm:text-[0.95rem]"
+                      >
+                        {type.label}
+                      </button>
+                      <p className="text-xs leading-snug text-muted-foreground">{type.examples}</p>
+                      <p
+                        className={`mt-auto flex items-center justify-between pt-3 text-xs font-semibold ${
+                          isActive ? "text-brand-text" : "text-foreground/60"
+                        }`}
+                      >
+                        {isActive ? "Showing your plan" : "See your plan"}
+                        <ArrowRight
+                          aria-hidden="true"
+                          className={`size-3.5 transition-transform duration-300 ${
+                            isActive ? "rotate-90 lg:rotate-0" : "group-hover/type:translate-x-0.5"
+                          }`}
+                        />
+                      </p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
           ) : (
             <ul
               role="tablist"

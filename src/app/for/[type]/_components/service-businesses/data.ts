@@ -306,6 +306,58 @@ export interface ServiceType {
   measure: string[];
 }
 
+/**
+ * Card photo for a business type, shown when one sector is picked.
+ * Unsplash (Unsplash License), cropped to 640×400. Photo IDs in TYPE_PHOTO_CREDITS.
+ */
+export const typeImage = (id: string) => `/assets/Images/service-businesses/types/${id}.jpg`;
+
+/** Unsplash photo IDs for the type photos (unsplash.com/photos/<id>). */
+export const TYPE_PHOTO_CREDITS: Record<string, string> = {
+  "bridal": "S29gGomXEfU",
+  "fitness": "WvDYdXDzkhs",
+  "movers": "wS40ELZROLE",
+  "dental": "XJptUS8nbhs",
+  "physio": "pbUWW-CBoqY",
+  "vet": "ybZ5hRxaWS4",
+  "salons": "FkAZqQJTbXM",
+  "counselling": "SktdARcCuys",
+  "clinics": "tl447mekwuQ",
+  "eye-care": "bfcPP-LlZMI",
+  "spa": "cU53ZFBr3lk",
+  "accounting": "JhevWHCbVyw",
+  "legal": "zeH-ljawHtg",
+  "aesthetic": "HtXyytr9304",
+  "consultants": "JaoVGh5aJ3E",
+  "finance": "O2o1hzDA7iE",
+  "architects": "IE0m2PUI4Fg",
+  "agencies": "Of_m3hMsoAA",
+  "trades": "_2AlIm-F6pw",
+  "real-estate": "_TPTXZd9mOo",
+  "construction": "gyrKtgqMChY",
+  "cleaning": "CVcIMnH_7so",
+  "solar": "Q8V1EEvnJgk",
+  "tuition": "6RTM8EsD1T8",
+  "schools": "78Ae6N7rNvI",
+  "language": "zFSo6bnZJTw",
+  "skills": "GXA2XiAsko8",
+  "arts": "BhfE1IgcsA8",
+  "online-courses": "FHnnjk1Yj7Y",
+  "photographers": "ToUPBCO62Lw",
+  "wedding-planners": "JL2n-GWXCJo",
+  "entertainment": "Ou4CQo6jzvU",
+  "vehicle": "KhF58h0hTbc",
+  "repairs": "y2QUqmEzjzA",
+  "it-support": "yhJVLxcquEY",
+  "migration": "htQznS-Rx7w",
+  "study-abroad": "hpRGrfOIybc",
+  "recruitment": "IESB4iFVuzA",
+  "daycare": "1w20Cysy1cg",
+  "elder-care": "bSXk1lOp8T0",
+  "pet-services": "RmuJbMY0u-4",
+  "laundry": "23coWmkTNSg",
+};
+
 export const SERVICE_TYPES: ServiceType[] = [
   /* Health & medical */
   {
