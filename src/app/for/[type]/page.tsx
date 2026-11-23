@@ -6,6 +6,7 @@ import { AUDIENCES, AUDIENCE_ORDER, audienceHref, isAudienceId } from "@/config/
 import { breadcrumbSchema } from "@/lib/schema";
 import { HospitalityPage } from "./_components/hospitality/HospitalityPage";
 import { ProductSellersPage } from "./_components/product-sellers/ProductSellersPage";
+import { ServiceBusinessesPage } from "./_components/service-businesses/ServiceBusinessesPage";
 
 export const instant = false;
 
@@ -48,6 +49,8 @@ export default async function AudienceRoute({ params }: AudienceRouteProps) {
         <HospitalityPage />
       ) : type === "product-sellers" ? (
         <ProductSellersPage />
+      ) : type === "service-businesses" ? (
+        <ServiceBusinessesPage />
       ) : (
         <AudiencePage id={type} />
       )}

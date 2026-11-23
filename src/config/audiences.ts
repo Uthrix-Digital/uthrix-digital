@@ -358,17 +358,18 @@ export const AUDIENCES: Record<AudienceId, AudienceDef> = {
     label: "Service businesses",
     shortLabel: "Service businesses",
     subTypes: [
-      "Real estate",
-      "Clinics",
-      "Salons",
+      "Clinics & health",
+      "Salons & wellness",
       "Education",
-      "Consultants",
+      "Professional services",
+      "Real estate & trades",
+      "Events & creative",
     ],
     summary:
       "More qualified enquiries, and a system that follows up on every one.",
     goal: "qualified enquiries",
     metaDescription:
-      "Strategy, Google Ads, local SEO and booking systems for real estate, clinics, salons, education providers and consultants in Sri Lanka.",
+      "Websites, Google Ads, local SEO, online booking, reminders and follow-up for service businesses in Sri Lanka: clinics, salons, tutors, lawyers, consultants, real estate, trades, photographers and more.",
     headline: "More qualified enquiries. Fewer no-shows.",
     intro:
       "Your work speaks for itself, but customers can't see it before they call. We help real estate agents, clinics, salons, education providers and consultants look credible, attract the right enquiries, and follow up before they go cold.",
@@ -442,6 +443,21 @@ export const AUDIENCES: Record<AudienceId, AudienceDef> = {
         question: "How is this different from just boosting posts?",
         answer:
           "Boosting buys reach. Service businesses need the right person to find you, trust you and get a reply quickly. We build that whole path, and we report on enquiries that turn into clients, not likes.",
+      },
+      {
+        question: "My business isn't on your list. Can you still help?",
+        answer:
+          "Almost certainly. If clients book your time, your skills or a visit, the same building blocks apply: being found, being trusted, replying fast and following up. Tell us what you do and we'll map it out with you.",
+      },
+      {
+        question: "Do I have to change how I take bookings today?",
+        answer:
+          "No. We start from how you work now, whether that's a phone, a diary or WhatsApp, and connect to it. Online booking and reminders are added only where they save you time or cut no-shows.",
+      },
+      {
+        question: "I don't have good photos or reviews yet. Is that a problem?",
+        answer:
+          "It's where many businesses start. We plan simple content you can capture during a normal working day, and set up a review request after every happy client, so proof builds up month by month.",
       },
     ],
   },
