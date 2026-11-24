@@ -20,7 +20,8 @@ import {
   audienceHref,
   stageHref,
 } from "@/config/audiences";
-import { BLOG_PATH, getPosts, postHref, topicLabel } from "@/config/blog";
+import { BLOG_PATH, postHref, topicLabel } from "@/config/blog";
+import { getPosts } from "@/sanity/lib/posts";
 import {
   CASE_STUDIES,
   CASE_STUDIES_PATH,
@@ -36,6 +37,7 @@ import {
 } from "@/config/company";
 import { SERVICE_PAGES, type ServiceId } from "@/config/servicePages";
 import { siteConfig } from "@/config/siteConfig";
+import { portableTextToMarkdown } from "@/lib/portableTextMarkdown";
 import { absoluteUrl } from "@/lib/schema";
 
 const link = (title: string, path: string, note?: string) =>
@@ -65,8 +67,8 @@ function header() {
 }
 
 /** /llms.txt */
-export function buildLlmsTxt() {
-  const posts = getPosts();
+export async function buildLlmsTxt() {
+  const posts = await getPosts();
 
   return doc(
     ...header(),
@@ -133,8 +135,8 @@ export function buildLlmsTxt() {
 }
 
 /** /llms-full.txt */
-export function buildLlmsFullTxt() {
-  const posts = getPosts();
+export async function buildLlmsFullTxt() {
+  const posts = await getPosts();
   const qa = (faqs: { question: string; answer: string }[]) =>
     faqs.flatMap((f) => [`**${f.question}**`, "", f.answer, ""]);
 
@@ -227,12 +229,8 @@ export function buildLlmsFullTxt() {
     `URL: ${absoluteUrl(postHref(p.slug))}`,
     `Published: ${p.publishedAt}${p.updatedAt ? ` (updated ${p.updatedAt})` : ""} · Topic: ${topicLabel(p.topic)}`,
     "",
-    ...p.body.flatMap((block) =>
-      block.type === "h2"
-        ? [`### ${block.text}`, ""]
-        : block.type === "ul"
-          ? [...bullets(block.items), ""]
-          : [block.text, ""],
+    ...portableTextToMarkdown(p.body, (href) =>
+      href.startsWith("/") ? absoluteUrl(href) : href,
     ),
   ]);
 

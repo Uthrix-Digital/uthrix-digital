@@ -4,11 +4,11 @@ import {
   BLOG_PATH,
   POST_TOPICS,
   formatPostDate,
-  getPosts,
   postHref,
   readingMinutes,
   topicLabel,
 } from "@/config/blog";
+import { getPosts } from "@/sanity/lib/posts";
 import { PostList, type PostCardData } from "./_components/PostList";
 
 export const metadata: Metadata = {
@@ -18,8 +18,8 @@ export const metadata: Metadata = {
   alternates: { canonical: BLOG_PATH },
 };
 
-export default function BlogPage() {
-  const posts: PostCardData[] = getPosts().map((post) => ({
+export default async function BlogPage() {
+  const posts: PostCardData[] = (await getPosts()).map((post) => ({
     slug: post.slug,
     href: postHref(post.slug),
     title: post.title,

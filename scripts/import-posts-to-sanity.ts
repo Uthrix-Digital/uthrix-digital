@@ -1,5 +1,6 @@
 /**
- * One-off import of the posts in src/config/blog.ts into Sanity.
+ * One-off import of the posts that used to live in src/config/blog.ts
+ * (now scripts/data/postsBeforeSanity.ts) into Sanity.
  *
  * Run it with Node 20.19+ after `npx sanity login`:
  *
@@ -14,7 +15,7 @@
 
 import { getCliClient } from "sanity/cli";
 
-import { POSTS, type PostAuthor } from "../src/config/blog";
+import { POSTS, type PostAuthor } from "./data/postsBeforeSanity";
 import { toPostFields } from "./lib/postToSanity";
 
 const dryRun = process.argv.includes("--dry-run");

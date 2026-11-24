@@ -5,8 +5,8 @@ import { buildLlmsFullTxt } from "@/lib/llms";
  * Markdown file, linked from /llms.txt. Built from config at build time;
  * see src/lib/llms.ts.
  */
-export function GET() {
-  return new Response(buildLlmsFullTxt(), {
+export async function GET() {
+  return new Response(await buildLlmsFullTxt(), {
     headers: { "Content-Type": "text/plain; charset=utf-8" },
   });
 }

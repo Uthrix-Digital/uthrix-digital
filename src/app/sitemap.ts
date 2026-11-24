@@ -2,10 +2,11 @@ import type { MetadataRoute } from "next";
 import { NODES } from "@/app/growth-map/(GrowthPathMap)/data/nodes";
 import { CURATED_BUNDLES } from "@/app/growth-map/(GrowthPathMap)/data/resolver";
 import { AUDIENCE_ORDER, STAGE_ORDER, audienceHref, stageHref } from "@/config/audiences";
-import { BLOG_PATH, getPosts, postHref } from "@/config/blog";
+import { BLOG_PATH, postHref } from "@/config/blog";
 import { CASE_STUDIES, CASE_STUDIES_PATH, caseStudyHref } from "@/config/caseStudies";
 import { COMPANY_PATH } from "@/config/company";
 import { siteConfig } from "@/config/siteConfig";
+import { getPosts } from "@/sanity/lib/posts";
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
 type Entry = Pick<SitemapEntry, "changeFrequency" | "priority" | "lastModified"> & {
@@ -30,8 +31,8 @@ type Entry = Pick<SitemapEntry, "changeFrequency" | "priority" | "lastModified">
  * every build tells search engines everything changed, so they learn to
  * ignore the field.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
-  const posts = getPosts(); // newest first
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await getPosts(); // newest first
   const latestPost = posts[0] ? new Date(posts[0].publishedAt) : undefined;
 
   const entries: Entry[] = [

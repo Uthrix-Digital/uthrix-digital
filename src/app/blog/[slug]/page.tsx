@@ -6,19 +6,18 @@ import { Reveal } from "@/components/shared/(ServicePage)/Reveal";
 import { AUDIENCES, audienceHref } from "@/config/audiences";
 import {
   BLOG_PATH,
-  POSTS,
   formatPostDate,
-  getPost,
-  getRelatedPosts,
   postHref,
   readingMinutes,
   topicLabel,
   wordCount,
 } from "@/config/blog";
+import { getPost, getPosts, getRelatedPosts } from "@/sanity/lib/posts";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { siteConfig } from "@/config/siteConfig";
 import { pageOpenGraph } from "@/lib/metadata";
 import { blogPostingSchema, breadcrumbSchema } from "@/lib/schema";
+import { PostBody } from "./_components/PostBody";
 
 export const instant = false;
 
@@ -26,15 +25,15 @@ interface PostRouteProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-  return POSTS.map(({ slug }) => ({ slug }));
+export async function generateStaticParams() {
+  return (await getPosts()).map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({
   params,
 }: PostRouteProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) return {};
 
   return {
@@ -56,10 +55,10 @@ export async function generateMetadata({
 
 export default async function PostRoute({ params }: PostRouteProps) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) notFound();
 
-  const related = getRelatedPosts(post);
+  const related = await getRelatedPosts(post);
   const audience = post.topic === "general" ? null : AUDIENCES[post.topic];
 
   return (
@@ -142,44 +141,7 @@ export default async function PostRoute({ params }: PostRouteProps) {
 
       <div className="border-t border-border">
         <div className="mx-auto w-full max-w-3xl px-[clamp(1.25rem,5vw,2rem)] py-[clamp(3rem,7vw,6rem)]">
-          {post.body.map((block, i) => {
-            if (block.type === "h2") {
-              return (
-                <h2
-                  key={i}
-                  className="mt-12 text-2xl font-semibold leading-tight tracking-[-0.03em] first:mt-0 sm:text-3xl"
-                >
-                  {block.text}
-                </h2>
-              );
-            }
-            if (block.type === "ul") {
-              return (
-                <ul key={i} className="mt-5 grid gap-3">
-                  {block.items.map((item) => (
-                    <li
-                      key={item}
-                      className="flex gap-3 text-lg leading-relaxed text-foreground/85"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="mt-3 size-2 shrink-0 rounded-full bg-brand-bright"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              );
-            }
-            return (
-              <p
-                key={i}
-                className="mt-5 text-lg leading-relaxed text-foreground/85 first:mt-0"
-              >
-                {block.text}
-              </p>
-            );
-          })}
+          <PostBody value={post.body} />
         </div>
       </div>
 

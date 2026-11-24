@@ -1,11 +1,11 @@
 /**
- * Converts a post from src/config/blog.ts into the shape of the Sanity
- * `post` document (see src/sanity/schemaTypes/postType.ts).
+ * Converts a post from scripts/data/postsBeforeSanity.ts into the shape
+ * of the Sanity `post` document (see src/sanity/schemaTypes/postType.ts).
  *
  * Pure functions with no Sanity client, so they can be tested on their own.
  */
 
-import type { Post, PostBlock } from "../../src/config/blog";
+import type { Post, PostBlock } from "../data/postsBeforeSanity";
 
 interface Span {
   _type: "span";
