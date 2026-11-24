@@ -10,6 +10,7 @@ const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
 
 export default defineCliConfig({
   api: {projectId, dataset},
+  studioHost: 'uthrix',
   // After the first `npm run studio:deploy`, set `studioHost` to the name
   // you chose (the part before .sanity.studio) so later deploys don't ask.
 })
