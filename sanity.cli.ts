@@ -1,16 +1,10 @@
 /**
- * Config for the Sanity CLI (`npx sanity <command>`), used by
- * `npm run studio` and `npm run studio:deploy`.
- * https://www.sanity.io/docs/cli
- */
-import {defineCliConfig} from 'sanity/cli'
+* This configuration file lets you run `$ sanity [command]` in this folder
+* Go to https://www.sanity.io/docs/cli to learn more.
+**/
+import { defineCliConfig } from 'sanity/cli'
 
-const projectId = process.env.SANITY_STUDIO_PROJECT_ID
-const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
 
-export default defineCliConfig({
-  api: {projectId, dataset},
-  studioHost: 'uthrix',
-  // After the first `npm run studio:deploy`, set `studioHost` to the name
-  // you chose (the part before .sanity.studio) so later deploys don't ask.
-})
+export default defineCliConfig({ api: { projectId, dataset } })
