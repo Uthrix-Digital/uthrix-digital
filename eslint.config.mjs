@@ -17,6 +17,9 @@ const eslintConfig = defineConfig([
     ".wrangler/**",
     "freebuff-sites-build/**",
     "freebuff.open-next.config.ts",
+    // Sanity Studio build output:
+    "dist/**",
+    ".sanity/**",
   ]),
 ]);
 

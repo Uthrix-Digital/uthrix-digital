@@ -78,3 +78,7 @@ next-env.d.ts
 /freebuff-sites-build/
 /.open-next/
 /.wrangler/
+
+# Sanity Studio build output
+/dist/
+/.sanity/

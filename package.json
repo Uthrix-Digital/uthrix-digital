@@ -7,11 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "studio": "sanity dev",
+    "studio:deploy": "sanity deploy",
     "db:setup": "node scripts/setup-db.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
     "@neondatabase/serverless": "^1.2.0",
+    "@sanity/icons": "^5.4.0",
     "@sanity/image-url": "^2.2.0",
     "@sanity/vision": "^5.31.2",
     "@vercel/analytics": "^2.0.1",

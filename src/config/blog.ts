@@ -10,9 +10,9 @@
  * closing call to action. Use "general" for posts that fit everyone.
  */
 
-import type { AudienceId } from "@/config/audiences";
+import { POST_TOPICS, type PostTopic } from "@/config/postTopics";
 
-export type PostTopic = AudienceId | "general";
+export { POST_TOPICS, type PostTopic };
 
 export type PostBlock =
   | { type: "p"; text: string }
@@ -44,13 +44,6 @@ export interface PostAuthor {
 }
 
 export const BLOG_PATH = "/blog";
-
-export const POST_TOPICS: { id: PostTopic; label: string }[] = [
-  { id: "hospitality", label: "Hospitality & travel" },
-  { id: "product-sellers", label: "Product sellers" },
-  { id: "service-businesses", label: "Service businesses" },
-  { id: "general", label: "Strategy" },
-];
 
 export function topicLabel(topic: PostTopic) {
   return POST_TOPICS.find((t) => t.id === topic)?.label ?? "Strategy";
