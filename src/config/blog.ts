@@ -10,7 +10,7 @@
  * closing call to action. Use "general" for posts that fit everyone.
  */
 
-import { POST_TOPICS, type PostTopic } from "@/config/postTopics";
+import { POST_TOPICS, type PostTopic } from "./postTopics";
 
 export { POST_TOPICS, type PostTopic };
 

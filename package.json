@@ -9,6 +9,7 @@
     "lint": "eslint",
     "studio": "sanity dev",
     "studio:deploy": "sanity deploy",
+    "sanity:import-posts": "sanity exec scripts/import-posts-to-sanity.ts --with-user-token --",
     "db:setup": "node scripts/setup-db.mjs"
   },
   "dependencies": {
