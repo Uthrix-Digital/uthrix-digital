@@ -1,5 +1,9 @@
-import { type SchemaTypeDefinition } from 'sanity'
+import {type SchemaTypeDefinition} from 'sanity'
 
-export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [],
+import {authorType} from './authorType'
+import {blockContentType} from './blockContentType'
+import {postType} from './postType'
+
+export const schema: {types: SchemaTypeDefinition[]} = {
+  types: [postType, authorType, blockContentType],
 }

@@ -1,5 +1,7 @@
 import type { PortableTextBlock } from "next-sanity";
 
+import type { PostBodyItem } from "@/sanity/lib/posts";
+
 interface Span {
   _type: string;
   text?: string;
@@ -12,20 +14,36 @@ interface MarkDef {
   href?: string;
 }
 
+const CALLOUT_LABELS = { tip: "Tip", note: "Note", warning: "Warning" } as const;
+
+const isListItem = (item: PostBodyItem | undefined) =>
+  item?._type === "block" && "listItem" in item && Boolean(item.listItem);
+
 /**
- * Portable Text (a post body from Sanity) as Markdown lines, for the
- * llms-full.txt file. Covers what the post schema allows: paragraphs, H2
- * (written as ### under the post's ## title), bullet lists, bold, italic
- * and links. `resolveHref` turns "/contact" into a full URL.
+ * A post body from Sanity as Markdown lines, for the llms-full.txt file.
+ * Covers what the post schema allows: paragraphs, H2 (written as ### under
+ * the post's ## title), bullet lists, bold, italic, links, images (as their
+ * description and caption) and callouts (as quotes).
+ * `resolveHref` turns "/contact" into a full URL.
  */
 export function portableTextToMarkdown(
-  blocks: PortableTextBlock[],
+  items: PostBodyItem[],
   resolveHref: (href: string) => string = (href) => href,
 ): string[] {
   const lines: string[] = [];
 
-  blocks.forEach((block, i) => {
-    if (block._type !== "block") return;
+  items.forEach((item, i) => {
+    if (item._type === "callout" && "tone" in item) {
+      lines.push(`> **${CALLOUT_LABELS[item.tone]}:** ${item.text}`, "");
+      return;
+    }
+    if (item._type === "image" && "src" in item) {
+      const description = [item.alt, item.caption].filter(Boolean).join(". ");
+      if (description) lines.push(`*Image: ${description}*`, "");
+      return;
+    }
+    if (item._type !== "block") return;
+    const block = item as PortableTextBlock;
 
     const markDefs = (block.markDefs ?? []) as MarkDef[];
     const text = (block.children as Span[])
@@ -49,8 +67,7 @@ export function portableTextToMarkdown(
 
     if (block.listItem) {
       lines.push(`- ${text}`);
-      const next = blocks[i + 1];
-      if (!next || !next.listItem) lines.push("");
+      if (!isListItem(items[i + 1])) lines.push("");
     } else if (block.style === "h2") {
       lines.push(`### ${text}`, "");
     } else {

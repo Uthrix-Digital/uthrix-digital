@@ -1,5 +1,6 @@
 import {DocumentTextIcon} from '@sanity/icons/DocumentText'
-import {defineField, defineType} from 'sanity'
+import {HelpCircleIcon} from '@sanity/icons/HelpCircle'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 import {POST_TOPICS} from '../../config/postTopics'
 
@@ -61,10 +62,79 @@ export const postType = defineType({
       ],
     }),
     defineField({
+      name: 'coverImage',
+      type: 'image',
+      group: 'content',
+      description:
+        'Shown on the blog list, at the top of the post and when the post is shared. Landscape, at least 1600 px wide.',
+      options: {hotspot: true},
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alternative text',
+          type: 'string',
+          description: 'Describe the image for people who cannot see it.',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'caption',
+          type: 'string',
+          description: 'Optional, shown under the image on the post page.',
+        }),
+      ],
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'keyTakeaways',
+      type: 'array',
+      group: 'content',
+      description: '3 to 5 short points a reader should remember. Shown at the top of the post.',
+      of: [defineArrayMember({type: 'string'})],
+      validation: (rule) => [
+        rule.max(5).warning('Keep it to 5 points or fewer.'),
+        rule.min(3).warning('Aim for at least 3 points.'),
+      ],
+    }),
+    defineField({
       name: 'body',
       type: 'blockContent',
       group: 'content',
       validation: (rule) => rule.required().min(1),
+    }),
+    defineField({
+      name: 'faq',
+      title: 'FAQ',
+      type: 'array',
+      group: 'content',
+      description: 'Optional. 3 to 5 common questions, answered in a few plain sentences.',
+      of: [
+        defineArrayMember({
+          name: 'faqItem',
+          type: 'object',
+          icon: HelpCircleIcon,
+          fields: [
+            defineField({
+              name: 'question',
+              type: 'string',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'answer',
+              type: 'text',
+              rows: 3,
+              validation: (rule) => rule.required(),
+            }),
+          ],
+          preview: {select: {title: 'question', subtitle: 'answer'}},
+        }),
+      ],
+    }),
+    defineField({
+      name: 'featured',
+      type: 'boolean',
+      group: 'details',
+      description: 'Show this post in the large card at the top of the blog. The newest featured post wins.',
+      initialValue: false,
     }),
     defineField({
       name: 'topic',
@@ -122,11 +192,20 @@ export const postType = defineType({
     },
   ],
   preview: {
-    select: {title: 'title', publishedAt: 'publishedAt', author: 'author.name'},
-    prepare({title, publishedAt, author}) {
+    select: {
+      title: 'title',
+      publishedAt: 'publishedAt',
+      author: 'author.name',
+      media: 'coverImage',
+      featured: 'featured',
+    },
+    prepare({title, publishedAt, author, media, featured}) {
       return {
         title,
-        subtitle: [publishedAt ?? 'No date', author].filter(Boolean).join(' · '),
+        media,
+        subtitle: [featured ? 'Featured' : null, publishedAt ?? 'No date', author]
+          .filter(Boolean)
+          .join(' · '),
       }
     },
   },

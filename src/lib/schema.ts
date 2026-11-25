@@ -146,6 +146,8 @@ export function blogPostingSchema(post: {
   author?: SchemaAuthor;
   section?: string;
   wordCount?: number;
+  /** Full URL of the cover image. Falls back to the site's share image. */
+  image?: string;
 }) {
   const url = absoluteUrl(post.path);
   return {
@@ -159,7 +161,7 @@ export function blogPostingSchema(post: {
     datePublished: post.publishedAt,
     dateModified: post.updatedAt ?? post.publishedAt,
     inLanguage: "en",
-    image: absoluteUrl("/opengraph-image"),
+    image: post.image ?? absoluteUrl("/opengraph-image"),
     author: post.author
       ? {
           "@type": "Person",

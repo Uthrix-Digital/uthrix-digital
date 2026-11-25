@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
     // Case study covers (see src/config/caseStudies.ts).
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
+      // Blog cover and in-article images, uploaded in Sanity Studio.
+      { protocol: "https", hostname: "cdn.sanity.io", pathname: "/images/**" },
     ],
   },
   async redirects() {

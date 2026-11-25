@@ -9,7 +9,7 @@ import { siteConfig } from "@/config/siteConfig";
 import { getPosts } from "@/sanity/lib/posts";
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
-type Entry = Pick<SitemapEntry, "changeFrequency" | "priority" | "lastModified"> & {
+type Entry = Pick<SitemapEntry, "changeFrequency" | "priority" | "lastModified" | "images"> & {
   path: string;
 };
 
@@ -81,11 +81,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Blog: the index changes whenever a post is published
     { path: BLOG_PATH, changeFrequency: "weekly", priority: 0.7, lastModified: latestPost },
-    ...posts.map(({ slug, publishedAt }) => ({
+    ...posts.map(({ slug, publishedAt, updatedAt, cover }) => ({
       path: postHref(slug),
       changeFrequency: "yearly" as const,
       priority: 0.6,
-      lastModified: new Date(publishedAt),
+      lastModified: new Date(updatedAt ?? publishedAt),
+      // The cover image, so it can show up in image search.
+      ...(cover ? { images: [cover.card] } : {}),
     })),
 
     // Legal

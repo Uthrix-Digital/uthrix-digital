@@ -27,8 +27,22 @@ export const authorType = defineType({
       description: 'A public profile, e.g. LinkedIn.',
       validation: (rule) => rule.uri({scheme: ['https', 'http']}),
     }),
+    defineField({
+      name: 'image',
+      title: 'Photo',
+      type: 'image',
+      description: 'A square head-and-shoulders photo works best.',
+      options: {hotspot: true},
+    }),
+    defineField({
+      name: 'bio',
+      type: 'text',
+      rows: 3,
+      description: 'One or two sentences, shown under each post they write.',
+      validation: (rule) => rule.max(280).warning('Keep it short: under 280 characters.'),
+    }),
   ],
   preview: {
-    select: {title: 'name', subtitle: 'role'},
+    select: {title: 'name', subtitle: 'role', media: 'image'},
   },
 })
