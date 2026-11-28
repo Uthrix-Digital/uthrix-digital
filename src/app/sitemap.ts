@@ -8,6 +8,14 @@ import { COMPANY_PATH } from "@/config/company";
 import { siteConfig } from "@/config/siteConfig";
 import { getPosts } from "@/sanity/lib/posts";
 
+const escapeXml = (value: string) =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+
 type SitemapEntry = MetadataRoute.Sitemap[number];
 type Entry = Pick<SitemapEntry, "changeFrequency" | "priority" | "lastModified" | "images"> & {
   path: string;
@@ -86,8 +94,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "yearly" as const,
       priority: 0.6,
       lastModified: new Date(updatedAt ?? publishedAt),
-      // The cover image, so it can show up in image search.
-      ...(cover ? { images: [cover.card] } : {}),
+      // The cover image, so it can show up in image search. Next.js writes
+      // image URLs into the XML unescaped, and Sanity CDN URLs carry `&`
+      // query params, which break the XML unless escaped.
+      ...(cover ? { images: [escapeXml(cover.card)] } : {}),
     })),
 
     // Legal
